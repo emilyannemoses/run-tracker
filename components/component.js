@@ -21,16 +21,12 @@ class Component {
           if (e.update) that.update()
         })
       }
-      console.log('clone',clone)
       root.appendChild(clone)
     }
-
     proto.attributeChangedCallback = function () {
       [ that.root, that.data ]=[this.shadowRoot, JSON.parse(this.getAttribute('serve'))]
       if (typeof that.onLoad !== 'undefined') that.onLoad()
     }
-    // document.registerElement(that.tag, {prototype: proto})
-
     if (!polyFillIncluded) {
       document.registerElement(that.tag, {prototype: proto})
     } else {
@@ -38,7 +34,6 @@ class Component {
         document.registerElement(that.tag, {prototype: proto})
       })
     }
-
     return [ this.root, this.data ]
   }
 
@@ -75,19 +70,15 @@ var polyFillIncluded = false
   if ('registerElement' in document
       && 'import' in document.createElement('link')
       && 'content' in document.createElement('template')) {
-
-    console.log('all good!!!')
+    console.log('No Polyfill needed for this browser')
   } else {
+    console.log('*** Webcomponents Polyfill needed for this browser ***')
     polyFillIncluded = true
-    console.log('not good!!!')
     var e = document.createElement('script');
     e.src = 'bower_components/webcomponentsjs/webcomponents-lite.js';
-    // document.body.appendChild(e);
     document.getElementsByTagName('head')[0].appendChild(e);
     var e2 = document.createElement('script');
     e2.src = 'bower_components/document-register-element/build/document-register-element.js';
-    // document.body.appendChild(e2);
     document.getElementsByTagName('head')[0].appendChild(e2);
-
   }
 })()
