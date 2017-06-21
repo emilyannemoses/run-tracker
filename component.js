@@ -3,11 +3,13 @@ class Component {
   constructor (componentData) {
     [ this.tag, this.id ] = componentData
     this.events = []
+    this.owner = document.currentScript.ownerDocument
   }
 
   newElm (that = this) {
     let proto = Object.create(HTMLElement.prototype)
-    const importDoc = document.currentScript.ownerDocument
+    const importDoc = that.owner
+    // const importDoc = document.currentScript.ownerDocument
     const template = importDoc.querySelector(that.id)
     proto.createdCallback = function () {
       const root = this.attachShadow({ mode: 'open' })
@@ -16,16 +18,19 @@ class Component {
       for (const e of that.events) {
         let newEvent = clone.getElementById(e.id)
         newEvent.addEventListener(e.type, ()=>{
-          [ that.root, that.data ] = [ root, JSON.parse(this.getAttribute('serve')) ]
+          [ that.root, that.data ] = [ root, JSON.parse(this.getAttribute('served')) ]
           e.method()
           if (e.update) that.update()
         })
       }
+      console.log('Created: ',clone)
       root.appendChild(clone)
     }
     proto.attributeChangedCallback = function () {
-      [ that.root, that.data ]=[this.shadowRoot, JSON.parse(this.getAttribute('serve'))]
+      that.root = this.shadowRoot
+      that.data = JSON.parse(this.getAttribute('served'))
       if (typeof that.onLoad !== 'undefined') that.onLoad()
+      console.log('--- Changed: ', that.root)
     }
     if (!polyFillIncluded) {
       document.registerElement(that.tag, {prototype: proto})
@@ -34,7 +39,7 @@ class Component {
         document.registerElement(that.tag, {prototype: proto})
       })
     }
-    return [ this.root, this.data ]
+    // return [ this.root, this.data ]
   }
 
   addEvent (type, id, method, update) {
@@ -49,17 +54,18 @@ class Component {
 
   update () {
     for (const component of componentsStoredGlobally) {
-      const serve = component.getAttribute('servedir')
-      component.setAttribute('serve', JSON.stringify(this.getDir(data, serve)))
+      const serve = component.getAttribute('serve')
+      component.setAttribute('served', JSON.stringify(this.getDir(data, serve)))
     }
   }
 
-  serveDir (that, servedir = document.createAttribute('servedir')) {
-    const serve = that.getAttribute('serve')
-    servedir.value = that.getAttribute('serve')
-    that.setAttributeNode(servedir)
-    that.setAttribute('serve', JSON.stringify(this.getDir(data, serve)))
-    componentsStoredGlobally.push(that)
+  serveDir (that) {
+    if (that.hasAttribute('serve')) {
+      let served = document.createAttribute('served')
+      served.value = JSON.stringify(this.getDir(data, that.getAttribute('serve')))
+      that.setAttributeNode(served)
+      componentsStoredGlobally.push(that)
+    }
   }
 }
 

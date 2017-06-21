@@ -11,3 +11,13 @@ body {
 .whatever {
   background-color: green;
 }
+
+
+
+/*SHOULD BE HANDLED IN JS SOMEWHERE!*/
+.active {
+  display: inline;
+}
+.inactive {
+  visibility: hidden;
+}

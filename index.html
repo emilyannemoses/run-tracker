@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><title> Components </title>
   <script type="text/javascript" src="component.js"></script>
-  <link rel="stylesheet" href="main.css">
   <script type="text/javascript" src="data.js"></script>
+  <link rel="stylesheet" href="main.css">
   <!-- COMPONENTS -->
   <link rel="import" href="components/navbar.html">
   <link rel="import" href="components/landing.html">
@@ -9,33 +9,35 @@
 </head>
 <body>
 
-  <page page="home" status="active">
+  <page page="home" class="active">
     <navbar-tag serve="data.arr[0]"></navbar-tag>
-    <navPage page="landing" status="active">
+    <navPage page="landing" class="active">
+      Landing page... static
       <landing-tag serve="data"></landing-tag> <br>
     </navPage>
-    <navPage page="page2" status="inactive">
-      <!-- page2 goes here... -->
-    </navPage>
-    <navPage page="data" status="inactive">
-      <!-- data goes here... -->
-    </navPage>
+    <navPage page="page2" class="inactive">
+      page2 goes here...
+    </navPage> <br>
+    <navPage page="data" class="inactive">
+      data goes here...
+    </navPage> <br>
   </page>
 
-  <page page="login" status="inactive">
-    <!-- login page goes here -->
-  </page>
+  <page page="login" class="inactive">
+    login page goes here
+  </page> <br>
 
 </body>
-
+<script type="text/javascript">
+  console.log('html END Script')
+</script>
 </html>
 
 <!-- / / / / / / / / / / / / / / /    Notes    / / / / / / / / / / / / / / / / /
 
 *** Next ***
 - make page2.js
-- get gh pages working for loneJS
-- put cards in page two
+- handle components without serve (will error when i checked.)
 - create active attribute and set to landing.
 - endpoints
 - multi server="data.a data.b[0]"
