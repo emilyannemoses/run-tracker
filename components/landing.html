@@ -33,9 +33,12 @@
   <div class="landing-container">
     <div id='title'> --- Static Title </Div>
     <div>
-      <button id="page2Button" style="border-color: rgba(100,0,0,0.3);"> Page 2 </button>
-      <button id="dataButton" style="border-color: rgba(0,100,0,0.3);"> Data </button>
-      <button id="loginButton" style="border-color: rgba(0,0,100,0.3);">Login</button>
+      <button id="page2Button" style="border-color: rgba(100,0,0,0.3);"
+        onclick="pageChange('navpage', 'page2')"> Page 2 </button>
+      <button id="dataButton" style="border-color: rgba(0,100,0,0.3);"
+        onclick="pageChange('navPage', 'data')"> Data </button>
+      <button id="loginButton" style="border-color: rgba(0,0,100,0.3);"
+        onclick="pageChange('page', 'login')">Login</button>
     </div>
     <span> User: </span>
     <input id="user" placeholder="Not Set...">

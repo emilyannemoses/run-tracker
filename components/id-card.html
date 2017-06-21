@@ -52,13 +52,13 @@
 
 (( c = new Component([ 'id-card-tag', '#id-card' ]) )=>{
 
-  // c.onLoad = ()=>{
-  //   c.root.getElementById('title').innerHTML = c.data.title
-  //   c.root.getElementById('first').value = c.data.name
-  //   c.root.getElementById('last').value = c.data.last
-  //   c.root.getElementById('age').value = c.data.age
-  //   c.root.getElementById('height').value = c.data.height
-  // }
+  c.onLoad = ()=>{
+    c.root.getElementById('title').innerHTML = c.data.title
+    c.root.getElementById('first').value = c.data.name
+    c.root.getElementById('last').value = c.data.last
+    c.root.getElementById('age').value = c.data.age
+    c.root.getElementById('height').value = c.data.height
+  }
 
   c.newElm()
 })()

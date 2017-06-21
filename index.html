@@ -9,27 +9,27 @@
 </head>
 <body>
 
-  <page page="home" class="active">
+  <page name="home">
     <navbar-tag serve="data.arr[0]"></navbar-tag>
-    <navPage page="landing" class="active">
-      Landing page... static
-      <landing-tag serve="data"></landing-tag> <br>
+    <navPage name="landing">
+      <landing-tag serve="data"></landing-tag>
     </navPage>
-    <navPage page="page2" class="inactive">
-      page2 goes here...
-    </navPage> <br>
-    <navPage page="data" class="inactive">
-      data goes here...
-    </navPage> <br>
+    <navPage name="page2">
+      <h2> page2 goes here... </h2>
+    </navPage>
+    <navPage name="data">
+      <h2> data page goes here... </h2>
+    </navPage>
   </page>
 
-  <page page="login" class="inactive">
-    login page goes here
+  <page name="login">
+    login page goes here <button onclick="pageChange('page', 'home')" > back </button>
   </page> <br>
 
 </body>
-<script type="text/javascript">
-  console.log('html END Script')
+<script>
+  pageChange('page','home');
+  pageChange('navPage','landing');
 </script>
 </html>
 
@@ -37,7 +37,6 @@
 
 *** Next ***
 - make page2.js
-- handle components without serve (will error when i checked.)
 - create active attribute and set to landing.
 - endpoints
 - multi server="data.a data.b[0]"

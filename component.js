@@ -3,43 +3,39 @@ class Component {
   constructor (componentData) {
     [ this.tag, this.id ] = componentData
     this.events = []
-    this.owner = document.currentScript.ownerDocument
   }
 
   newElm (that = this) {
     let proto = Object.create(HTMLElement.prototype)
-    const importDoc = that.owner
-    // const importDoc = document.currentScript.ownerDocument
+    const importDoc = document.currentScript.ownerDocument
     const template = importDoc.querySelector(that.id)
     proto.createdCallback = function () {
-      const root = this.attachShadow({ mode: 'open' })
+      that.root = this.attachShadow({ mode: 'open' })
       let clone = document.importNode(template.content, true)
       that.serveDir(this)
       for (const e of that.events) {
         let newEvent = clone.getElementById(e.id)
         newEvent.addEventListener(e.type, ()=>{
-          [ that.root, that.data ] = [ root, JSON.parse(this.getAttribute('served')) ]
+          const data = this.hasAttribute('serve') ? this.getAttribute('served') : null
+          if (data) that.data = JSON.parse(data)
           e.method()
           if (e.update) that.update()
         })
       }
-      console.log('Created: ',clone)
-      root.appendChild(clone)
+      that.root.appendChild(clone)
     }
     proto.attributeChangedCallback = function () {
       that.root = this.shadowRoot
       that.data = JSON.parse(this.getAttribute('served'))
       if (typeof that.onLoad !== 'undefined') that.onLoad()
-      console.log('--- Changed: ', that.root)
     }
     if (!polyFillIncluded) {
       document.registerElement(that.tag, {prototype: proto})
     } else {
-      window.addEventListener('WebComponentsReady', function(e) {
+      window.addEventListener('WebComponentsReady', (e)=>{
         document.registerElement(that.tag, {prototype: proto})
       })
     }
-    // return [ this.root, this.data ]
   }
 
   addEvent (type, id, method, update) {
@@ -88,3 +84,16 @@ var polyFillIncluded = false
     document.getElementsByTagName('head')[0].appendChild(e2);
   }
 })()
+
+/*() () () () () () () () () () Page Handling () () () () () () () () () () ()*/
+
+pageChange = (group, switchTo)=>{
+  let pages = document.getElementsByTagName(group)
+  for (var i = 0; i < pages.length; i++) { //iOS does not like (i of arr) here... for some reason
+     if (switchTo === pages[i].getAttribute('name')) {
+      pages[i].setAttribute('style', 'display: intial;')
+    } else {
+      pages[i].setAttribute('style', 'display: none;')
+    }
+  }
+}
