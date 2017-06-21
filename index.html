@@ -11,6 +11,8 @@
 
   <page name="home">
     <navbar-tag serve="data.arr[0]"></navbar-tag>
+    <navbar-tag serve="data.arr[1]"></navbar-tag>
+
     <navPage name="landing">
       <landing-tag serve="data"></landing-tag>
     </navPage>
@@ -23,24 +25,24 @@
   </page>
 
   <page name="login">
-    login page goes here <button onclick="pageChange('page', 'home')" > back </button>
+    login page goes here <button onclick="pageSet('page', 'home')" > back </button>
   </page> <br>
 
 </body>
 <script>
-  pageChange('page','home');
-  pageChange('navPage','landing');
+  pageSet('page','home');
+  pageSet('navPage','landing');
 </script>
 </html>
 
 <!-- / / / / / / / / / / / / / / /    Notes    / / / / / / / / / / / / / / / / /
 
 *** Next ***
-- make page2.js
-- create active attribute and set to landing.
+- make page2.js (change to setPage()?)
 - endpoints
 - multi server="data.a data.b[0]"
-- visit HELPFUL LINK5: I think there needs to be some major refactoring with how we build using a separate class so we can use ONLY the webcomonents poly
+- visit HELPFUL LINK-5: I think there needs to be some major refactoring with how we build using a separate class so we can use ONLY the webcomonents poly
+- Clean -> vars  lets  const (warning! there are some odd places where It just doesn't like arrow-funcs, note out that it's perposful!)
 
 PAGE2
 - update website name (easy)
@@ -52,11 +54,8 @@ Login Page
 - add previous page global var.
 - included X to go back to PREVIOUS PAGE, not landing.
 
-*** TO DOs ***
-- add handle multiple serve='data.x data.another'
-- how do we handle differnet page swaps.
-- Clean -> vars  lets  const
-- https://robbobfrh84.github.io/lab/Independency/components/index.html
+FOOTER
+- create a footer for example of hosting the NON-Component code that's in the navbar (no serve)
 
 -->
 

@@ -18,6 +18,7 @@ class Component {
         newEvent.addEventListener(e.type, ()=>{
           const data = this.hasAttribute('serve') ? this.getAttribute('served') : null
           if (data) that.data = JSON.parse(data)
+          that.root = this.shadowRoot
           e.method()
           if (e.update) that.update()
         })
@@ -63,6 +64,8 @@ class Component {
       componentsStoredGlobally.push(that)
     }
   }
+
+  I (id) { return this.root.getElementById(id) }
 }
 
 var componentsStoredGlobally = []
@@ -87,7 +90,7 @@ var polyFillIncluded = false
 
 /*() () () () () () () () () () Page Handling () () () () () () () () () () ()*/
 
-pageChange = (group, switchTo)=>{
+pageSet = (group, switchTo)=>{
   let pages = document.getElementsByTagName(group)
   for (var i = 0; i < pages.length; i++) { //iOS does not like (i of arr) here... for some reason
      if (switchTo === pages[i].getAttribute('name')) {

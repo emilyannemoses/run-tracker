@@ -7,7 +7,7 @@
 }
 #title {
   cursor: pointer;
-  font-size: 30px;
+  font-size: 25px;
   float: left;
 }
 .nav {
@@ -20,21 +20,26 @@
 .nav-button:hover, #title:hover {
   color: rgba(50,0,0,0.25);
 }
+.clicked {
+  color: rgba(50,0,0,0.25);
+}
+
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
 <table style='width: 100%;'>
   <tr>
     <th id='title' class="title gray1"
-      onclick="pageChange('navpage', 'landing')"> HTML components Demo </th>
+      onclick="pageSet('navpage', 'landing')"> HTML components Demo
+    </th>
     <th>
       <div class="nav">
-        <span id='page2Button' class="nav-button gray1"
-          onclick="pageChange('navpage', 'page2')"> Page 2 </span> &nbsp; :: &nbsp;
-        <span id='dataButton' class="nav-button gray1"
-          onclick="pageChange('navPage', 'data')"> Data </span> &nbsp; :: &nbsp;
-        <span id='loginButton' class="nav-button gray1"
-          onclick="pageChange('page', 'login')"> Login </span>
+        <span id='page2' class="nav-button gray1"
+          onclick="pageSet('navpage', 'page2')"> Page 2 </span> &nbsp; :: &nbsp;
+        <span id='data' class="nav-button gray1"
+          onclick="pageSet('navPage', 'data')"> Data </span> &nbsp; :: &nbsp;
+        <span id='login' class="nav-button gray1"
+          onclick="pageSet('page', 'login')"> Login </span>
       </div>
     </th>
   </tr>
@@ -53,23 +58,34 @@ component.getElementById('endText').innerHTML =
 
 ((c = new Component([ 'navbar-tag', '#navbar' ]))=>{
 
-  c.addEvent('click', 'page2Button', infoClick = (more)=>{
-    if (!more) more = 'Page 2'
-    c.root.getElementById('title').innerHTML = 'HTML ('+more+' to Come)' + c.data
-    data.landingPageTitle = more +" <span>(nav"+c.data+")</span>"
-  }, true)
+  c.clicked = 'title'
 
-  c.addEvent('click', 'dataButton', ()=>{
-    data.landingPageTitle = "NEW Landing Page"
-    infoClick('Data Page')
-  }, true)
+  pageSwap = (button, remove)=>{
+    if (!remove) {
+      c.I(button ? button : 'page2').classList.add('clicked')
+    }
+    c.I(c.clicked).classList.remove('clicked')
+    c.clicked = button ? button : 'page2'
+  }
 
-  c.addEvent('click', 'loginButton', ()=>{
-    data.landingPageTitle = "NEW Landing Page"
+  c.addEvent('click', 'title', ()=>{
+    c.I('title').innerHTML = 'HTML components Demo'
+    pageSwap('title', true)
+  })
+
+  c.addEvent('click', 'page2', infoClick = (button, more)=>{
+    c.I('title').innerHTML = 'HTML ('+( more ? more : 'Page2')+')'+c.data
+    pageSwap(button ? button : 'page2')
+  })
+
+  c.addEvent('click', 'data', ()=>{
+    infoClick('data', 'Data Page')
+  })
+
+  c.addEvent('click', 'login', ()=>{
     data.important2.name = "Nav Data Clicked ("+c.data+")"
     data.user = 'LodgeSkins'
     data.id = 'fdg856csd3'
-    infoClick('Login Page')
   }, true)
 
   c.newElm()

@@ -33,12 +33,12 @@
   <div class="landing-container">
     <div id='title'> --- Static Title </Div>
     <div>
-      <button id="page2Button" style="border-color: rgba(100,0,0,0.3);"
-        onclick="pageChange('navpage', 'page2')"> Page 2 </button>
-      <button id="dataButton" style="border-color: rgba(0,100,0,0.3);"
-        onclick="pageChange('navPage', 'data')"> Data </button>
-      <button id="loginButton" style="border-color: rgba(0,0,100,0.3);"
-        onclick="pageChange('page', 'login')">Login</button>
+      <button id="page2" style="border-color: rgba(100,0,0,0.3);"
+        onclick="pageSet('navpage', 'page2')"> Page 2 </button>
+      <button id="data" style="border-color: rgba(0,100,0,0.3);"
+        onclick="pageSet('navPage', 'data')"> Data </button>
+      <button id="login" style="border-color: rgba(0,0,100,0.3);"
+        onclick="pageSet('page', 'login')">Login</button>
     </div>
     <span> User: </span>
     <input id="user" placeholder="Not Set...">
@@ -58,20 +58,20 @@
   c.onLoad = ()=>{
    c.root.getElementById('title').innerHTML = c.data.landingPageTitle
    if (c.data.user) {
-     c.root.getElementById('user').value = c.data.user
-     c.root.getElementById('idNum').value = c.data.id
+     c.I('user').value = c.data.user
+     c.I('idNum').value = c.data.id
    }
   }
 
-  c.addEvent('click', 'page2Button', ()=>{
+  c.addEvent('click', 'page2', ()=>{
     data.landingPageTitle = 'Page 2 to Come'
   }, true)
 
-  c.addEvent('click', 'dataButton', ()=>{
+  c.addEvent('click', 'data', ()=>{
     data.landingPageTitle = 'Data Page to Come'
   }, true)
 
-  c.addEvent('click', 'loginButton', ()=>{
+  c.addEvent('click', 'login', ()=>{
     data.landingPageTitle = 'Login Page'
     data.user = 'lippy66'
     data.id = '3ofjaksdf'
