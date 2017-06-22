@@ -23,6 +23,12 @@
 .clicked {
   color: rgba(50,0,0,0.25);
 }
+#endText {
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+  font-size: 14px;
+}
 
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
@@ -54,16 +60,14 @@
 
 let component = document.currentScript.ownerDocument.querySelector('#navbar').content
 component.getElementById('endText').innerHTML =
-  '<em style="float: left; font-size: 14px; "> * Static script edited </em>';
+  '<em> * Static script edited </em>';
 
 ((c = new Component([ 'navbar-tag', '#navbar' ]))=>{
 
   c.clicked = 'title'
 
   pageSwap = (button, remove)=>{
-    if (!remove) {
-      c.I(button ? button : 'page2').classList.add('clicked')
-    }
+    if (!remove) c.I(button ? button : 'page2').classList.add('clicked')
     c.I(c.clicked).classList.remove('clicked')
     c.clicked = button ? button : 'page2'
   }
