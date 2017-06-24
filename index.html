@@ -7,12 +7,12 @@
   <link rel="import" href="components/landing.html">
   <link rel="import" href="components/id-card.html">
 </head>
-<body>
+
+<body onload="initialPageSet([['page', 'home'], ['navPage', 'landing']])">
 
   <page name="home">
     <navbar-tag serve="data.arr[0]"></navbar-tag>
-    <navbar-tag serve="data.arr[1]"></navbar-tag>
-
+    <!-- <navbar-tag serve="data.arr[1]"></navbar-tag> -->
     <navPage name="landing">
       <landing-tag serve="data"></landing-tag>
     </navPage>
@@ -30,14 +30,24 @@
 
 </body>
 <script>
-  pageSet('page','home');
-  pageSet('navPage','landing');
+  // pageSet('page','home')
+  // pageSet('navPage','landing')
 </script>
 </html>
 
 <!-- / / / / / / / / / / / / / / /    Notes    / / / / / / / / / / / / / / / / /
 
 *** Next ***
+- page2/data need to change navbar's page2/data color when clicked...
+  - ... create another component like data=Obj. but page=Obj, to fire when page changed
+  - ... you'll have to give it to all of them, but this will make it easy to plug into
+  - ... and be automatic.
+- clean up/think of more clear way to include page settting
+  - ... you have two ways now...
+  - ... think of a way you can pull it off by grabbing all tags by attr. like change
+  - ... name="landing" to pagename, or something similar to grab all of, then sort by
+  - ... actual tage name....? THEN, give body attributes with matching pagelables and
+  - ... equal the landing....?
 - make page2.js
 - endpoints
 - multi server="data.a data.b[0]"

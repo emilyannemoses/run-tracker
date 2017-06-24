@@ -70,6 +70,7 @@ class Component {
 
 var componentsStoredGlobally = []
 var polyFillIncluded = false
+var hash = window.location.hash.split('#')[1]
 
 ;(()=>{
   if ('registerElement' in document
@@ -88,7 +89,7 @@ var polyFillIncluded = false
   }
 })()
 
-/*() () () () () () () () () () Page Handling () () () () () () () () () () ()*/
+/* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
 
 pageSet = (group, switchTo)=>{
   let pages = document.getElementsByTagName(group)
@@ -98,5 +99,13 @@ pageSet = (group, switchTo)=>{
     } else {
       pages[i].setAttribute('style', 'display: none;')
     }
+  }
+}
+
+initialPageSet = (sets)=>{
+  for (set of sets) {
+    console.log(set, hash)
+    pageSet(set[0], set[1])
+    // should be merged with pageSet
   }
 }
