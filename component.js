@@ -72,6 +72,39 @@ var componentsStoredGlobally = []
 var polyFillIncluded = false
 var hash = window.location.hash.split('#')[1]
 
+/* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
+
+document.onreadystatechange = function(){ if(document.readyState === 'complete'){
+  let elms = document.querySelectorAll('[pageName]')
+  console.log('Hash: ',  hash)
+  for (elm of elms) {
+    if (elm.hasAttribute('activePage')) {
+      pageSet(elm.tagName, elm.getAttribute('pageName'))
+    }
+  }
+}}
+
+pageSet = (group, switchTo)=>{
+  let pages = document.getElementsByTagName(group)
+  for (var i = 0; i < pages.length; i++) { // iOS does not like (i of arr) here... for some reason
+     if (switchTo === pages[i].getAttribute('pageName')) {
+      pages[i].setAttribute('style', 'display: intial;')
+    } else {
+      pages[i].setAttribute('style', 'display: none;')
+    }
+  }
+}
+
+// initialPageSet = (sets)=>{
+//   for (set of sets) {
+//     console.log(set, hash)
+//     pageSet(set[0], set[1])
+//     // should be merged with pageSet
+//   }
+// }
+
+/* () () () () () () () () ()   polyfill  Handling  () () () () () () () () () () */
+
 ;(()=>{
   if ('registerElement' in document
       && 'import' in document.createElement('link')
@@ -88,24 +121,3 @@ var hash = window.location.hash.split('#')[1]
     document.getElementsByTagName('head')[0].appendChild(e2);
   }
 })()
-
-/* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
-
-pageSet = (group, switchTo)=>{
-  let pages = document.getElementsByTagName(group)
-  for (var i = 0; i < pages.length; i++) { //iOS does not like (i of arr) here... for some reason
-     if (switchTo === pages[i].getAttribute('name')) {
-      pages[i].setAttribute('style', 'display: intial;')
-    } else {
-      pages[i].setAttribute('style', 'display: none;')
-    }
-  }
-}
-
-initialPageSet = (sets)=>{
-  for (set of sets) {
-    console.log(set, hash)
-    pageSet(set[0], set[1])
-    // should be merged with pageSet
-  }
-}

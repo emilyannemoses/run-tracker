@@ -8,31 +8,32 @@
   <link rel="import" href="components/id-card.html">
 </head>
 
-<body onload="initialPageSet([['page', 'home'], ['navPage', 'landing']])">
+<body>
+<!-- <body onload="initialPageSet([['page', 'home'], ['navPage', 'landing']])"> -->
 
-  <page name="home">
+  <page pageName="home" activePage='true'>
     <navbar-tag serve="data.arr[0]"></navbar-tag>
     <!-- <navbar-tag serve="data.arr[1]"></navbar-tag> -->
-    <navPage name="landing">
+    <navPage pageName="landing" activePage='true'>
       <landing-tag serve="data"></landing-tag>
     </navPage>
-    <navPage name="page2">
+    <navPage pageName="page2">
       <h2> page2 goes here... </h2>
     </navPage>
-    <navPage name="data">
+    <navPage pageName="data">
       <h2> data page goes here... </h2>
     </navPage>
   </page>
 
-  <page name="login">
+  <page pageName="login">
     login page goes here <button onclick="pageSet('page', 'home')" > back </button>
   </page> <br>
 
 </body>
-<script>
-  // pageSet('page','home')
-  // pageSet('navPage','landing')
-</script>
+<!-- <script>
+  pageSet('page','home')
+  pageSet('navPage','landing')
+</script> -->
 </html>
 
 <!-- / / / / / / / / / / / / / / /    Notes    / / / / / / / / / / / / / / / / /
