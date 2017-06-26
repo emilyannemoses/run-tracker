@@ -74,16 +74,6 @@ var hash = window.location.hash.split('#')[1]
 
 /* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
 
-document.onreadystatechange = function(){ if(document.readyState === 'complete'){
-  let elms = document.querySelectorAll('[pageName]')
-  console.log('Hash: ',  hash)
-  for (elm of elms) {
-    if (elm.hasAttribute('activePage')) {
-      pageSet(elm.tagName, elm.getAttribute('pageName'))
-    }
-  }
-}}
-
 pageSet = (group, switchTo)=>{
   let pages = document.getElementsByTagName(group)
   for (var i = 0; i < pages.length; i++) { // iOS does not like (i of arr) here... for some reason
@@ -94,6 +84,19 @@ pageSet = (group, switchTo)=>{
     }
   }
 }
+
+document.onreadystatechange = function(){ if(document.readyState === 'complete'){
+  let elms = document.querySelectorAll('[pageName]')
+  console.log('Hash: ',  hash)
+  // what's interesting here is that hash dosn't know if it's page or navpage...
+  for (elm of elms) {
+    if (elm.hasAttribute('activePage')) {
+      pageSet(elm.tagName, elm.getAttribute('pageName'))
+    }
+  }
+}}
+
+
 
 // initialPageSet = (sets)=>{
 //   for (set of sets) {
