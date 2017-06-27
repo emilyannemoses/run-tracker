@@ -85,18 +85,19 @@ pageSet = (group, switchTo)=>{
   }
 }
 
-document.onreadystatechange = function(){ if(document.readyState === 'complete'){
-  let elms = document.querySelectorAll('[pageName]')
-  console.log('Hash: ',  hash)
-  // what's interesting here is that hash dosn't know if it's page or navpage...
-  for (elm of elms) {
-    if (elm.hasAttribute('activePage')) {
-      pageSet(elm.tagName, elm.getAttribute('pageName'))
+document.onreadystatechange = ()=>{
+  if (document.readyState === 'complete') {
+    let elms = document.querySelectorAll('[pageName]')
+    for (elm of elms) {
+      const name = elm.getAttribute('pageName')
+      if (elm.hasAttribute('activePage')) pageSet(elm.tagName, name)
+    } // ! need to be seperate loops for #overides to properly clean up.
+    for (elm of elms) {
+      const name = elm.getAttribute('pageName')
+      if (name === hash) pageSet(elm.tagName, name)
     }
   }
-}}
-
-
+}
 
 // initialPageSet = (sets)=>{
 //   for (set of sets) {
