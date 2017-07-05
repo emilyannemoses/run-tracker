@@ -66,6 +66,7 @@ class Component {
   }
 
   I (id) { return this.root.getElementById(id) }
+
 }
 
 var componentsStoredGlobally = []
@@ -74,7 +75,13 @@ var hash = window.location.hash.split('#')[1]
 
 /* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
 
-pageSet = (group, switchTo)=>{
+pageSet = (group, switchTo, browserEvent)=>{
+  if (!browserEvent) {
+    console.log('changed')
+    hash = switchTo
+    window.location.href = window.location.hash.split('#')[0] + '#' + hash
+  }
+  console.log(group, switchTo, onload)
   let pages = document.getElementsByTagName(group)
   for (var i = 0; i < pages.length; i++) { // iOS does not like (i of arr) here... for some reason
      if (switchTo === pages[i].getAttribute('pageName')) {
@@ -90,13 +97,21 @@ document.onreadystatechange = ()=>{
     let elms = document.querySelectorAll('[pageName]')
     for (elm of elms) {
       const name = elm.getAttribute('pageName')
-      if (elm.hasAttribute('activePage')) pageSet(elm.tagName, name)
+      if (elm.hasAttribute('activePage')) pageSet(elm.tagName, name, true)
     } // ! need to be seperate loops for #overides to properly clean up.
     for (elm of elms) {
       const name = elm.getAttribute('pageName')
-      if (name === hash) pageSet(elm.tagName, name)
+      if (name === hash) pageSet(elm.tagName, name, true)
     }
   }
+}
+
+window.onhashchange = function() {
+ //blah blah blah
+ // window.location.href = window.location.hash.split('#')[0] + '#' + switchTo
+ let page = document.querySelectorAll('[pageName="'+hash+'"')
+
+ console.log(page, hash)
 }
 
 // initialPageSet = (sets)=>{

@@ -9,8 +9,8 @@
 </head>
 
 <body>
+  
 <!-- <body onload="initialPageSet([['page', 'home'], ['navPage', 'landing']])"> -->
-
   <page pageName="home" activePage='true'>
     <navbar-tag serve="data.arr[0]"></navbar-tag>
     <!-- <navbar-tag serve="data.arr[1]"></navbar-tag> -->
@@ -43,11 +43,13 @@
   - ... create another component like data=Obj. but page=Obj, to fire when page changed
   - ... you'll have to give it to all of them, but this will make it easy to plug into
   - ... and be automatic.
+- when you click the "back" arrow on browser, it should go to the last page you were on...
 - can/should page handling be done inside class?
-- make page2.js
 - multi server="data.a data.b[0]"
 - visit HELPFUL LINK-5: I think there needs to be some major refactoring with how we build using a separate class so we can use ONLY the webcomonents poly
 - Clean -> vars  lets  const (warning! there are some odd places where It just doesn't like arrow-funcs, note out that it's perposful!)
+- MERGE notes and all into loneJS/loneJS-toolkit (settle all ideas to build out with repo-control with emily/others...)
+- create new branch for merging this with html.js
 
 PAGE2
 - update website name (easy)
