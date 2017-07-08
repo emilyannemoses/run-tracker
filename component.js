@@ -72,29 +72,24 @@ class Component {
 var componentsStoredGlobally = []
 var polyFillIncluded = false
 var hash = window.location.hash.split('#')[1]
+var allPages = { hash: window.location.hash.split('#')[1] }
 
 /* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
-
-pageSet = (group, switchTo, browserEvent)=>{
-  if (!browserEvent) {
-    console.log('changed')
-    hash = switchTo
-    window.location.href = window.location.hash.split('#')[0] + '#' + hash
-  }
-  console.log(group, switchTo, onload)
-  let pages = document.getElementsByTagName(group)
-  for (var i = 0; i < pages.length; i++) { // iOS does not like (i of arr) here... for some reason
-     if (switchTo === pages[i].getAttribute('pageName')) {
-      pages[i].setAttribute('style', 'display: intial;')
-    } else {
-      pages[i].setAttribute('style', 'display: none;')
-    }
-  }
-}
 
 document.onreadystatechange = ()=>{
   if (document.readyState === 'complete') {
     let elms = document.querySelectorAll('[pageName]')
+    // try and combine some of these loops here. you've got FOUR!
+    for (elm of elms) allPages[elm.getAttribute('pageName')] = []
+    for (elm of elms) {
+      if (elm.querySelector('[pageName]')) {
+        for (c of elm.querySelectorAll('[pageName]')) {
+          allPages[elm.getAttribute('pageName')].push(c.getAttribute('pageName'))
+          allPages[c.getAttribute('pageName')].push(elm.getAttribute('pageName'))
+        }
+      }
+    }
+    console.log(allPages)
     for (elm of elms) {
       const name = elm.getAttribute('pageName')
       if (elm.hasAttribute('activePage')) pageSet(elm.tagName, name, true)
@@ -106,12 +101,42 @@ document.onreadystatechange = ()=>{
   }
 }
 
-window.onhashchange = function() {
- //blah blah blah
- // window.location.href = window.location.hash.split('#')[0] + '#' + switchTo
- let page = document.querySelectorAll('[pageName="'+hash+'"')
+pageSet = (group, switchTo, browserEvent)=>{
+  if (!browserEvent) {
+    hash = switchTo
+    window.location.href = window.location.hash.split('#')[0] + '#' + hash
+  }
 
- console.log(page, hash)
+  let pages = document.getElementsByTagName(group)
+  for (var i = 0; i < pages.length; i++) { // iOS does not like (i of arr) here... for some reason
+     if (switchTo === pages[i].getAttribute('pageName')) {
+      pages[i].setAttribute('style', 'display: intial;')
+    } else {
+      pages[i].setAttribute('style', 'display: none;')
+    }
+  }
+}
+
+window.onhashchange = function() {
+  hash = window.location.hash.split('#')[1]
+  let page = document.querySelector('[pageName="'+hash+'"')
+  console.log(page)
+  // you should really just rewrite this whole thing using the page-group object...
+  pageSet(page.tagName, hash, true)
+
+  // if (hash) {
+  //   pageSet(page.tagName, hash, true)
+  // } else {
+  //   let elms = document.querySelectorAll('[pageName]')
+  //   for (elm of elms) {
+  //     const name = elm.getAttribute('pageName')
+  //     if (elm.hasAttribute('activePage')) pageSet(elm.tagName, name, true)
+  //   } // ! need to be seperate loops for #overides to properly clean up.
+  //   for (elm of elms) {
+  //     const name = elm.getAttribute('pageName')
+  //     if (name === hash) pageSet(elm.tagName, name, true)
+  //   }
+  // }
 }
 
 // initialPageSet = (sets)=>{

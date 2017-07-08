@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  
+
 <!-- <body onload="initialPageSet([['page', 'home'], ['navPage', 'landing']])"> -->
   <page pageName="home" activePage='true'>
     <navbar-tag serve="data.arr[0]"></navbar-tag>
@@ -19,6 +19,9 @@
     </navPage>
     <navPage pageName="page2">
       <h2> page2 goes here... </h2>
+      <pageTwo pageName="p2one" activePage='true'>p2 One</pageTwo>
+      <pageTwo pageName="p2two">p2 two</pageTwo>
+      <pageTwo pageName="p2three">p2 three</pageTwo>
     </navPage>
     <navPage pageName="data">
       <h2> data page goes here... </h2>
@@ -39,6 +42,7 @@
 <!-- / / / / / / / / / / / / / / /    Notes    / / / / / / / / / / / / / / / / /
 
 *** Next ***
+- remove useless argument passed for pageSet(group, name). don't we catch name in function now?
 - page2/data need to change navbar's page2/data color when clicked...
   - ... create another component like data=Obj. but page=Obj, to fire when page changed
   - ... you'll have to give it to all of them, but this will make it easy to plug into
