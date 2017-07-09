@@ -9,19 +9,18 @@
 </head>
 
 <body>
-
 <!-- <body onload="initialPageSet([['page', 'home'], ['navPage', 'landing']])"> -->
-  <page pageName="home" activePage='true'>
+  <page pageName="main" activePage='true'>
     <navbar-tag serve="data.arr[0]"></navbar-tag>
     <!-- <navbar-tag serve="data.arr[1]"></navbar-tag> -->
-    <navPage pageName="landing" activePage='true'>
+    <navPage pageName="home" activePage='true'>
       <landing-tag serve="data"></landing-tag>
     </navPage>
     <navPage pageName="page2">
       <h2> page2 goes here... </h2>
-      <pageTwo pageName="p2one" activePage='true'>p2 One</pageTwo>
+      <!-- <pageTwo pageName="p2one" activePage='true'>p2 One</pageTwo>
       <pageTwo pageName="p2two">p2 two</pageTwo>
-      <pageTwo pageName="p2three">p2 three</pageTwo>
+      <pageTwo pageName="p2three">p2 three</pageTwo> -->
     </navPage>
     <navPage pageName="data">
       <h2> data page goes here... </h2>
@@ -29,7 +28,7 @@
   </page>
 
   <page pageName="login">
-    login page goes here <button onclick="pageSet('page', 'home')" > back </button>
+    login page goes here <button onclick="pageSet('page', 'main')" > back </button>
   </page> <br>
 
 </body>
