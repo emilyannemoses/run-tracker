@@ -76,6 +76,7 @@ var pageKey = { hash: window.location.hash.split('#')[1] }
 
 /* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
 
+
 document.onreadystatechange = ()=>{
   if (document.readyState === 'complete') {
     let elms = document.querySelectorAll('[pageName]')
