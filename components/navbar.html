@@ -35,16 +35,16 @@
 <table style='width: 100%;'>
   <tr>
     <th id='title' class="title gray1"
-      onclick="pageSet('navpage', 'home')"> HTML components Demo
+      onclick="pageSet('home')"> HTML components Demo
     </th>
     <th>
       <div class="nav">
         <span id='page2' class="nav-button gray1"
-          onclick="pageSet('navpage', 'page2')"> Page 2 </span> &nbsp; :: &nbsp;
+          onclick="pageSet('home/page2')"> Page 2 </span> &nbsp; :: &nbsp;
         <span id='data' class="nav-button gray1"
-          onclick="pageSet('navPage', 'data')"> Data </span> &nbsp; :: &nbsp;
+          onclick="pageSet('home/data')"> Data </span> &nbsp; :: &nbsp;
         <span id='login' class="nav-button gray1"
-          onclick="pageSet('page', 'login')"> Login </span>
+          onclick="pageSet('login')"> Login </span>
       </div>
     </th>
   </tr>
@@ -60,6 +60,7 @@
 let component = document.currentScript.ownerDocument.querySelector('#navbar').content
 component.getElementById('endText').innerHTML =
   '<em> * Static script edited </em>';
+
 
 ((c = new Component([ 'navbar-tag', '#navbar' ]))=>{
 

@@ -69,83 +69,38 @@ class Component {
 
 }
 
+/* () () () () () () () () ()  Global Variables () () () () () () () () () () */
+
 var componentsStoredGlobally = []
 var polyFillIncluded = false
-// var hash = window.location.hash.split('#')[1]
-var pageKey = { hash: window.location.hash.split('#')[1] }
 
 /* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
-
-
+// current issues
+//
+// 1) tagName actually must be different, due to display toggle groups,
+// - - we could leverage groups similar to data tree to fix this...
+// 2) for embeded pages that are hidden with default FULL directory must be given.
 document.onreadystatechange = ()=>{
-  if (document.readyState === 'complete') {
-    let elms = document.querySelectorAll('[pageName]')
-    // try and combine some of these loops here. you've got FOUR!
-    for (elm of elms) pageKey[elm.getAttribute('pageName')] = []
-    for (elm of elms) {
-      if (elm.querySelector('[pageName]')) {
-        for (c of elm.querySelectorAll('[pageName]')) {
-          pageKey[c.getAttribute('pageName')].push(elm.getAttribute('pageName'))
-        }
-      }
-    }
-    let activePage = ''
-    for (elm of elms) {
-      const name = elm.getAttribute('pageName')
-      if (elm.hasAttribute('activePage')) {
-        pageSet(elm.tagName, name, true)
-        activePage = name
-      }
-    } // ! need to be seperate loops for #overides to properly clean up.
-    for (elm of elms) {
-      const name = elm.getAttribute('pageName')
-      if (name === pageKey.hash) {
-        pageSet(elm.tagName, name, true)
-        activePage = name
-      }
-    }
-    pageKey.hash = activePage
-    if (activePage) window.location.href = '#' + activePage
+  if (document.readyState === 'complete') pageSet(window.location.hash.split('#')[1])
+}
 
-    for (page of pageKey[activePage]) {
-      pageKey[page].push(activePage)
+pageSet = (dir, hold, hash = '')=>{
+  let active = document.querySelectorAll('[activePage]')
+  for (page of active) pageDisplay(page.getAttribute('pageName'))
+  if (dir) {
+    for (page of dir.split('/')) {
+      pageDisplay(page)
+      hash += '/' + page
     }
-    console.log('activePage: ', activePage)
-    console.log('pageKey: ',pageKey)
-
+    if (!hold) window.location.href = '#' + hash.slice(1)
   }
 }
 
-pageSet = (group, switchTo, browserEvent)=>{
-  // can we clean up ... etc         pageKey[pageKey[pageKey.hash]].splice(pageKey[pageKey[pageKey.hash]].indexOf(pageKey.hash), 1)
-  if (!browserEvent) {
-    console.log('start pageKey.hash, switchTo:', pageKey.hash, switchTo)
-
-    if (pageKey[switchTo].length > 0) {
-      if (pageKey.hash) { // Do we still need this for edge-case?
-        // is the new page in the old one?
-        console.log('--1', pageKey[pageKey[pageKey.hash]])
-        console.log('--2', pageKey[switchTo])
-        if (pageKey[pageKey[pageKey.hash]]) {
-          if (pageKey[pageKey[pageKey.hash]].includes(pageKey.hash)) {
-            pageKey[pageKey[pageKey.hash]].splice(pageKey[pageKey[pageKey.hash]].indexOf(pageKey.hash), 1)
-          }
-          pageKey.hash = switchTo
-          if (pageKey[pageKey[pageKey.hash]]) { // redudent???
-            pageKey[pageKey[pageKey.hash]].push(pageKey.hash)
-            // can we only create keys when there's dependencies.. think about cleaning that up.
-          }
-        }
-
-
-      }
-    }
-    pageKey.hash = switchTo
-    window.location.href = window.location.hash.split('#')[0] + '#' + pageKey.hash
-  }
-  let pages = document.getElementsByTagName(group)
+pageDisplay = (page)=>{
+  pageGroup = document.querySelector("[pageName='"+page+"']")
+  pages = document.getElementsByTagName(pageGroup.tagName)
   for (var i = 0; i < pages.length; i++) { // iOS does not like (i of arr) here... for some reason
-     if (switchTo === pages[i].getAttribute('pageName')) {
+     if (page === pages[i].getAttribute('pageName')) {
       pages[i].setAttribute('style', 'display: intial;')
     } else {
       pages[i].setAttribute('style', 'display: none;')
@@ -153,41 +108,13 @@ pageSet = (group, switchTo, browserEvent)=>{
   }
 }
 
-window.onhashchange = function() {
-  hash = window.location.hash.split('#')[1]
-  let page = document.querySelector('[pageName="'+hash+'"')
-  // you should really just rewrite this whole thing using the page-group object...
-  // so we need to pair up the state of the active children, so when we return we can remember who was active
+window.onhashchange = function() { pageSet(window.location.hash.split('#')[1]) }
 
-  pageSet(page.tagName, hash, true)
-  console.log('pageKey: ',pageKey)
-
-  // if (hash) {
-  //   pageSet(page.tagName, hash, true)
-  // } else {
-  //   let elms = document.querySelectorAll('[pageName]')
-  //   for (elm of elms) {
-  //     const name = elm.getAttribute('pageName')
-  //     if (elm.hasAttribute('activePage')) pageSet(elm.tagName, name, true)
-  //   } // ! need to be seperate loops for #overides to properly clean up.
-  //   for (elm of elms) {
-  //     const name = elm.getAttribute('pageName')
-  //     if (name === hash) pageSet(elm.tagName, name, true)
-  //   }
-  // }
-}
-
-// initialPageSet = (sets)=>{
-//   for (set of sets) {
-//     console.log(set, hash)
-//     pageSet(set[0], set[1])
-//     // should be merged with pageSet
-//   }
-// }
+goBack = ()=>{ window.history.back() }
 
 /* () () () () () () () () ()   polyfill  Handling  () () () () () () () () () () */
 
-;(()=>{
+(()=>{
   if ('registerElement' in document
       && 'import' in document.createElement('link')
       && 'content' in document.createElement('template')) {
