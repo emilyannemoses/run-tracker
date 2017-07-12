@@ -62,8 +62,10 @@
      c.I('user').value = c.data.user
      c.I('idNum').value = c.data.id
    }
+   console.log('c.data', c.data)
   }
 
+  // CHECK for relevency. they were needed b4 we put in pages, but now irrelevent...
   c.addEvent('click', 'page2', ()=>{
     data.landingPageTitle = 'Page 2 to Come'
   }, true)

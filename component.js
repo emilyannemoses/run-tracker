@@ -13,6 +13,9 @@ class Component {
       that.root = this.attachShadow({ mode: 'open' })
       let clone = document.importNode(template.content, true)
       that.serveDir(this)
+      let pageStatus = document.createAttribute("pageDirectory")
+      pageStatus.value = window.location.hash.split('#')[1]
+      this.setAttributeNode(pageStatus)
       for (const e of that.events) {
         let newEvent = clone.getElementById(e.id)
         newEvent.addEventListener(e.type, ()=>{
@@ -75,11 +78,7 @@ var componentsStoredGlobally = []
 var polyFillIncluded = false
 
 /* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
-// current issues
-//
-// 1) tagName actually must be different, due to display toggle groups,
-// - - we could leverage groups similar to data tree to fix this...
-// 2) for embeded pages that are hidden with default FULL directory must be given.
+
 document.onreadystatechange = ()=>{
   if (document.readyState === 'complete') pageSet(window.location.hash.split('#')[1])
 }
@@ -92,7 +91,9 @@ pageSet = (dir, hold, hash = '')=>{
       pageDisplay(page)
       hash += '/' + page
     }
+    // I don't see hold anywhere...?
     if (!hold) window.location.href = '#' + hash.slice(1)
+    updateComponents(hash)
   }
 }
 
@@ -106,6 +107,10 @@ pageDisplay = (page)=>{
       pages[i].setAttribute('style', 'display: none;')
     }
   }
+}
+
+updateComponents = (hash)=>{
+  console.log('updateComponents fired.', hash)
 }
 
 window.onhashchange = function() { pageSet(window.location.hash.split('#')[1]) }

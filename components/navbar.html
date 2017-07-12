@@ -35,7 +35,7 @@
 <table style='width: 100%;'>
   <tr>
     <th id='title' class="title gray1"
-      onclick="pageSet('home')"> HTML components Demo
+      onclick="pageSet('home/landing')"> HTML components Demo
     </th>
     <th>
       <div class="nav">
@@ -65,6 +65,15 @@ component.getElementById('endText').innerHTML =
 ((c = new Component([ 'navbar-tag', '#navbar' ]))=>{
 
   c.clicked = 'title'
+
+  c.onLoad = ()=>{
+   c.root.getElementById('title').innerHTML = c.data.landingPageTitle
+   if (c.data.user) {
+     c.I('user').value = c.data.user
+     c.I('idNum').value = c.data.id
+   }
+   console.log('c.data', c.data)
+  }
 
   pageSwap = (button, remove)=>{
     if (!remove) c.I(button ? button : 'page2').classList.add('clicked')
