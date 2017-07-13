@@ -31,6 +31,7 @@ class Component {
     proto.attributeChangedCallback = function () {
       that.root = this.shadowRoot
       that.data = JSON.parse(this.getAttribute('served'))
+      that.pageDirectory = this.getAttribute('pageDirectory')
       if (typeof that.onLoad !== 'undefined') that.onLoad()
     }
     if (!polyFillIncluded) {

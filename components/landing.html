@@ -57,12 +57,11 @@
 (( c = new Component([ 'landing-tag', '#landing' ]) )=>{
 
   c.onLoad = ()=>{
-   c.root.getElementById('title').innerHTML = c.data.landingPageTitle
-   if (c.data.user) {
-     c.I('user').value = c.data.user
-     c.I('idNum').value = c.data.id
-   }
-   console.log('c.data', c.data)
+    c.root.getElementById('title').innerHTML = c.data.landingPageTitle
+    if (c.data.user) {
+      c.I('user').value = c.data.user
+      c.I('idNum').value = c.data.id
+    }
   }
 
   // CHECK for relevency. they were needed b4 we put in pages, but now irrelevent...

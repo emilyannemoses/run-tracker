@@ -11,8 +11,3 @@ body {
 .whatever {
   background-color: green;
 }
-
-/*SHOULD BE HANDLED IN JS SOMEWHERE!*/
-/*.inactive {
-  display: none;
-}*/

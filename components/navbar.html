@@ -5,7 +5,7 @@
 .navbar {
   width: 100%;
 }
-#title {
+#landing {
   cursor: pointer;
   font-size: 25px;
   float: left;
@@ -17,7 +17,7 @@
 .nav-button {
   cursor: pointer;
 }
-.nav-button:hover, #title:hover {
+.nav-button:hover, #landing:hover {
   color: rgba(50,0,0,0.25);
 }
 .clicked {
@@ -34,7 +34,7 @@
 <content>
 <table style='width: 100%;'>
   <tr>
-    <th id='title' class="title gray1"
+    <th id='landing' class="title gray1"
       onclick="pageSet('home/landing')"> HTML components Demo
     </th>
     <th>
@@ -64,30 +64,29 @@ component.getElementById('endText').innerHTML =
 
 ((c = new Component([ 'navbar-tag', '#navbar' ]))=>{
 
-  c.clicked = 'title'
+  c.clicked = 'landing'
 
   c.onLoad = ()=>{
-   c.root.getElementById('title').innerHTML = c.data.landingPageTitle
-   if (c.data.user) {
-     c.I('user').value = c.data.user
-     c.I('idNum').value = c.data.id
-   }
-   console.log('c.data', c.data)
+    console.log('c.pageDirectory: ', c.pageDirectory)
+    const dir = c.pageDirectory.split('/')
+    for (page of dir) {
+      if (c.I(page)) pageSwap(page)
+    }
   }
 
-  pageSwap = (button, remove)=>{
-    if (!remove) c.I(button ? button : 'page2').classList.add('clicked')
+  pageSwap = (button, remove)=>{ // this is NOT global, part of c, just declared here (c.addEvent) is decalred on instantiation in components.js
     c.I(c.clicked).classList.remove('clicked')
+    if (!remove) c.I(button ? button : 'page2').classList.add('clicked')
     c.clicked = button ? button : 'page2'
   }
 
-  c.addEvent('click', 'title', ()=>{
-    c.I('title').innerHTML = 'HTML components Demo'
-    pageSwap('title', true)
+  c.addEvent('click', 'landing', ()=>{
+    c.I('landing').innerHTML = 'HTML components Demo'
+    pageSwap('landing', true)
   })
 
   c.addEvent('click', 'page2', infoClick = (button, more)=>{
-    c.I('title').innerHTML = 'HTML ('+( more ? more : 'Page2')+')'+c.data
+    c.I('landing').innerHTML = 'HTML ('+( more ? more : 'Page2')+')'+c.data
     pageSwap(button ? button : 'page2')
   })
 
