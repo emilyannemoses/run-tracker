@@ -55,7 +55,7 @@
 
 (( c = new Component([ 'id-card-tag', '#id-card' ]) )=>{
 
-  c.onLoad = ()=>{
+  c.onAttributeSetOrChange = ()=>{
     c.I('title').innerHTML = c.data.title
     c.I('first').value = c.data.name
     c.I('last').value = c.data.last

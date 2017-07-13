@@ -13,9 +13,6 @@ class Component {
       that.root = this.attachShadow({ mode: 'open' })
       let clone = document.importNode(template.content, true)
       that.serveDir(this)
-      let pageStatus = document.createAttribute("pageDirectory")
-      pageStatus.value = window.location.hash.split('#')[1]
-      this.setAttributeNode(pageStatus)
       for (const e of that.events) {
         let newEvent = clone.getElementById(e.id)
         newEvent.addEventListener(e.type, ()=>{
@@ -28,11 +25,16 @@ class Component {
       }
       that.root.appendChild(clone)
     }
-    proto.attributeChangedCallback = function () {
-      that.root = this.shadowRoot
-      that.data = JSON.parse(this.getAttribute('served'))
-      that.pageDirectory = this.getAttribute('pageDirectory')
-      if (typeof that.onLoad !== 'undefined') that.onLoad()
+    proto.attributeChangedCallback = function (attrName, oldVal, newVal) {
+      if (attrName === 'served') {
+        that.root = this.shadowRoot
+        that.data = JSON.parse(this.getAttribute('served'))
+      } else if (attrName === 'directory') {
+        that.directory = this.getAttribute('directory')
+      }
+      if (typeof that.onAttributeSetOrChange !== 'undefined') {
+        that.onAttributeSetOrChange(attrName)
+      }
     }
     if (!polyFillIncluded) {
       document.registerElement(that.tag, {prototype: proto})
@@ -67,6 +69,9 @@ class Component {
       that.setAttributeNode(served)
       componentsStoredGlobally.push(that)
     }
+    let pageStatus = document.createAttribute("directory")
+    pageStatus.value = window.location.hash.split('#')[1]
+    that.setAttributeNode(pageStatus)
   }
 
   I (id) { return this.root.getElementById(id) }
@@ -77,14 +82,18 @@ class Component {
 
 var componentsStoredGlobally = []
 var polyFillIncluded = false
+var oldHash = window.location.hash.split('#')[1]
 
 /* () () () () () () () () ()   Page  Handling  () () () () () () () () () () */
 
 document.onreadystatechange = ()=>{
-  if (document.readyState === 'complete') pageSet(window.location.hash.split('#')[1])
+  if (document.readyState === 'complete') {
+    pageSet(window.location.hash.split('#')[1], true)
+  }
 }
 
-pageSet = (dir, hold, hash = '')=>{
+pageSet = (dir, initial, hash = '')=>{
+  event.preventDefault()
   let active = document.querySelectorAll('[activePage]')
   for (page of active) pageDisplay(page.getAttribute('pageName'))
   if (dir) {
@@ -92,9 +101,9 @@ pageSet = (dir, hold, hash = '')=>{
       pageDisplay(page)
       hash += '/' + page
     }
-    // I don't see hold anywhere...?
-    if (!hold) window.location.href = '#' + hash.slice(1)
-    updateComponents(hash)
+    oldHash = hash.slice(1)
+    window.location.href = '#' + hash.slice(1)
+    if (!initial) updateComponents(hash)
   }
 }
 
@@ -111,10 +120,15 @@ pageDisplay = (page)=>{
 }
 
 updateComponents = (hash)=>{
-  console.log('updateComponents fired.', hash)
+  for (const component of componentsStoredGlobally) {
+    component.setAttribute('directory', hash)
+  }
 }
 
-window.onhashchange = function() { pageSet(window.location.hash.split('#')[1]) }
+window.onhashchange = function() {
+  const hash = window.location.hash.split('#')[1]
+  if (oldHash !== hash) pageSet(hash)
+}
 
 goBack = ()=>{ window.history.back() }
 

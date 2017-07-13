@@ -56,7 +56,7 @@
 
 (( c = new Component([ 'landing-tag', '#landing' ]) )=>{
 
-  c.onLoad = ()=>{
+  c.onAttributeSetOrChange = (attr)=>{
     c.root.getElementById('title').innerHTML = c.data.landingPageTitle
     if (c.data.user) {
       c.I('user').value = c.data.user
