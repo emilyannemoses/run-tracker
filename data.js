@@ -1,6 +1,6 @@
 var data = {
   newC: 'something',
-  arr: [ 1, 2 ],
+  arr: [ 'A', 'B', 'C' ],
   landingPageTitle: 'Landing Page',
   navBarString: 'Clicked <Data> on navbar" ',
   navBarNumber: 1000000,

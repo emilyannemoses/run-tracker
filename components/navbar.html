@@ -43,6 +43,8 @@
           onclick="pageSet('home/page2')"> Page 2 </span> &nbsp; :: &nbsp;
         <span id='data' class="nav-button gray1"
           onclick="pageSet('home/data')"> Data </span> &nbsp; :: &nbsp;
+        <span id='about' class="nav-button gray1"
+          onclick="pageSet('home/about')"> About </span> &nbsp; :: &nbsp;
         <span id='login' class="nav-button gray1"
           onclick="pageSet('login')"> Login </span>
       </div>
@@ -59,15 +61,14 @@
 let component = document.currentScript.ownerDocument.querySelector('#navbar').content
 component.getElementById('endText').innerHTML =
   '<em> * Static script edited </em>';
+// really, should never do it like this. you CAN, but will f-up if you add multiple components. best never do it like this...
 
 
 ((c = new Component([ 'navbar-tag', '#navbar' ]))=>{
 
-  c.clicked = 'landing'
-
   c.onAttributeSetOrChange = (attr)=>{
+    c.root.clicked = c.root.clicked || 'landing'
     if (attr === 'directory') {
-      console.log('navBar onload')
       const dir = c.directory ? c.directory.split('/') : []
       for (page of dir) {
         if (c.I(page)) {
@@ -77,10 +78,12 @@ component.getElementById('endText').innerHTML =
     }
   }
 
-  c.pageSwap = (button, remove)=>{ 
-    c.I(c.clicked).classList.remove('clicked')
+  c.pageSwap = (button, remove)=>{
+    const xx = c.root.clicked
+    c.I(c.root.clicked).classList.remove('clicked')
     if (!remove) c.I(button ? button : 'page2').classList.add('clicked')
-    c.clicked = button ? button : 'page2'
+    c.root.clicked = button ? button : 'page2'
+    console.log(c.data, button, '| in: ', xx, '| out: ', c.root.clicked)
   }
 
   c.addEvent('click', 'landing', ()=>{
@@ -95,6 +98,10 @@ component.getElementById('endText').innerHTML =
 
   c.addEvent('click', 'data', ()=>{
     infoClick('data', 'Data Page')
+  })
+
+  c.addEvent('click', 'about', ()=>{
+    infoClick('about', 'About Page')
   })
 
   c.addEvent('click', 'login', ()=>{

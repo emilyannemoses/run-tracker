@@ -26,14 +26,21 @@ class Component {
       that.root.appendChild(clone)
     }
     proto.attributeChangedCallback = function (attrName, oldVal, newVal) {
-      if (attrName === 'served') {
+      //that.root = this.shadowRoot
+      // if (attrName === 'served') {
         that.root = this.shadowRoot
         that.data = JSON.parse(this.getAttribute('served'))
-      } else if (attrName === 'directory') {
+      // } else if (attrName === 'directory') {
+        // that.root = this.shadowRoot
         that.directory = this.getAttribute('directory')
-      }
+      // }
+      //if (this.root !== this.shadowRoot) this.root = this.shadowRoot
+
       if (typeof that.onAttributeSetOrChange !== 'undefined') {
-        that.onAttributeSetOrChange(attrName)
+        // that.root = this.shadowRoot
+        // if (this.root != this.shadowRoot) this.root = this.shadowRoot
+
+        that.onAttributeSetOrChange(attrName, that.data)
       }
     }
     if (!polyFillIncluded) {
@@ -69,8 +76,11 @@ class Component {
       that.setAttributeNode(served)
       componentsStoredGlobally.push(that)
     }
-    let pageStatus = document.createAttribute("directory")
+    let pageStatus = document.createAttribute('directory')
     pageStatus.value = window.location.hash.split('#')[1]
+    //
+    // this.clicked = 'landing'
+    //
     that.setAttributeNode(pageStatus)
   }
 
