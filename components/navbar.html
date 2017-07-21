@@ -3,7 +3,7 @@
 <!-- { { { { { { { { { { { { { { { {  CSS  } } } } } } } } } } } } } } } } } -->
 <style>
 .navbar {
-  width: 100%;
+  padding: 0 5px 0 5px;
 }
 #landing {
   cursor: pointer;
@@ -29,10 +29,13 @@
   display: inline-block;
   font-size: 14px;
 }
+hr {
+  margin: 0px 5px 0px;
+}
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
-<table style='width: 100%;'>
+<table style='width: 100%;' class='navbar'>
   <tr>
     <th id='landing' class="title gray1"
       onclick="pageSet('home/landing')"> HTML components Demo
@@ -51,7 +54,7 @@
     </th>
   </tr>
 </table>
-<hr style="margin-top: 0px;">
+<hr>
 <div id="endText"></div>
 </content>
 </template>
@@ -83,7 +86,6 @@ component.getElementById('endText').innerHTML =
     c.I(c.root.clicked).classList.remove('clicked')
     if (!remove) c.I(button ? button : 'page2').classList.add('clicked')
     c.root.clicked = button ? button : 'page2'
-    console.log(c.data, button, '| in: ', xx, '| out: ', c.root.clicked)
   }
 
   c.addEvent('click', 'landing', ()=>{

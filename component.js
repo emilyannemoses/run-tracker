@@ -29,7 +29,7 @@ class Component {
       that.root = this.shadowRoot
       if (attrName === 'served') {
         that.data = JSON.parse(this.getAttribute('served'))
-      } else if (attrName === 'directory') {
+      } else if (attrName === 'directory' && that.onAttributeSetOrChange) {
         that.directory = this.getAttribute('directory')
         that.data = JSON.parse(this.getAttribute('served'))
         that.onAttributeSetOrChange(attrName, that.data)
@@ -70,9 +70,6 @@ class Component {
     }
     let pageStatus = document.createAttribute('directory')
     pageStatus.value = window.location.hash.split('#')[1]
-    //
-    // this.clicked = 'landing'
-    //
     that.setAttributeNode(pageStatus)
   }
 
