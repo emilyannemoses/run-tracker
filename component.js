@@ -26,20 +26,12 @@ class Component {
       that.root.appendChild(clone)
     }
     proto.attributeChangedCallback = function (attrName, oldVal, newVal) {
-      //that.root = this.shadowRoot
-      // if (attrName === 'served') {
-        that.root = this.shadowRoot
+      that.root = this.shadowRoot
+      if (attrName === 'served') {
         that.data = JSON.parse(this.getAttribute('served'))
-      // } else if (attrName === 'directory') {
-        // that.root = this.shadowRoot
+      } else if (attrName === 'directory') {
         that.directory = this.getAttribute('directory')
-      // }
-      //if (this.root !== this.shadowRoot) this.root = this.shadowRoot
-
-      if (typeof that.onAttributeSetOrChange !== 'undefined') {
-        // that.root = this.shadowRoot
-        // if (this.root != this.shadowRoot) this.root = this.shadowRoot
-
+        that.data = JSON.parse(this.getAttribute('served'))
         that.onAttributeSetOrChange(attrName, that.data)
       }
     }

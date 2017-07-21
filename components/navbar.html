@@ -88,12 +88,12 @@ component.getElementById('endText').innerHTML =
 
   c.addEvent('click', 'landing', ()=>{
     c.I('landing').innerHTML = 'HTML components Demo'
-    c.pageSwap('landing', true)
+    // c.pageSwap('landing', true)
   })
 
   c.addEvent('click', 'page2', infoClick = (button, more)=>{
     c.I('landing').innerHTML = 'HTML ('+( more ? more : 'Page2')+')'+c.data
-    c.pageSwap(button ? button : 'page2')
+    // c.pageSwap(button ? button : 'page2')
   })
 
   c.addEvent('click', 'data', ()=>{
