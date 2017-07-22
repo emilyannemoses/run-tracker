@@ -9,6 +9,13 @@ html, body {
   min-height: 100%;
   position: relative;
 }
+navPage {
+  font-size: 40px;
+}
+pageTwo {
+  font-size: 25px;
+  font-style: italic;
+}
 .linen-background {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -19,21 +26,4 @@ html, body {
 }
 .gray1 {
   color: rgba(20,20,0,0.8);
-}
-#all {
-   min-height: 100%;
-   position: relative;
-}
-#content {
-   padding-bottom: 60px;
-}
-#footer {
-  display: block;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 20px;
-  background-color: rgba(0,0,0,0.05);
-  padding-top: 4px;
-  font-size: 14px;
 }

@@ -32,7 +32,7 @@ class Component {
       } else if (attrName === 'directory' && that.onAttributeSetOrChange) {
         that.directory = this.getAttribute('directory')
         that.data = JSON.parse(this.getAttribute('served'))
-        that.onAttributeSetOrChange(attrName, that.data)
+        that.onAttributeSetOrChange(attrName)
       }
     }
     if (!polyFillIncluded) {
@@ -50,14 +50,16 @@ class Component {
 
   getDir (Obj, dir) {
     Obj = { 'data': Obj }
-    for (const p of dir.split(/[.\[\]]/).filter(Boolean)) Obj = Obj[p]
+    if (dir) for (const p of dir.split(/[.\[\]]/).filter(Boolean)) Obj = Obj[p]
     return Obj
   }
 
   update () {
     for (const component of componentsStoredGlobally) {
-      const serve = component.getAttribute('serve')
-      component.setAttribute('served', JSON.stringify(this.getDir(data, serve)))
+      if (component.hasAttribute('serve')) {
+        const serve = component.getAttribute('serve')
+        component.setAttribute('served', JSON.stringify(this.getDir(data, serve)))
+      }
     }
   }
 
@@ -66,11 +68,12 @@ class Component {
       let served = document.createAttribute('served')
       served.value = JSON.stringify(this.getDir(data, that.getAttribute('serve')))
       that.setAttributeNode(served)
-      componentsStoredGlobally.push(that)
     }
     let pageStatus = document.createAttribute('directory')
     pageStatus.value = window.location.hash.split('#')[1]
     that.setAttributeNode(pageStatus)
+    componentsStoredGlobally.push(that)
+
   }
 
   I (id) { return this.root.getElementById(id) }
