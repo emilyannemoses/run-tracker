@@ -1,5 +1,5 @@
 var data = {
-  newC: 'something',
+  newC: 'multi-data',
   arr: [ 'A', 'B', 'C' ],
   landingPageTitle: 'Landing Page',
   navBarString: 'Clicked <Data> on navbar" ',

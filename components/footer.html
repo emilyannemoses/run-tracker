@@ -20,20 +20,19 @@ content {
 <script>
 
 (( c = new Component([ 'footer-tag', '#footer' ]) )=>{
-
-  resetFooter = ()=>{
+  
+  c.resetFooter = ()=>{
     let footer = c.I('copy')
     footer.setAttribute('style', 'margin-top: 0px;')
     const diff = window.innerHeight - footer.offsetTop
     if (diff > 25 && footer.offsetTop !== 0) {
-      console.log('pass!!!')
       footer.setAttribute('style', 'margin-top: '+(diff-25)+'px;')
     }
   }
 
-  c.onAttributeSetOrChange = ()=>{ resetFooter() }
-  window.onload = function(){ resetFooter() }
-  window.onresize = function(){ resetFooter() }
+  c.onAttributeSetOrChange = ()=>{ c.resetFooter() }
+  window.onload = function(){ c.resetFooter() }
+  window.onresize = function(){ c.resetFooter() }
 
   c.newElm()
 })()

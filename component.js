@@ -48,10 +48,18 @@ class Component {
     this.events.push( {'type': type, 'method': method, 'id': id, 'update': update} )
   }
 
-  getDir (Obj, dir) {
-    Obj = { 'data': Obj }
-    if (dir) for (const p of dir.split(/[.\[\]]/).filter(Boolean)) Obj = Obj[p]
-    return Obj
+  getDir (obj, dir, mDir = dir.split(' '), oObj = { 'data': obj }, mObj = []) {
+    if (mDir.length > 1) {
+      for (const i in mDir) {
+        for (const p of mDir[i].split(/[.\[\]]/).filter(Boolean)) oObj = oObj[p]
+        mObj.push(oObj)
+        oObj = { 'data': obj }
+      }
+      oObj = mObj
+    } else {
+      if (dir) for (const p of dir.split(/[.\[\]]/).filter(Boolean)) oObj = oObj[p]
+    }
+    return oObj
   }
 
   update () {
