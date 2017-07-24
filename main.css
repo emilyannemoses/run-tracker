@@ -16,14 +16,6 @@ pageTwo {
   font-size: 25px;
   font-style: italic;
 }
-.linen-background {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background-image: url("gfx/linen.png");
-  color: rgba(255,255,255,0.8);
-  padding-top: 5%;
-  font-size: 25px;
-}
 .gray1 {
   color: rgba(20,20,0,0.8);
 }

@@ -69,7 +69,6 @@ component.getElementById('endText').innerHTML =
 ((c = new Component('navbar-tag'))=>{
 
   c.onAttributeSetOrChange = (attr)=>{
-    console.log(c.data)
     c.root.clicked = c.root.clicked || 'landing'
     if (attr === 'directory') {
       const dir = c.directory ? c.directory.split('/') : []
