@@ -17,8 +17,8 @@ class Component {
       for (const e of that.events) {
         let newEvent = clone.getElementById(e.id)
         newEvent.addEventListener(e.type, ()=>{
-          const data = this.hasAttribute('serve') ? this.getAttribute('served') : null
-          if (data) that.data = JSON.parse(data)
+          const cdata = this.hasAttribute('serve') ? this.getAttribute('served') : null
+          if (cdata) that.data = JSON.parse(cdata)
           that.root = this.shadowRoot
           e.method()
           if (e.update) that.update()
@@ -30,6 +30,7 @@ class Component {
       that.root = this.shadowRoot
       if (attrName === 'served') {
         that.data = JSON.parse(this.getAttribute('served'))
+        that.onAttributeSetOrChange(attrName)
       } else if (attrName === 'directory' && that.onAttributeSetOrChange) {
         that.directory = this.getAttribute('directory')
         that.data = JSON.parse(this.getAttribute('served'))
