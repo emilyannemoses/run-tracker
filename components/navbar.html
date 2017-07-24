@@ -66,7 +66,7 @@ component.getElementById('endText').innerHTML =
   '<em> * Static script edited </em>';
 // really, should never do it like this. you CAN, but will f-up if you add multiple components. best never do it like this...
 
-((c = new Component([ 'navbar-tag', '#navbar' ]))=>{
+((c = new Component('navbar-tag'))=>{
 
   c.onAttributeSetOrChange = (attr)=>{
     console.log(c.data)

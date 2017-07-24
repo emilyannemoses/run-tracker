@@ -1,7 +1,8 @@
 class Component {
 
-  constructor (componentData) {
-    [ this.tag, this.id ] = componentData
+  constructor (name) {
+    this.tag = name
+    this.id = '#' + name.split('-').splice(0,name.split('-').length-1).join('-')
     this.events = []
   }
 
