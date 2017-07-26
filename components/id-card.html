@@ -58,6 +58,7 @@
 
   c.onAttributeSetOrChange = (attr)=>{
     c.I('title').innerHTML = c.data.title
+    // ^^^ start with using var for this... ^^^^
     c.I('first').value = c.data.name
     c.I('last').value = c.data.last
     c.I('age').value = c.data.age
