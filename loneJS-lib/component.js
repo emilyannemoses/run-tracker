@@ -14,6 +14,7 @@ class Component {
       that.root = this.attachShadow({ mode: 'open' })
       let clone = document.importNode(template.content, true)
       that.serveDir(this)
+      that.htmlJS = new htmlJS
       for (const e of that.events) {
         let newEvent = clone.getElementById(e.id)
         newEvent.addEventListener(e.type, ()=>{
@@ -28,18 +29,29 @@ class Component {
     }
     proto.attributeChangedCallback = function (attrName, oldVal, newVal) {
       that.root = this.shadowRoot
+      // if (!this.htmlJS) this.htmlJS = new htmlJS
+
       if (attrName === 'served') {
         that.data = JSON.parse(this.getAttribute('served'))
         if (that.onAttributeSetOrChange) {
           that.onAttributeSetOrChange(attrName)
-          ;(( h = new htmlJS )=>{ h.update(that.data, that.root) })()
+          // that.htmlJS.update(that.data, that.root)
+          // ;(( h = new htmlJS )=>{ h.update(that.data, that.root) })()
         }
+        that.htmlJS.update(that.data, that.root)
+
+
       } else if (attrName === 'directory' && that.onAttributeSetOrChange) {
         that.directory = this.getAttribute('directory')
         that.data = JSON.parse(this.getAttribute('served'))
         that.onAttributeSetOrChange(attrName)
-        ;(( h = new htmlJS )=>{ h.update(that.data, that.root) })()
+        // ;(( h = new htmlJS )=>{ h.update(that.data, that.root) })()
+        // that.htmlJS.update(that.data, that.root)
       }
+      // ;(( h = new htmlJS )=>{ h.update(that.data, that.root) })()
+      // console.log('---', that.data)
+      // that.htmlJS.update(JSON.parse(this.getAttribute('served')), that.root)
+
     }
     if (!polyFillIncluded) {
       document.registerElement(that.tag, {prototype: proto})

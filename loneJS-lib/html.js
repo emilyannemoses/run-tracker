@@ -18,6 +18,14 @@ class htmlJS {
       let [ hVar, jVar ] = vLen.split(' ').filter(Boolean)
       jVar = this.getDir(Obj, jVar)
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
+        if (!elm.hasAttribute('initial-innerhtml')) {
+          const attr = document.createAttribute('initial-innerhtml')
+          attr.value = elm.innerHTML
+          elm.setAttributeNode(attr)
+        } else {
+          if (!elm.wholeText) elm.innerHTML = elm.getAttribute('initial-innerhtml')
+          elm.wholeText = elm.getAttribute('initial-innerhtml')
+        }
         const tag = elm.childNodes[j]
         if (tag.wholeText && tag.wholeText.split(/[\n\ ]/).filter(Boolean).length) {
           tag.textContent = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
@@ -36,7 +44,6 @@ class htmlJS {
     }
     tags = elm.childNodes.length
     for (const i in parent) { // Loop through all indices/keys within the Object
-      // this.isInitial = true
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
         const tag = elm.childNodes[j]
         if (tag.contentEditable) this.valueTypes(elm, i, tag, val, key, ind, parent) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
@@ -83,8 +90,7 @@ class htmlJS {
       let pass = false
       if (typeof arr[w] === "object") arr[w] = JSON.stringify(arr[w]) // if var isn't a single value (meaning it's still an arr/obj) This will display the remaing data in JSON format.
       if (typeof arr[w] !== "string" || arr[w] === "") continue
-      // save if there's a hyphen at the bookends to shift later.
-      let r = arr[w][arr[w].length-1] === '-' ? '-' : ''
+      let r = arr[w][arr[w].length-1] === '-' ? '-' : '' // save if there's a hyphen at the bookends to shift later.
       let l = arr[w][0] === '-' ? '-' : ''
       const em = arr[w].split(/[\.\[\]]/).filter(Boolean)
       if ( em[0] && ((em[0] === key || em[0].slice(1) === key ) && em.length > 1)) {
@@ -92,8 +98,7 @@ class htmlJS {
         if (l) arr[w] = arr[w].slice(1)
         arr[w] = this.getDir(jVal, arr[w].slice(2))
         if ( l || r ) pass = true
-      }
-      // this is where we used the left and right hyphens to shift if needed.
+      } // vvv this is where we used the left and right hyphens to shift if needed.
       if (arr[w] === l+key+r || pass) {
         const j = typeof jVal === 'object' ? arr[w] : jVal
         if (!l && !r)  arr[w] = jVal
@@ -127,11 +132,11 @@ class htmlJS {
     child.style.display = ''
   }
 
-  update (data, root) {
+  update (updateData, root) {
     this.root = root
-    this.getTag(data, 'var')
-    this.getTag(data, 'for')
-    this.getTag(data, 'if')
+    this.getTag(updateData, 'var')
+    this.getTag(updateData, 'for')
+    this.getTag(updateData, 'if')
   }
 
 }
