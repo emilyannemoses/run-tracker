@@ -36,7 +36,7 @@ class htmlJS {
     }
     tags = elm.childNodes.length
     for (const i in parent) { // Loop through all indices/keys within the Object
-      this.isInitial = true
+      // this.isInitial = true
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
         const tag = elm.childNodes[j]
         if (tag.contentEditable) this.valueTypes(elm, i, tag, val, key, ind, parent) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
@@ -73,8 +73,8 @@ class htmlJS {
     if (key) textArr = this.place(startArr, key, i)
     if (ind) textArr = this.place(startArr, ind, Object.keys(jVal).indexOf(i))
     if (this.showAtIndices(tag, i, jVal)) { // returns bool, if in the HTML indices attribute declares we shouldn't show this..
-      tag.className = 'htmlJS-hide'
       this.newTag(elm, tag, textArr.join(' '))
+      tag.style.display = 'none'
     }
   }
 
@@ -122,9 +122,9 @@ class htmlJS {
     const attr = document.createAttribute('is-clone')
     attr.value = true
     child.setAttributeNode(attr)
-    child.classList.remove('htmlJS-hide')
     child.innerHTML = innerHTML
     parent.appendChild(child)
+    child.style.display = ''
   }
 
   update (data, root) {

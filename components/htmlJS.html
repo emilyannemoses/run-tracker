@@ -5,9 +5,6 @@ content {
   font-size: 16px;
   text-align: left;
 }
-.htmlJS-hide {
-  display: none;
-}
 h3, h5, .inline {
   background-color: cornflowerblue;
   color: #333;
@@ -132,18 +129,6 @@ tr:nth-child(even) {
       ^^^ 0th index and 2nd, 2nd index to last and last
     </div>
 
-  <!-- ++++++++++++++++++ Tables +++++++++++++++++++++ -->
-    <table>
-      <tr for='v,k,i obj'>
-        <th> k </th>
-      </tr>
-      <tbody >
-        <tr for='v obj'>
-          <td> v </td>
-        </tr>
-      </tbody>
-    </table>
-
   <!-- ++++++++++++ Nested Combining and Testing +++++++++++++++++++++ -->
     <div class="inline"> Nested Array
       <div for="v arr4">
@@ -203,6 +188,19 @@ tr:nth-child(even) {
         <h3> " -k- ": v </h3>
       </div>
     </div>
+
+  <!-- ++++++++++++++++++ Tables +++++++++++++++++++++ -->
+    <table>
+      <tr for='v,k,i obj'>
+        <th> k </th>
+      </tr>
+      <tbody >
+        <tr for='v obj'>
+          <td> v </td>
+        </tr>
+      </tbody>
+    </table>
+
   </div>
 </content>
 </template>
