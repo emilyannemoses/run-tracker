@@ -38,7 +38,7 @@ hr {
 <table style='width: 100%;' class='navbar'>
   <tr>
     <th id='landing' class="title gray1"
-      onclick="pageSet('home/landing')"> HTML components Demo
+      onclick="pageSet('home/landing')"> HTML Cronenberg Demo
     </th>
     <th>
       <div class="nav">
@@ -46,8 +46,8 @@ hr {
           onclick="pageSet('home/page2')"> Page 2 </span> &nbsp; :: &nbsp;
         <span id='data' class="nav-button gray1"
           onclick="pageSet('home/data')"> Data </span> &nbsp; :: &nbsp;
-        <span id='about' class="nav-button gray1"
-          onclick="pageSet('home/about')"> About </span> &nbsp; :: &nbsp;
+        <span id='htmlJS' class="nav-button gray1"
+          onclick="pageSet('home/htmlJS')"> html.js </span> &nbsp; :: &nbsp;
         <span id='login' class="nav-button gray1"
           onclick="pageSet('login')"> Login </span>
       </div>
@@ -88,19 +88,21 @@ component.getElementById('endText').innerHTML =
   }
 
   c.addEvent('click', 'landing', ()=>{
-    c.I('landing').innerHTML = 'HTML components Demo'
+    c.I('landing').innerHTML = 'HTML Cronenberg Demo'
+    infoClick('landing Page')
+
   })
 
-  c.addEvent('click', 'page2', infoClick = (button, more)=>{
-    c.I('landing').innerHTML = 'HTML ('+( more ? more : 'Page2')+')'+c.data
+  c.addEvent('click', 'page2', infoClick = (x)=>{
+    c.I('landing').innerHTML = 'HTML ('+( x ? x : 'Page2')+')'+c.data
   })
 
   c.addEvent('click', 'data', ()=>{
-    infoClick('data', 'Data Page')
+    infoClick('Data Page')
   })
 
-  c.addEvent('click', 'about', ()=>{
-    infoClick('about', 'About Page')
+  c.addEvent('click', 'htmlJS', ()=>{
+    infoClick('htmlJS Page')
   })
 
   c.addEvent('click', 'login', ()=>{

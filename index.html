@@ -1,11 +1,14 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><title> Components </title>
-  <script type="text/javascript" src="component.js"></script>
+  <script type="text/javascript" src="loneJS-lib/component.js"></script>
+  <script type="text/javascript" src="loneJS-lib/html.js"></script>
   <script type="text/javascript" src="data.js"></script>
+
   <link rel="stylesheet" href="main.css">
   <!-- COMPONENTS -->
   <link rel="import" href="components/navbar.html">
   <link rel="import" href="components/landing.html">
   <link rel="import" href="components/id-card.html">
+  <link rel="import" href="components/htmlJS.html">
   <link rel="import" href="components/footer.html">
   <link rel="import" href="components/login.html">
 
@@ -24,10 +27,12 @@
       <pageTwo pageName="p2"> p2 two</pageTwo>
     </navPage>
     <navPage pageName="data"> Data page goes here... </navPage>
-    <navPage pageName="about"> About page goes here... </navPage>
+    <navPage pageName="htmlJS">
+      <htmlJS-tag serve="data"></htmlJS-tag>
+    </navPage>
   </page>
 
-  <page pageName="login" class="linen-background"> 
+  <page pageName="login" class="linen-background">
     <login-tag></login-tag>
   </page>
 
@@ -36,6 +41,13 @@
 </html>
 
 <!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / /
+//
+// html.js - RESERVED VAR NAMES
+// DOM attributes
+// - for
+// - var
+// - if
+// - is-clone
 
 -->
 

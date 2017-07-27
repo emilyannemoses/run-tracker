@@ -30,11 +30,15 @@ class Component {
       that.root = this.shadowRoot
       if (attrName === 'served') {
         that.data = JSON.parse(this.getAttribute('served'))
-        that.onAttributeSetOrChange(attrName)
+        if (that.onAttributeSetOrChange) {
+          that.onAttributeSetOrChange(attrName)
+          ;(( h = new htmlJS )=>{ h.update(that.data, that.root) })()
+        }
       } else if (attrName === 'directory' && that.onAttributeSetOrChange) {
         that.directory = this.getAttribute('directory')
         that.data = JSON.parse(this.getAttribute('served'))
         that.onAttributeSetOrChange(attrName)
+        ;(( h = new htmlJS )=>{ h.update(that.data, that.root) })()
       }
     }
     if (!polyFillIncluded) {
