@@ -1,0 +1,88 @@
+<template id="data">
+<!-- { { { { { { { { { { { { { { { {  CSS  } } } } } } } } } } } } } } } } } -->
+<style>
+content {
+  font-size: 18px;
+}
+input {
+  min-width: 200px;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
+<content>
+  <div>
+    Welcome to the NEW data page! <br> It's it's own <strong>component </strong>now ;)
+    <br> <br>
+    <h2 if='!list'>Create more ID cards by adding names and/or numbers</h2> <br>
+    <input id='iName' placeholder="First Name ..."/>
+    <input id='iLast' placeholder="Last Name ..."/> <br>
+    <input id='iAge' placeholder="Age ..."/>
+    <input id='iHeight' placeholder="Height ..."/> <br>
+    <button id='more'> Submit </button>
+    <br><br>
+    <table if='idCards' style='width: 500px;'>
+      <tr for='v,k,i idCards[0]'>
+        <th> k </th>
+      </tr>
+      <tbody for='components idCards' >
+        <tr>
+          <td> components.title </td>
+          <td> components.name </td>
+          <td> components.last </td>
+          <td> components.age </td>
+          <td> components.height </td>
+        </tr>
+      </tbody>
+    </table>
+    <p if='list'> <em> * You can also hit </em><strong>[enter]</strong><em> to add </em> </p>
+    <br>    <br>    <br>
+  </div>
+</content>
+</template>
+<!-- () () () () () () () () () ()  JavaScript () () () () () () () () () () -->
+<script>
+
+(( c = new Component('data-tag') )=>{
+
+  c.add = ()=>{
+    data.idCards.push({
+      title: 'ID Card ' + (data.idCards.length+1),
+      name: c.I('iName').value,
+      last: c.I('iLast').value,
+      age: c.I('iAge').value,
+      height: c.I('iHeight').value,
+    })
+    c.update()
+    c.I('iName').value = ''
+    c.I('iLast').value = ''
+    c.I('iAge').value = ''
+    c.I('iHeight').value = ''
+    c.I('iName').focus()
+  }
+
+  c.addEvent('click', 'more', ()=>{
+    c.add()
+  })
+
+  c.addEvent('keypress', 'iHeight', ()=>{
+    if (event.keyCode == 13) c.add()
+  })
+
+  c.newElm()
+})()
+
+</script>
+<!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / / -->

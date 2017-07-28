@@ -8,6 +8,7 @@
   <link rel="import" href="components/navbar.html">
   <link rel="import" href="components/landing.html">
   <link rel="import" href="components/id-card.html">
+  <link rel="import" href="components/data.html">
   <link rel="import" href="components/htmlJS.html">
   <link rel="import" href="components/footer.html">
   <link rel="import" href="components/login.html">
@@ -26,7 +27,9 @@
       <pageTwo pageName="p1" activePage='true'>p2 One</pageTwo>
       <pageTwo pageName="p2"> p2 two</pageTwo>
     </navPage>
-    <navPage pageName="data"> Data page goes here... </navPage>
+    <navPage pageName="data">
+      <data-tag serve="data"/><data-tag>
+    </navPage>
     <navPage pageName="htmlJS">
       <htmlJS-tag serve="data.arr"></htmlJS-tag>
     </navPage>

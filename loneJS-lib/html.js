@@ -96,7 +96,7 @@ class htmlJS {
       if ( em[0] && ((em[0] === key || em[0].slice(1) === key ) && em.length > 1)) {
         if (r) arr[w] = arr[w].slice(0, arr[w].length-1)
         if (l) arr[w] = arr[w].slice(1)
-        arr[w] = this.getDir(jVal, arr[w].slice(2))
+        arr[w] = this.getDir(jVal, arr[w].split('.')[1])
         if ( l || r ) pass = true
       } // vvv this is where we used the left and right hyphens to shift if needed.
       if (arr[w] === l+key+r || pass) {
