@@ -10,7 +10,8 @@ input {
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  margin: auto;
+  width: 90%;
 }
 td, th {
   border: 1px solid #dddddd;
@@ -25,15 +26,15 @@ tr:nth-child(even) {
 <content>
   <div>
     Welcome to the NEW data page! <br> It's it's own <strong>component </strong>now ;)
-    <br> <br>
-    <h2 if='!list'>Create more ID cards by adding names and/or numbers</h2> <br>
+    <br>
+    <h2>Create more ID cards by adding names and/or numbers</h2>
     <input id='iName' placeholder="First Name ..."/>
     <input id='iLast' placeholder="Last Name ..."/> <br>
     <input id='iAge' placeholder="Age ..."/>
     <input id='iHeight' placeholder="Height ..."/> <br>
     <button id='more'> Submit </button>
     <br><br>
-    <table if='idCards' style='width: 500px;'>
+    <table if='idCards'>
       <tr for='v,k,i idCards[0]'>
         <th> k </th>
       </tr>
@@ -46,9 +47,9 @@ tr:nth-child(even) {
           <td> components.height </td>
         </tr>
       </tbody>
-    </table>
-    <p if='list'> <em> * You can also hit </em><strong>[enter]</strong><em> to add </em> </p>
-    <br>    <br>    <br>
+    </table> 
+    <p if='idCards'> <em> * You can also hit </em><strong>[enter]</strong><em> to add </em> </p>
+    <br>
   </div>
 </content>
 </template>
@@ -65,7 +66,6 @@ tr:nth-child(even) {
       age: c.I('iAge').value,
       height: c.I('iHeight').value,
     })
-    c.update()
     c.I('iName').value = ''
     c.I('iLast').value = ''
     c.I('iAge').value = ''
@@ -75,11 +75,11 @@ tr:nth-child(even) {
 
   c.addEvent('click', 'more', ()=>{
     c.add()
-  })
+  }, true)
 
   c.addEvent('keypress', 'iHeight', ()=>{
     if (event.keyCode == 13) c.add()
-  })
+  }, true)
 
   c.newElm()
 })()

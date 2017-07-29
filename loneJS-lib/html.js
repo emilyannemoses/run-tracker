@@ -5,6 +5,18 @@ class htmlJS {
     for (let i = elm.length-1; i >= 0; i--) { // Loop through all tags with 'for' element. Needs to be in reverse cuz nested loops need to run first.
       const tags = elm[i].childNodes.length // Snatch this value as a seperate because length of childnodes will change dynamically, creating INFINATE LOOPS OF PERIL!
       const txt = elm[i].getAttribute(tag)
+
+      if (tag !== 'if') {
+        if (!elm[i].hasAttribute('initial-innerhtml')) {
+          const attr = document.createAttribute('initial-innerhtml')
+          attr.value = elm[i].innerHTML
+          elm[i].setAttributeNode(attr)
+        } else {
+          if (!elm[i].wholeText) elm[i].innerHTML = elm[i].getAttribute('initial-innerhtml')
+          elm[i].wholeText = elm[i].getAttribute('initial-innerhtml')
+        }
+      }
+
       switch (tag) {
         case 'var': this.varJS(Obj, elm[i], tags, txt.split(',')); break
         case 'for': this.forJS(Obj, elm[i], tags, txt.split(' ')); break
@@ -18,20 +30,26 @@ class htmlJS {
       let [ hVar, jVar ] = vLen.split(' ').filter(Boolean)
       jVar = this.getDir(Obj, jVar)
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
-        if (!elm.hasAttribute('initial-innerhtml')) {
-          const attr = document.createAttribute('initial-innerhtml')
-          attr.value = elm.innerHTML
-          elm.setAttributeNode(attr)
-        } else {
-          if (!elm.wholeText) elm.innerHTML = elm.getAttribute('initial-innerhtml')
-          elm.wholeText = elm.getAttribute('initial-innerhtml')
-        }
+        // if (!elm.hasAttribute('initial-innerhtml')) {
+        //   const attr = document.createAttribute('initial-innerhtml')
+        //   attr.value = elm.innerHTML
+        //   elm.setAttributeNode(attr)
+        // } else {
+        //   if (!elm.wholeText) elm.innerHTML = elm.getAttribute('initial-innerhtml')
+        //   elm.wholeText = elm.getAttribute('initial-innerhtml')
+        // }
         const tag = elm.childNodes[j]
+        const content = elm.getAttribute('initial-innerhtml')
+
         if (tag.wholeText && tag.wholeText.split(/[\n\ ]/).filter(Boolean).length) {
-          tag.textContent = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+
+          // tag.textContent = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+          tag.textContent = this.place(content.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
         } // ^^^ takes text wrettin between tags and includes it.
         if (tag.contentEditable) { // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+          // console.log('2- tag, hVar, jVar: ', tag, hVar, jVar)
           tag.innerHTML = this.place(tag.innerHTML.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+          // tag.innerHTML = this.place(content.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
         }
       }
     }
@@ -46,6 +64,7 @@ class htmlJS {
     for (const i in parent) { // Loop through all indices/keys within the Object
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
         const tag = elm.childNodes[j]
+
         if (tag.contentEditable) this.valueTypes(elm, i, tag, val, key, ind, parent) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
       }
     }
@@ -63,9 +82,12 @@ class htmlJS {
       else if (Obj[ifVar] && !Object.keys(Obj[ifVar]).length) hide = true
     }
     if (hide) {
-      elm.setAttribute('style', 'display: none;')
+      // elm.setAttribute('style', 'display: none;')
+      elm.style.display = 'none'
     } else {
-      elm.setAttribute('style', 'display: initial;')
+      // elm.setAttribute('style', 'display: initial;')
+      elm.style.display = ''
+
     }
   }
 
@@ -80,12 +102,13 @@ class htmlJS {
     if (key) textArr = this.place(startArr, key, i)
     if (ind) textArr = this.place(startArr, ind, Object.keys(jVal).indexOf(i))
     if (this.showAtIndices(tag, i, jVal)) { // returns bool, if in the HTML indices attribute declares we shouldn't show this..
-      this.newTag(elm, tag, textArr.join(' '))
+      this.newTag(elm, tag, textArr.join(' '), i)
       tag.style.display = 'none'
     }
   }
 
   place (arr, key, jVal) {
+    console.log('place: ', arr, key, jVal)
     for (const w in arr) {
       let pass = false
       if (typeof arr[w] === "object") arr[w] = JSON.stringify(arr[w]) // if var isn't a single value (meaning it's still an arr/obj) This will display the remaing data in JSON format.
@@ -122,12 +145,19 @@ class htmlJS {
     return (indices.includes(i) || indices.includes(':'+(l.length-i-1))) // return true if indices attribute contains index or reveerse index :N order
   }
 
-  newTag (parent, tag, innerHTML) {
+  newTag (parent, tag, innerHTML, i) {
     let child = tag.cloneNode(true)
     const attr = document.createAttribute('is-clone')
     attr.value = true
     child.setAttributeNode(attr)
     child.innerHTML = innerHTML
+
+    if (child.hasAttribute('serve')){
+      // NEED TO use getDIR!!!!!
+      let newData = parent.getAttribute('for').split(' ')[1]
+      child.setAttribute('served', JSON.stringify(data[newData][i]))
+    }
+
     parent.appendChild(child)
     child.style.display = ''
   }

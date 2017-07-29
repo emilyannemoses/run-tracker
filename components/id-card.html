@@ -63,7 +63,13 @@ table {
 <!-- () () () () () () () () () ()  JavaScript () () () () () () () () () () -->
 <script>
 
-(( c = new Component('id-card-tag') )=>{ c.newElm() })()
+(( c = new Component('id-card-tag') )=>{
+  // c.onAttributeSetOrChange = () => {
+  //   c.I('name').focus()
+  // }
+
+  c.newElm()
+})()
 
 </script>
 <!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / / -->
