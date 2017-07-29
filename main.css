@@ -9,13 +9,6 @@ html, body {
   min-height: 100%;
   position: relative;
 }
-navPage {
-  font-size: 40px;
-}
-pageTwo {
-  font-size: 25px;
-  font-style: italic;
-}
 .gray1 {
   color: rgba(20,20,0,0.8);
 }

@@ -3,17 +3,32 @@ class htmlJS {
   getTag (Obj, tag) { // Grabs All tags with 'tag' element
     let elm = this.root.querySelectorAll('['+tag+']')
     for (let i = elm.length-1; i >= 0; i--) { // Loop through all tags with 'for' element. Needs to be in reverse cuz nested loops need to run first.
+      // console.log(elm[i])
+
+      // if (tag !== 'if') {
+      //   if (!elm[i].hasAttribute('initial-innerhtml')) {
+      //     const attr = document.createAttribute('initial-innerhtml')
+      //     attr.value = elm[i].innerHTML
+      //     elm[i].setAttributeNode(attr)
+      //   } else {
+      //     if (!elm[i].wholeText) elm[i].innerHTML = elm[i].getAttribute('initial-innerhtml')
+      //     elm[i].wholeText = elm[i].getAttribute('initial-innerhtml')
+      //   }
+      // }
+    }
+    for (let i = elm.length-1; i >= 0; i--) { // Loop through all tags with 'for' element. Needs to be in reverse cuz nested loops need to run first.
       const tags = elm[i].childNodes.length // Snatch this value as a seperate because length of childnodes will change dynamically, creating INFINATE LOOPS OF PERIL!
       const txt = elm[i].getAttribute(tag)
 
+      // console.log(elm)
       if (tag !== 'if') {
         if (!elm[i].hasAttribute('initial-innerhtml')) {
           const attr = document.createAttribute('initial-innerhtml')
           attr.value = elm[i].innerHTML
           elm[i].setAttributeNode(attr)
         } else {
-          if (!elm[i].wholeText) elm[i].innerHTML = elm[i].getAttribute('initial-innerhtml')
-          elm[i].wholeText = elm[i].getAttribute('initial-innerhtml')
+          // if (!elm[i].wholeText) elm[i].innerHTML = elm[i].getAttribute('initial-innerhtml')
+          elm[i].innerHTML = elm[i].getAttribute('initial-innerhtml')
         }
       }
 
@@ -38,22 +53,58 @@ class htmlJS {
         //   if (!elm.wholeText) elm.innerHTML = elm.getAttribute('initial-innerhtml')
         //   elm.wholeText = elm.getAttribute('initial-innerhtml')
         // }
+
+        // console.log('\n\n-----elm.childNodes[j]------')
+
         const tag = elm.childNodes[j]
         const content = elm.getAttribute('initial-innerhtml')
 
         if (tag.wholeText && tag.wholeText.split(/[\n\ ]/).filter(Boolean).length) {
 
+          // console.log('this.og: ', this.og)
+          // if (!this.og) {
+          //   tag.textContent = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+          //
+          // } else {
+          //   tag.textContent = this.place(content.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+          //
+          // }
+
+          console.log('\nA', content, tag.textContent, hVar, jVar)
+
+          // tag.innerHTML = this.place(content.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+
+          // tag.textContent = this.place(content.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
           // tag.textContent = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
-          tag.textContent = this.place(content.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+          tag.nodeValue = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+
+          // console.log('B', content, tag.textContent)
+          // tag.textContent = content
+
         } // ^^^ takes text wrettin between tags and includes it.
         if (tag.contentEditable) { // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+        // console.log('**** tag.contentEditable')
           // console.log('2- tag, hVar, jVar: ', tag, hVar, jVar)
           tag.innerHTML = this.place(tag.innerHTML.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
           // tag.innerHTML = this.place(content.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+
         }
       }
     }
   }
+
+  // varJS (Obj, elm, tags, arrVar) {
+  //   for (const vLen of arrVar) {
+  //     let [ hVar, jVar ] = vLen.split(' ').filter(Boolean)
+  //     jVar = this.getDir(Obj, jVar)
+  //     for (let j = 0; j < tags; j++) { // loop through all tags within element.
+  //       const tag = elm.childNodes[j]
+  //       if (tag.contentEditable) { // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+  //         tag.innerHTML = this.place(tag.innerHTML.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+  //       }
+  //     }
+  //   }
+  // }
 
   forJS (Obj, elm, tags, [ node, parent ], [ val, key, ind ] = node.split(',')) {
     parent = this.getDir(Obj, parent)
@@ -108,7 +159,6 @@ class htmlJS {
   }
 
   place (arr, key, jVal) {
-    console.log('place: ', arr, key, jVal)
     for (const w in arr) {
       let pass = false
       if (typeof arr[w] === "object") arr[w] = JSON.stringify(arr[w]) // if var isn't a single value (meaning it's still an arr/obj) This will display the remaing data in JSON format.
@@ -119,7 +169,12 @@ class htmlJS {
       if ( em[0] && ((em[0] === key || em[0].slice(1) === key ) && em.length > 1)) {
         if (r) arr[w] = arr[w].slice(0, arr[w].length-1)
         if (l) arr[w] = arr[w].slice(1)
-        arr[w] = this.getDir(jVal, arr[w].split('.')[1])
+        // console.log('em: ', em.slice(1))
+        // console.log('jVal, arr[w]:', jVal, arr[w], arr[w].slice(2))
+        // // arr[w] = this.getDir(jVal, arr[w].slice(2))
+        // console.log('trick: ', '['+em.slice(1).join('][')+']')
+        arr[w] = this.getDir(jVal, '['+em.slice(1).join('][')+']')
+
         if ( l || r ) pass = true
       } // vvv this is where we used the left and right hyphens to shift if needed.
       if (arr[w] === l+key+r || pass) {
@@ -167,6 +222,7 @@ class htmlJS {
     this.getTag(updateData, 'var')
     this.getTag(updateData, 'for')
     this.getTag(updateData, 'if')
+    // if (!this.og) this.og = true
   }
 
 }
