@@ -25,12 +25,10 @@ class Component {
           if (e.update) that.update()
         })
       }
-      // that.htmlJS.update(that.data, that.root)
       that.root.appendChild(clone)
     }
     proto.attributeChangedCallback = function (attrName, oldVal, newVal) {
       that.root = this.shadowRoot
-      // Clean up >>> && this.getAttribute('served') !== 'undefined'
       if (attrName === 'served' && this.getAttribute('served') !== 'undefined') {
         that.data = JSON.parse(this.getAttribute('served'))
         if (that.onAttributeSetOrChange) {
@@ -40,10 +38,8 @@ class Component {
       } else if (attrName === 'directory' && that.onAttributeSetOrChange && this.getAttribute('served') !== 'undefined') {
         that.directory = this.getAttribute('directory')
         that.data = JSON.parse(this.getAttribute('served'))
-        // that.htmlJS.update(that.data, that.root)
         that.onAttributeSetOrChange(attrName)
       }
-      // that.htmlJS.update(that.data, that.root)
     }
     if (!polyFillIncluded) {
       document.registerElement(that.tag, {prototype: proto})

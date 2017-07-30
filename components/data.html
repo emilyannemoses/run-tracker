@@ -45,32 +45,33 @@ button:hover {
   background-color: rgba(0,0,0,0.05);
 
 }
-#iAge {
-  margin-left: 226px;
+#iAge, #iHome {
+  width: 418px;
   margin-top: 2px;
+  margin-left: 0.5px;
 }
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
   <div>
-    Welcome to the NEW data page! <br> It's it's own <strong>component </strong>now ;)
-    <br>
     <h2>Create more ID cards by adding names and/or numbers</h2>
     <h4> Name: </h4>
     <input id='iName' placeholder="first ..."/>
     <input id='iLast' placeholder="last ..."/> <br>
     <h4> Height: </h4>
-    <input class='nums' id='iFeet' placeholder="feet ..."/>
-    <input class='nums' id='iInches' placeholder="inches ..."/> <br>
-    <input id='iAge' placeholder="age ..."/>
+    <input id='iFeet' placeholder="feet ..."/>
+    <input id='iInches' placeholder="inches ..."/> <br>
+    <h4> Age: </h4>
+    <input id='iAge' placeholder="age ..."/> <br>
+    <h4> Hometown: </h4>
     <input id='iHome' placeholder="city of residence ..."/> <br>
     <button id='more'> Submit </button>
     <br><br>
-    <table if='idCards'>
-      <tr for='v,k,i idCards[0]'>
+    <table if='nest[idCards]'>
+      <tr for='v,k,i nest[idCards][0]'>
         <th> k </th>
       </tr>
-      <tbody for='components idCards' >
+      <tbody for='components nest.idCards'>
         <tr>
           <td> components.title </td>
           <td> components.name </td>
@@ -82,7 +83,8 @@ button:hover {
         </tr>
       </tbody>
     </table>
-    <p if='idCards'> <em> * You can also hit </em><strong>[enter]</strong><em> to add </em> </p>
+    <p if='nest.idCards'> <em> * You can also hit </em><strong>[enter]</strong><em> to add </em> </p>
+    <p if='!nest.idCards'> <em> ! No data Avilalbe ! </em><br> Fill out form to add Data  </p>
     <br>
   </div>
 </content>
@@ -97,8 +99,8 @@ button:hover {
   }
 
   c.add = ()=>{
-    data.idCards.push({
-      title: 'ID Card ' + (data.idCards.length+1),
+    data.nest.idCards.push({
+      title: 'ID Card ' + (data.nest.idCards.length+1),
       name: c.I('iName').value,
       last: c.I('iLast').value,
       age: c.I('iAge').value,

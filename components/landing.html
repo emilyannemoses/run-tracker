@@ -31,8 +31,6 @@
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
-  <!-- <id-card-tag serve="data.idCards[1]"></id-card-tag> -->
-
   <div class="landing-container">
     <div id='title'> --- Static Title </Div>
     <div>
@@ -48,13 +46,13 @@
     <span> Id# </span>
     <input id="idNum" placeholder="Not Set...">
   </div>
-  <div for='card idCards'>
+  <div if='nest.idCards' for='card nest.idCards'>
     <id-card-tag serve="card"></id-card-tag>
   </div>
-  <!-- <id-card-tag serve="data.idCards[0]"></id-card-tag>
-  <id-card-tag serve="data.idCards[1]"></id-card-tag>
-  <id-card-tag serve="data.idCards[2]"></id-card-tag>
-  <id-card-tag serve="data.idCards[1]"></id-card-tag> -->
+  <id-card-tag serve="data.nest.idCards[0]"></id-card-tag>
+  <id-card-tag serve="data.nest.idCards[1]"></id-card-tag>
+  <id-card-tag serve="data.nest.idCards[2]"></id-card-tag>
+  <id-card-tag serve="data.nest.idCards[1]"></id-card-tag>
 
 </content>
 </template>
@@ -71,18 +69,7 @@
     }
   }
 
-  // CHECK for relevency. they were needed b4 we put in pages, but now irrelevent...
-  // ...
-  // c.addEvent('click', 'page2', ()=>{
-  //   data.landingPageTitle = 'Page 2 to Come'
-  // }, true)
-  //
-  // c.addEvent('click', 'data', ()=>{
-  //   data.landingPageTitle = 'Data Page to Come'
-  // }, true)
-
   c.addEvent('click', 'login', ()=>{
-    // data.landingPageTitle = 'Login Page'
     data.user = 'lippy66'
     data.id = '3ofjaksdf'
   }, true)
