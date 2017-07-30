@@ -18,15 +18,15 @@
 <body>
   <page pageName="home" activePage='true'>
     <navbar-tag serve="data.arr[0] data.newC"></navbar-tag>
-    <navbar-tag serve="data.arr[1]"></navbar-tag>
-    <navbar-tag serve="data.arr[2]"></navbar-tag>
+    <!-- <navbar-tag serve="data.arr[1]"></navbar-tag>
+    <navbar-tag serve="data.arr[2]"></navbar-tag> -->
     <navPage pageName="landing" activePage='true'>
       <landing-tag serve="data"></landing-tag>
     </navPage>
-    <navPage pageName="page2" > <h1>Page2 goes here... </h1> <br>
+    <navPage pageName="page2" > <h1> Page2 goes here... </h1> <br>
+      <p> maybe average age and height? \n ... make seperate entries for ft/in </p>
       <pageTwo pageName="p1" activePage='true'>p2 One</pageTwo>
-      <pageTwo pageName="p2"> p2 two</pageTwo>
-      <p> maybe average age and height? \n ... make seperate entries for ft/in</p>
+      <pageTwo pageName="p2"> p2 two </pageTwo>
     </navPage>
     <navPage pageName="data">
       <data-tag serve="data"></data-tag>

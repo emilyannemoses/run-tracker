@@ -3,9 +3,13 @@
 <style>
 content {
   font-size: 18px;
+  font: Tahoma;
 }
 input {
-  min-width: 200px;
+  height: 25px;
+  font-size: 15px;
+  padding: 5px;
+  width: 200px;
 }
 table {
   font-family: arial, sans-serif;
@@ -21,6 +25,30 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+h4 {
+  display: inline-block;
+  width: 200px;
+  height: 100%;
+  margin: 5px;
+  padding: 6px;
+  background-color: rgba(30,0,0,0.2);
+}
+button {
+  margin: 10px 0px 10px;
+  width: 300px;
+  height: 38px;
+  font-size: 18px;
+  background-color: rgba(0,0,0,0.1);
+  border: 2px;
+}
+button:hover {
+  background-color: rgba(0,0,0,0.05);
+
+}
+#iAge {
+  margin-left: 226px;
+  margin-top: 2px;
+}
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
@@ -28,10 +56,14 @@ tr:nth-child(even) {
     Welcome to the NEW data page! <br> It's it's own <strong>component </strong>now ;)
     <br>
     <h2>Create more ID cards by adding names and/or numbers</h2>
-    <input id='iName' placeholder="First Name ..."/>
-    <input id='iLast' placeholder="Last Name ..."/> <br>
-    <input id='iAge' placeholder="Age ..."/>
-    <input id='iHeight' placeholder="Height ..."/> <br>
+    <h4> Name: </h4>
+    <input id='iName' placeholder="first ..."/>
+    <input id='iLast' placeholder="last ..."/> <br>
+    <h4> Height: </h4>
+    <input class='nums' id='iFeet' placeholder="feet ..."/>
+    <input class='nums' id='iInches' placeholder="inches ..."/> <br>
+    <input id='iAge' placeholder="age ..."/>
+    <input id='iHome' placeholder="city of residence ..."/> <br>
     <button id='more'> Submit </button>
     <br><br>
     <table if='idCards'>
@@ -44,10 +76,12 @@ tr:nth-child(even) {
           <td> components.name </td>
           <td> components.last </td>
           <td> components.age </td>
-          <td> components.height </td>
+          <td> components.feet </td>
+          <td> components.inches </td>
+          <td> components.home </td>
         </tr>
       </tbody>
-    </table> 
+    </table>
     <p if='idCards'> <em> * You can also hit </em><strong>[enter]</strong><em> to add </em> </p>
     <br>
   </div>
@@ -58,18 +92,26 @@ tr:nth-child(even) {
 
 (( c = new Component('data-tag') )=>{
 
+  c.onAttributeSetOrChange = ()=> {
+    c.I('iName').focus()
+  }
+
   c.add = ()=>{
     data.idCards.push({
       title: 'ID Card ' + (data.idCards.length+1),
       name: c.I('iName').value,
       last: c.I('iLast').value,
       age: c.I('iAge').value,
-      height: c.I('iHeight').value,
+      feet: c.I('iFeet').value,
+      inches: c.I('iInches').value,
+      home: c.I('iHome').value,
     })
     c.I('iName').value = ''
     c.I('iLast').value = ''
     c.I('iAge').value = ''
-    c.I('iHeight').value = ''
+    c.I('iFeet').value = ''
+    c.I('iInches').value = ''
+    c.I('iHome').value = ''
     c.I('iName').focus()
   }
 
@@ -77,7 +119,7 @@ tr:nth-child(even) {
     c.add()
   }, true)
 
-  c.addEvent('keypress', 'iHeight', ()=>{
+  c.addEvent('keypress', 'iHome', ()=>{
     if (event.keyCode == 13) c.add()
   }, true)
 
