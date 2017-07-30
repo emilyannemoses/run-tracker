@@ -1,7 +1,7 @@
 class htmlJS {
 
   getTag (Obj, tag) { // Grabs All tags with 'tag' element
-    let elm = this.root.querySelectorAll('['+tag+']')
+    const elm = this.root.querySelectorAll('['+tag+']')
     for (let i = elm.length-1; i >= 0; i--) { // Loop through all tags with 'for' element. Needs to be in reverse cuz nested loops need to run first.
       const tags = elm[i].childNodes.length // Snatch this value as a seperate because length of childnodes will change dynamically, creating INFINATE LOOPS OF PERIL!
       const txt = elm[i].getAttribute(tag)

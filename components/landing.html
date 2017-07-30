@@ -61,7 +61,7 @@
 
 (( c = new Component('landing-tag') )=>{
 
-  c.onAttributeSetOrChange = (attr)=>{
+  c._ON_SET = (attr)=>{
     c.root.getElementById('title').innerHTML = c.data.landingPageTitle
     if (c.data.user) {
       c.I('user').value = c.data.user
@@ -69,12 +69,12 @@
     }
   }
 
-  c.addEvent('click', 'login', ()=>{
+  c._ADD_EVENT('click', 'login', ()=>{
     data.user = 'lippy66'
     data.id = '3ofjaksdf'
   }, true)
 
-  c.newElm()
+  c._NEW_ELM()
 })()
 
 </script>

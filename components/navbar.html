@@ -68,7 +68,7 @@ component.getElementById('endText').innerHTML =
 
 ((c = new Component('navbar-tag'))=>{
 
-  c.onAttributeSetOrChange = (attr)=>{
+  c._ON_SET = (attr)=>{
     c.root.clicked = c.root.clicked || 'landing'
     if (attr === 'directory') {
       const dir = c.directory ? c.directory.split('/') : []
@@ -80,6 +80,29 @@ component.getElementById('endText').innerHTML =
     }
   }
 
+  c._ADD_EVENT('click', 'landing', ()=>{
+    c.I('landing').innerHTML = 'HTML Cronenberg Demo'
+    c.infoClick('landing Page')
+  })
+
+  c._ADD_EVENT('click', 'page2', c.infoClick = (x)=>{
+    c.I('landing').innerHTML = 'HTML ('+( x ? x : 'Page2')+')'+c.data
+  })
+
+  c._ADD_EVENT('click', 'data', ()=>{
+    c.infoClick('Data Page')
+  })
+
+  c._ADD_EVENT('click', 'htmlJS', ()=>{
+    c.infoClick('htmlJS Page')
+  })
+
+  c._ADD_EVENT('click', 'login', ()=>{
+    data.nest.idCards[1].name = "("+c.data+")"
+    data.user = 'LodgeSkins'
+    data.id = 'fdg856csd3'
+  }, true)
+
   c.pageSwap = (button, remove)=>{
     const xx = c.root.clicked
     c.I(c.root.clicked).classList.remove('clicked')
@@ -87,31 +110,7 @@ component.getElementById('endText').innerHTML =
     c.root.clicked = button ? button : 'page2'
   }
 
-  c.addEvent('click', 'landing', ()=>{
-    c.I('landing').innerHTML = 'HTML Cronenberg Demo'
-    infoClick('landing Page')
-
-  })
-
-  c.addEvent('click', 'page2', infoClick = (x)=>{
-    c.I('landing').innerHTML = 'HTML ('+( x ? x : 'Page2')+')'+c.data
-  })
-
-  c.addEvent('click', 'data', ()=>{
-    infoClick('Data Page')
-  })
-
-  c.addEvent('click', 'htmlJS', ()=>{
-    infoClick('htmlJS Page')
-  })
-
-  c.addEvent('click', 'login', ()=>{
-    data.nest.idCards[1].name = "("+c.data+")"
-    data.user = 'LodgeSkins'
-    data.id = 'fdg856csd3'
-  }, true)
-
-  c.newElm()
+  c._NEW_ELM()
 })()
 
 </script>

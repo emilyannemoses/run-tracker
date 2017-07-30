@@ -6,14 +6,14 @@ class Component {
     this.events = []
   }
 
-  newElm (that = this) {
+  _NEW_ELM (that = this) {
     let proto = Object.create(HTMLElement.prototype)
     const importDoc = document.currentScript.ownerDocument
     const template = importDoc.querySelector(that.id)
     that.htmlJS = new htmlJS
     proto.createdCallback = function () {
       that.root = this.attachShadow({ mode: 'open' })
-      let clone = document.importNode(template.content, true)
+      const clone = document.importNode(template.content, true)
       that.serveDir(this)
       for (const e of that.events) {
         let newEvent = clone.getElementById(e.id)
@@ -31,14 +31,14 @@ class Component {
       that.root = this.shadowRoot
       if (attrName === 'served' && this.getAttribute('served') !== 'undefined') {
         that.data = JSON.parse(this.getAttribute('served'))
-        if (that.onAttributeSetOrChange) {
-          that.onAttributeSetOrChange(attrName)
+        if (that._ON_SET) {
+          that._ON_SET(attrName)
         }
         that.htmlJS.update(that.data, that.root)
-      } else if (attrName === 'directory' && that.onAttributeSetOrChange && this.getAttribute('served') !== 'undefined') {
+      } else if (attrName === 'directory' && that._ON_SET && this.getAttribute('served') !== 'undefined') {
         that.directory = this.getAttribute('directory')
         that.data = JSON.parse(this.getAttribute('served'))
-        that.onAttributeSetOrChange(attrName)
+        that._ON_SET(attrName)
       }
     }
     if (!polyFillIncluded) {
@@ -50,7 +50,7 @@ class Component {
     }
   }
 
-  addEvent (type, id, method, update) {
+  _ADD_EVENT (type, id, method, update) {
     this.events.push( {'type': type, 'method': method, 'id': id, 'update': update} )
   }
 

@@ -205,7 +205,7 @@ tr:nth-child(even) {
 
 (( c = new Component('htmlJS-tag') )=>{
 
-  c.onAttributeSetOrChange = (attr)=>{
+  c._ON_SET = (attr)=>{
     c.data = {
       oldData: c.data,
       str: 'Hello Earthling!',
@@ -239,8 +239,8 @@ tr:nth-child(even) {
       list: []
     }
   }
-  
-  c.newElm()
+
+  c._NEW_ELM()
 })()
 
 

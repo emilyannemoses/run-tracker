@@ -94,10 +94,6 @@ button:hover {
 
 (( c = new Component('data-tag') )=>{
 
-  c.onAttributeSetOrChange = ()=> {
-    c.I('iName').focus()
-  }
-
   c.add = ()=>{
     data.nest.idCards.push({
       title: 'ID Card ' + (data.nest.idCards.length+1),
@@ -117,15 +113,16 @@ button:hover {
     c.I('iName').focus()
   }
 
-  c.addEvent('click', 'more', ()=>{
+  c._ADD_EVENT('click', 'more', ()=>{
     c.add()
   }, true)
 
-  c.addEvent('keypress', 'iHome', ()=>{
+  c._ADD_EVENT('keypress', 'iHome', ()=>{
     if (event.keyCode == 13) c.add()
   }, true)
 
-  c.newElm()
+
+  c._NEW_ELM()
 })()
 
 </script>

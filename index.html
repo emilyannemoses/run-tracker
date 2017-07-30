@@ -16,29 +16,29 @@
 </head>
 
 <body>
-  <page pageName="home" activePage='true'>
+  <MAINp pageName="home" activePage='true'>
     <navbar-tag serve="data.arr[0] data.newC"></navbar-tag>
     <navbar-tag serve="data.arr[1]"></navbar-tag>
     <navbar-tag serve="data.arr[2]"></navbar-tag>
-    <navPage pageName="landing" activePage='true'>
+    <NAVp pageName="landing" activePage='true'>
       <landing-tag serve="data"></landing-tag>
-    </navPage>
-    <navPage pageName="page2" > <h1> Page2 goes here... </h1> <br>
+    </NAVp>
+    <NAVp pageName="page2" > <h1> Page2 goes here... </h1> <br>
       <p> maybe average age and height? \n ... make seperate entries for ft/in </p>
-      <pageTwo pageName="p1" activePage='true'>p2 One</pageTwo>
-      <pageTwo pageName="p2"> p2 two </pageTwo>
-    </navPage>
-    <navPage pageName="data">
+      <ANOTHERp pageName="p1" activePage='true'>p2 One</ANOTHERp>
+      <ANOTHERp pageName="p2"> p2 two </ANOTHERp>
+    </NAVp>
+    <NAVp pageName="data">
       <data-tag serve="data"></data-tag>
-    </navPage>
-    <navPage pageName="htmlJS">
+    </NAVp>
+    <NAVp pageName="htmlJS">
       <htmlJS-tag serve="data.arr"></htmlJS-tag>
-    </navPage>
-  </page>
+    </NAVp>
+  </MAINp>
 
-  <page pageName="login" class="linen-background">
+  <MAINp pageName="login" class="linen-background">
     <login-tag></login-tag>
-  </page>
+  </MAINp>
 
   <footer-tag></footer-tag>
 </body>
@@ -46,12 +46,27 @@
 
 <!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / /
 //
-// html.js - RESERVED VAR NAMES
-// DOM attributes
+// html.js - RESERVED VAR NAMES && Naming conventions
+//
+// *** DOM attributes
 // - for
 // - var
 // - if
 // - is-clone
+// - serve
+// - served
+// - directory
+// - initial-innerhtml
+//
+// ** JS Vars
+// - data
+// -
+// ** Naming Conventions
+// Component html tags: <mycomponent-tag>
+//  - ALL lowercase. ALWAYS end with -tag
+// pages: <SPECIALp>
+//  - ALL capitals. ALWAYS end with p
+
 
 -->
 
