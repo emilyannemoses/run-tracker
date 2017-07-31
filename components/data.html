@@ -33,6 +33,12 @@ h4 {
   padding: 6px;
   background-color: rgba(30,0,0,0.2);
 }
+h5 {
+  margin: 0px;
+  margin-right: -18px;
+  font-size: 12px;
+  max-width: 50px;
+}
 button {
   margin: 10px 0px 10px;
   width: 300px;
@@ -68,18 +74,22 @@ button:hover {
     <button id='more'> Submit </button>
     <br><br>
     <table if='nest[idCards]'>
-      <tr for='v,k,i nest[idCards][0]'>
+      <tr id='labels' for='v,k,i nest[idCards][0]'>
         <th> k </th>
       </tr>
-      <tbody for='components nest.idCards'>
+      <tbody id='checkBoxes' for='components nest.idCards'>
         <tr>
           <td> components.title </td>
           <td> components.name </td>
           <td> components.last </td>
-          <td> components.age </td>
+          <td>
+            <!-- <input js-value="components.age"> -->
+            components.age
+          </td>
           <td> components.feet </td>
           <td> components.inches </td>
           <td> components.home </td>
+          <td> <input id='checker' type="checkbox"> </td>
         </tr>
       </tbody>
     </table>
@@ -94,6 +104,11 @@ button:hover {
 
 (( c = new Component('data-tag') )=>{
 
+  c._ON_SET = (attr)=>{
+    c.nameSwap()
+    c.setCheck()
+  }
+
   c.add = ()=>{
     data.nest.idCards.push({
       title: 'ID Card ' + (data.nest.idCards.length+1),
@@ -103,6 +118,7 @@ button:hover {
       feet: c.I('iFeet').value,
       inches: c.I('iInches').value,
       home: c.I('iHome').value,
+      show: 'false'
     })
     c.I('iName').value = ''
     c.I('iLast').value = ''
@@ -112,6 +128,34 @@ button:hover {
     c.I('iHome').value = ''
     c.I('iName').focus()
   }
+
+  c.nameSwap = ()=>{
+    let x = c.I('labels')
+    for (label of x.getElementsByTagName('th')) {
+      if (label.innerHTML === ' show ') {
+        label.innerHTML = '<h5> Show on <br> Landing? <h5>'
+      }
+    }
+  }
+
+  c.setCheck = ()=>{
+    let boxes = c.I('checkBoxes').getElementsByTagName('input')
+    for (i in boxes) {
+      const card = this.data.nest.idCards[i-1] ? this.data.nest.idCards[i-1] : false
+      if (card) {
+        boxes[i].chartIndex = i-1
+        if (card.show !== 'false') {
+          boxes[i].checked = true
+        }
+      }
+    }
+  }
+
+  c._ADD_EVENT('click', 'checkBoxes', ()=>{
+    const i = event.path[0].chartIndex
+    const checkboxStatus = event.path[0].checked === true ? 'true' : 'false'
+    data.nest.idCards[i].show = checkboxStatus
+  }, true)
 
   c._ADD_EVENT('click', 'more', ()=>{
     c.add()

@@ -13,7 +13,8 @@ var data = {
         age: '49',
         feet: '6',
         inches: '8',
-        home: 'Omaha, NE'
+        home: 'Omaha, NE',
+        show: 'true'
       },
       {
         title: 'ID Card 2',
@@ -22,7 +23,8 @@ var data = {
         age: '33',
         feet: '6',
         inches: '1',
-        home: 'Charleston, SC'
+        home: 'Charleston, SC',
+        show: 'true'
       },
       {
         title: 'ID Card 3',
@@ -31,7 +33,8 @@ var data = {
         age: '24',
         feet: '5',
         inches: '4',
-        home: 'Los Angles, CA'
+        home: 'Los Angles, CA',
+        show: 'true'
       }
     ]
   }

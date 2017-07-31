@@ -1,4 +1,4 @@
-class htmlJS {
+class HtmlJS {
 
   getTag (Obj, tag) { // Grabs All tags with 'tag' element
     const elm = this.root.querySelectorAll('['+tag+']')
@@ -54,6 +54,9 @@ class htmlJS {
   }
 
   ifJS (Obj, elm, ifVar) {
+    if (elm.hasAttribute('serve')) {
+      console.log('!!!', elm);
+    }
     let hide = false
     if (ifVar[0] === '!') { hide = this.hasDir(Obj, ifVar.split('!')[1])
     } else { hide = !this.hasDir(Obj, ifVar) }
@@ -68,7 +71,7 @@ class htmlJS {
         return false
       }
     }
-    return Obj.length > 0 ? true : false
+    return Obj.length > 0 && Obj !== 'false' ? true : false
   }
 
   getDir (Obj, jVar) { // Grab 'var' elm string. html var name = JS var
@@ -143,6 +146,28 @@ class htmlJS {
     this.getTag(updateData, 'var')
     this.getTag(updateData, 'for')
     this.getTag(updateData, 'if')
+    this.parseAttr(updateData, 'js-value')
+
+  }
+
+  parseAttr (data, attr) {
+    // OK
+    // OK
+    // OK
+    // Ok, so pretty much when forJs checkts innerHtml, fire this function with value instead of innerhtml...? DON"T NEED Storage var, cuz we have to create the actual .value
+    // which is nice.
+    // realized this is close BUT BUT BUT: it doesn't know who components is in components.age...?
+    // PROB need to be a sub function of  for...
+    // because only 'for' can tell us who components is...
+    // OK
+    // OK
+    // OK
+    const elm = this.root.querySelectorAll('['+attr+']')
+    for (let i = elm.length-1; i >= 0; i--) { // Loop through all tags with 'for' element. Needs to be in reverse cuz nested loops need to run first.
+      const hAttr = attr.split('js-')[1]
+      console.log(data, elm[i].getAttribute(attr));
+      elm[i].hAttr = this.getDir(data, elm[i].getAttribute(attr))
+    }
   }
 
 }
