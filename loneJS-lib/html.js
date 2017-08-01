@@ -1,5 +1,18 @@
 class HtmlJS {
 
+  constructor () {
+    this.jsAtts = [
+      'js-value'
+    ]
+  }
+
+  update (updateData, root) {
+    this.root = root
+    this.getTag(updateData, 'var')
+    this.getTag(updateData, 'for')
+    this.getTag(updateData, 'if')
+  }
+
   getTag (Obj, tag) { // Grabs All tags with 'tag' element
     const elm = this.root.querySelectorAll('['+tag+']')
     for (let i = elm.length-1; i >= 0; i--) { // Loop through all tags with 'for' element. Needs to be in reverse cuz nested loops need to run first.
@@ -28,7 +41,6 @@ class HtmlJS {
       jVar = this.getDir(Obj, jVar)
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
         const tag = elm.childNodes[j]
-        const content = elm.getAttribute('initial-innerhtml')
         if (tag.wholeText && tag.wholeText.split(/[\n\ ]/).filter(Boolean).length) {
           tag.nodeValue = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
         } // ^^^ takes text wrettin between tags and includes it.
@@ -36,7 +48,18 @@ class HtmlJS {
           tag.innerHTML = this.place(tag.innerHTML.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
         }
       }
+      //
+      // HERE!!!!
+      // this.parseAttr(updateData, 'js-value', tag)
+      // this.parseAttr(elm, val, key, ind, parent)
+      //
+      //
     }
+    // MAN... this should just go in GET TAG...
+    // this.parseAttr(elm, val, key, ind, parent)
+
+    console.log( elm, Obj);
+
   }
 
   forJS (Obj, elm, tags, [ node, parent ], [ val, key, ind ] = node.split(',')) {
@@ -48,19 +71,39 @@ class HtmlJS {
     for (const i in parent) { // Loop through all indices/keys within the Object
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
         const tag = elm.childNodes[j]
-        if (tag.contentEditable) this.valueTypes(elm, i, tag, val, key, ind, parent) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+        if (tag.contentEditable) {
+          this.valueTypes(elm, i, tag, val, key, ind, parent) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+        }
       }
     }
+    // MAN... this should just go in GET TAG...
+    this.parseAttr(elm, val, key, ind, parent)
   }
 
   ifJS (Obj, elm, ifVar) {
-    if (elm.hasAttribute('serve')) {
-      console.log('!!!', elm);
-    }
     let hide = false
     if (ifVar[0] === '!') { hide = this.hasDir(Obj, ifVar.split('!')[1])
     } else { hide = !this.hasDir(Obj, ifVar) }
     hide ? elm.style.display = 'none' : elm.style.display = ''
+  }
+
+
+  parseAttr (elm, val, key, ind, jVal, textArr) {
+    console.log(elm, val, key, ind, jVal);
+    for (const att of this.jsAtts) {
+      let elms = elm.querySelectorAll('['+att+']')
+      for (var i = 0; i < elms.length-1; i++) {
+      // for (const tag of elm.querySelectorAll('['+att+']')) {
+        let tag = elms[i+1]
+        let startArr = tag.getAttribute(att).split(/[\n\ ]/)
+        // !!!!! make func??????
+        if (val) textArr = this.place(startArr, val, jVal[i]) // here's where the InnerHTML text is swapped to match JS variables.
+        if (key) textArr = this.place(startArr, key, i)
+        if (ind) textArr = this.place(startArr, ind, Object.keys(jVal).indexOf(i))
+        // !!!!! make func??????
+        tag[att.split('js-')[1]] = textArr
+      }
+    }
   }
 
   hasDir (Obj, jVar) {
@@ -139,35 +182,6 @@ class HtmlJS {
     }
     parent.appendChild(child)
     child.style.display = ''
-  }
-
-  update (updateData, root) {
-    this.root = root
-    this.getTag(updateData, 'var')
-    this.getTag(updateData, 'for')
-    this.getTag(updateData, 'if')
-    this.parseAttr(updateData, 'js-value')
-
-  }
-
-  parseAttr (data, attr) {
-    // OK
-    // OK
-    // OK
-    // Ok, so pretty much when forJs checkts innerHtml, fire this function with value instead of innerhtml...? DON"T NEED Storage var, cuz we have to create the actual .value
-    // which is nice.
-    // realized this is close BUT BUT BUT: it doesn't know who components is in components.age...?
-    // PROB need to be a sub function of  for...
-    // because only 'for' can tell us who components is...
-    // OK
-    // OK
-    // OK
-    const elm = this.root.querySelectorAll('['+attr+']')
-    for (let i = elm.length-1; i >= 0; i--) { // Loop through all tags with 'for' element. Needs to be in reverse cuz nested loops need to run first.
-      const hAttr = attr.split('js-')[1]
-      console.log(data, elm[i].getAttribute(attr));
-      elm[i].hAttr = this.getDir(data, elm[i].getAttribute(attr))
-    }
   }
 
 }

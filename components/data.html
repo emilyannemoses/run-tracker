@@ -77,15 +77,14 @@ button:hover {
       <tr id='labels' for='v,k,i nest[idCards][0]'>
         <th> k </th>
       </tr>
+      <input js-value="nest.idCards[1].name"/>
+
       <tbody id='checkBoxes' for='components nest.idCards'>
         <tr>
           <td> components.title </td>
           <td> components.name </td>
           <td> components.last </td>
-          <td>
-            <!-- <input js-value="components.age"> -->
-            components.age
-          </td>
+          <td> <input js-value="components.age"/> </td>
           <td> components.feet </td>
           <td> components.inches </td>
           <td> components.home </td>
@@ -126,7 +125,7 @@ button:hover {
     c.I('iFeet').value = ''
     c.I('iInches').value = ''
     c.I('iHome').value = ''
-    c.I('iName').focus()
+    // c.I('iName').focus()
   }
 
   c.nameSwap = ()=>{
@@ -139,6 +138,8 @@ button:hover {
   }
 
   c.setCheck = ()=>{
+    // !!!
+    // messes up because you count entry inputs as well!
     let boxes = c.I('checkBoxes').getElementsByTagName('input')
     for (i in boxes) {
       const card = this.data.nest.idCards[i-1] ? this.data.nest.idCards[i-1] : false

@@ -30,7 +30,7 @@ content {
     }
   }
 
-  c.onAttributeSetOrChange = ()=>{ c.resetFooter() }
+  c._ON_SET = (attr)=>{ c.resetFooter() }
   window.onload = function(){ c.resetFooter() }
   window.onresize = function(){ c.resetFooter() }
 
