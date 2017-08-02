@@ -37,47 +37,49 @@ class HtmlJS {
 
   varJS (Obj, elm, tags, arrVar) {
     for (const vLen of arrVar) {
-      let [ hVar, jVar ] = vLen.split(' ').filter(Boolean)
-      jVar = this.getDir(Obj, jVar)
+      let [ val, data ] = vLen.split(' ').filter(Boolean)
+      data = this.getDir(Obj, data)
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
         const tag = elm.childNodes[j]
         if (tag.wholeText && tag.wholeText.split(/[\n\ ]/).filter(Boolean).length) {
-          tag.nodeValue = this.place(tag.textContent.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+          tag.nodeValue = this.place(tag.textContent.split(/[\n\ ]/), val, data).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
         } // ^^^ takes text wrettin between tags and includes it.
         if (tag.contentEditable) { // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
-          tag.innerHTML = this.place(tag.innerHTML.split(/[\n\ ]/), hVar, jVar).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
+          tag.innerHTML = this.place(tag.innerHTML.split(/[\n\ ]/), val, data).join(' ') // here's where the InnerHTML text is swapped to match JS variables.
         }
       }
-      //
-      // HERE!!!!
-      // this.parseAttr(updateData, 'js-value', tag)
-      // this.parseAttr(elm, val, key, ind, parent)
-      //
-      //
-    }
-    // MAN... this should just go in GET TAG...
-    // this.parseAttr(elm, val, key, ind, parent)
+      // this.parseAttr(elm, val, null, null, data )
+      // parseAttr (elm, val, key, ind, jVal, textArr) {
+      for (const att of this.jsAtts) {
+        let elms = elm.querySelectorAll('['+att+']')
+        // let iData = []
+        for (var i = 0; i < elms.length; i++) {
+          let [ tag, iData, arr, jsVar, multi ] = [ elms[i], [ data ], [], [], false ]
+          // if (tag[att.split('js-')[1]]) {
+          //   arr = tag[att.split('js-')[1]].split(/[\n\ ]/)
+          //   jsVar = tag[att.split('js-')[1]].split(/[\n\ ]/)
+          //
+          //   multi = true
+          //   console.log('multi, arr: ', arr)
+          // } else {
+          //   arr = tag.getAttribute(att).split(/[\n\ ]/)
+          //   jsVar = tag.getAttribute(att).split(/[\n\ ]/).join(' ')
+          //
+          //   console.log('first, arr: ', arr)
+          // }
+          arr = tag.getAttribute(att).split(/[\n\ ]/)
+          jsVar = tag.getAttribute(att).split(/[\n\ ]/).join(' ')
 
-    console.log( elm, Obj);
+          const textArr = this.valueTypes(elm, 0, tag, val, null, null, iData, arr) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+          if (textArr.join(' ') !== jsVar && !multi) {
+            console.log('textArr: ', textArr)
+            tag[att.split('js-')[1]] = textArr.join(' ')
+            tag.setAttribute(att, textArr.join(' '))
 
-  }
-
-  forJS (Obj, elm, tags, [ node, parent ], [ val, key, ind ] = node.split(',')) {
-    parent = this.getDir(Obj, parent)
-    for (let child of elm.querySelectorAll(':scope > [is-clone]')) {
-      elm.removeChild(child) // REMOVES all cloned elements from any previously loaded Doms.
-    }
-    tags = elm.childNodes.length
-    for (const i in parent) { // Loop through all indices/keys within the Object
-      for (let j = 0; j < tags; j++) { // loop through all tags within element.
-        const tag = elm.childNodes[j]
-        if (tag.contentEditable) {
-          this.valueTypes(elm, i, tag, val, key, ind, parent) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+          }
         }
       }
     }
-    // MAN... this should just go in GET TAG...
-    this.parseAttr(elm, val, key, ind, parent)
   }
 
   ifJS (Obj, elm, ifVar) {
@@ -87,24 +89,77 @@ class HtmlJS {
     hide ? elm.style.display = 'none' : elm.style.display = ''
   }
 
-
-  parseAttr (elm, val, key, ind, jVal, textArr) {
-    console.log(elm, val, key, ind, jVal);
+  forJS (Obj, elm, tags, [ node, data ], [ val, key, ind ] = node.split(',')) {
+    data = this.getDir(Obj, data)
+    for (let child of elm.querySelectorAll(':scope > [is-clone]')) {
+      elm.removeChild(child) // REMOVES all cloned elements from any previously loaded Doms.
+    }
+    tags = elm.childNodes.length
+    for (const i in data) { // Loop through all indices/keys within the Object
+      for (let j = 0; j < tags; j++) { // loop through all tags within element.
+        const tag = elm.childNodes[j]
+        if (tag.contentEditable) {
+          const arr = tag.innerHTML.split(/[\n\ ]/)
+          const textArr = this.valueTypes(elm, i, tag, val, key, ind, data, arr) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
+          if (this.showAtIndices(tag, i, data)) { // returns bool, if in the HTML indices attribute declares we shouldn't show this..
+            this.newTag(elm, tag, textArr.join(' '), i)
+            tag.style.display = 'none'
+          }
+        }
+      }
+    }
+    // this.parseAttr(elm, val, key, ind, data)
     for (const att of this.jsAtts) {
       let elms = elm.querySelectorAll('['+att+']')
       for (var i = 0; i < elms.length-1; i++) {
-      // for (const tag of elm.querySelectorAll('['+att+']')) {
         let tag = elms[i+1]
-        let startArr = tag.getAttribute(att).split(/[\n\ ]/)
+        let arr = tag.getAttribute(att).split(/[\n\ ]/)
+
+        const textArr = this.valueTypes(elm, i, tag, val, key, ind, data, arr) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
         // !!!!! make func??????
-        if (val) textArr = this.place(startArr, val, jVal[i]) // here's where the InnerHTML text is swapped to match JS variables.
-        if (key) textArr = this.place(startArr, key, i)
-        if (ind) textArr = this.place(startArr, ind, Object.keys(jVal).indexOf(i))
+        // if (val) textArr = this.place(startArr, val, data[i])
+        // if (key) textArr = this.place(startArr, key, i)
+        // if (ind) textArr = this.place(startArr, ind, Object.keys(jVal).indexOf(i))
         // !!!!! make func??????
-        tag[att.split('js-')[1]] = textArr
+
+        tag[att.split('js-')[1]] = textArr.join(' ')
+
       }
     }
   }
+
+  valueTypes (elm, i, tag, val, key, ind, data, startArr, arr) {
+    // console.log('data[i], data.length: ',data[i], data.length)
+    // console.log('data[i]: ',data[i])
+    if (val) arr = this.place(startArr, val, data[i]) // here's where the InnerHTML text is swapped to match JS variables.
+    if (key) arr = this.place(startArr, key, i)
+    if (ind) arr = this.place(startArr, ind, Object.keys(data).indexOf(i))
+    // if (this.showAtIndices(tag, i, data)) { // returns bool, if in the HTML indices attribute declares we shouldn't show this..
+    //   this.newTag(elm, tag, textArr.join(' '), i)
+    //   tag.style.display = 'none'
+    // }
+    return arr
+  }
+
+
+  // parseAttr (elm, val, key, ind, jVal, textArr) {
+  //
+  //   for (const att of this.jsAtts) {
+  //     let elms = elm.querySelectorAll('['+att+']')
+  //     if (elms.length) {
+  //       //elms[1] = elms[0]
+  //       //console.log('elms[1]: ',elms[1])
+  //       let startArr = elms[0].getAttribute(att).split(/[\n\ ]/)
+  //       // !!!!! make func??????
+  //       if (val) textArr = this.place(startArr, val, jVal) // here's where the InnerHTML text is swapped to match JS variables.
+  //       if (key) textArr = this.place(startArr, key, i)
+  //       if (ind) textArr = this.place(startArr, ind, Object.keys(jVal).indexOf(i))
+  //       // !!!!! make func??????
+  //       elms[0][att.split('js-')[1]] = textArr.join(' ')
+  //
+  //     }
+  //   }
+  // }
 
   hasDir (Obj, jVar) {
     for (const p of jVar.split(/[.\[\]]/).filter(Boolean)) {
@@ -120,17 +175,6 @@ class HtmlJS {
   getDir (Obj, jVar) { // Grab 'var' elm string. html var name = JS var
     for (const p of jVar.split(/[.\[\]]/).filter(Boolean)) Obj = Obj[p]
     return Obj
-  }
-
-  valueTypes (elm, i, tag, val, key, ind, jVal, textArr) {
-    const startArr = tag.innerHTML.split(/[\n\ ]/)
-    if (val) textArr = this.place(startArr, val, jVal[i]) // here's where the InnerHTML text is swapped to match JS variables.
-    if (key) textArr = this.place(startArr, key, i)
-    if (ind) textArr = this.place(startArr, ind, Object.keys(jVal).indexOf(i))
-    if (this.showAtIndices(tag, i, jVal)) { // returns bool, if in the HTML indices attribute declares we shouldn't show this..
-      this.newTag(elm, tag, textArr.join(' '), i)
-      tag.style.display = 'none'
-    }
   }
 
   place (arr, key, jVal) {

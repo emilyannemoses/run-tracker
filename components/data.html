@@ -77,14 +77,25 @@ button:hover {
       <tr id='labels' for='v,k,i nest[idCards][0]'>
         <th> k </th>
       </tr>
-      <input js-value="nest.idCards[1].name"/>
+      <div var='x nest.idCards[1].name, y nest.idCards[1].last, z nest.idCards[1].age'>
+        <input js-value="x ...more"/>
+        <input js-value="y ...and more"/>
+        <input js-value="z ...and and more"/>
+        <input js-value="x y z "/>
+        <div>
+          test x y z
+        </div>
+
+      </div>
+      </div>
+      <input var='y nest.idCards[1].name' js-value="y ...and more"/>
 
       <tbody id='checkBoxes' for='components nest.idCards'>
         <tr>
           <td> components.title </td>
           <td> components.name </td>
           <td> components.last </td>
-          <td> <input js-value="components.age"/> </td>
+          <td> <input js-value="components.age and more..."/> </td>
           <td> components.feet </td>
           <td> components.inches </td>
           <td> components.home </td>
