@@ -1,7 +1,7 @@
 class HtmlJS {
 
   constructor () {
-    this.jsAtts = [ 'value', 'checked', 'name', 'key', 'placeholder', 'if' ],
+    this.jsAtts = [ 'value', 'checked', 'name', 'key', 'placeholder' ],
     this.jsBoolAtts = [ 'checked' ]
   }
 
@@ -29,7 +29,7 @@ class HtmlJS {
       switch (tag) {
         case 'var': this.varJS(Obj, elm[i], tags, txt.split(',')); break
         case 'for': this.forJS(Obj, elm[i], tags, txt.split(' ')); break
-        case 'if': this.ifJS(Obj, elm[i], txt); break
+        case 'if': this.ifJS(Obj, elm[i], txt, true); break
       }
       for (const att of this.jsBoolAtts) {
         let atts = elm[i].querySelectorAll('['+att+']')
@@ -48,6 +48,24 @@ class HtmlJS {
         }
       }
     }
+  }
+
+  ifJS (Obj, elm, ifVar, topLevel) {
+    if (!elm.hasAttribute('if-passed')) {
+      let hide = false
+      if (ifVar[0] === '!') { hide = this.hasDir(Obj, ifVar.split('!')[1])
+      } else { hide = !this.hasDir(Obj, ifVar) }
+      if (!hide || (hide && ifVar.split('!')[1])) {
+        const attr = document.createAttribute('if-passed')
+        attr.value = 'true'
+        elm.setAttributeNode(attr)
+      }
+      hide ? elm.style.display = 'none' : elm.style.display = ''
+    }
+    // let hide = false
+    // if (ifVar[0] === '!') { hide = this.hasDir(Obj, ifVar.split('!')[1])
+    // } else { hide = !this.hasDir(Obj, ifVar) }
+    // hide ? elm.style.display = 'none' : elm.style.display = ''
   }
 
   varJS (Obj, elm, tags, arrVar) {
@@ -99,7 +117,6 @@ class HtmlJS {
     }
     tags = elm.childNodes.length
     for (const i in data) { // Loop through all indices/keys within the Object
-      // this.forJSNest(Obj, elm, i, data, val, key, ind, elm)
       for (let j = 0; j < tags; j++) { // loop through all tags within element.
         const tag = elm.childNodes[j]
         if (tag.contentEditable) {
@@ -112,42 +129,6 @@ class HtmlJS {
         }
       }
     }
-  }
-
-  // forJSNest (Obj, elm, i, data, val, key, ind, par) {
-  //   // for (let j = 0; j < tags; j++) { // loop through all tags within element.
-  //
-  //     const ln = elm.childNodes.length
-  //     if (ln > 1) {
-  //       for (var j = 0; j < ln; j++) {
-  //         const child = elm.childNodes[j]
-  //         this.forJSNest(Obj, child, i, data, val, key, ind, par)
-  //       }
-  //     }
-  //     else {
-  //       const tag = elm
-  //       // console.log('i: ', i, val, key, ind)
-  //
-  //       if (tag.contentEditable) {
-  //         const arr = tag.innerHTML.split(/[\n\ ]/)
-  //         const textArr = this.valueTypes(i, data, arr, val, key, ind) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
-  //         if (this.showAtIndices(tag, i, data)) { // returns bool, if in the HTML indices attribute declares we shouldn't show this..
-  //           this.newTag(par, tag, arr.join(' '), i, data, val, key, ind)
-  //           tag.style.display = 'none'
-  //         }
-  //       }
-  //       // else if (tag.wholeText) {
-  //       //   console.log('not editable', tag)
-  //       // }
-  //     }
-  //   // }
-  // }
-
-  ifJS (Obj, elm, ifVar) {
-    let hide = false
-    if (ifVar[0] === '!') { hide = this.hasDir(Obj, ifVar.split('!')[1])
-    } else { hide = !this.hasDir(Obj, ifVar) }
-    hide ? elm.style.display = 'none' : elm.style.display = ''
   }
 
   valueTypes (i, data, startArr, val, key, ind, arr) {
@@ -220,16 +201,19 @@ class HtmlJS {
       const dir = this.getDir(data, parent.getAttribute('for').split(' ')[1])
       child.setAttribute('served', JSON.stringify(dir[i]))
     }
+    const allIfs = child.querySelectorAll('[if]')
+    for (const ifs of allIfs) {
+      const dBack = {}; dBack[val] = ldata[i]
+      this.ifJS(dBack, ifs, ifs.getAttribute('if'))
+    }
     for (const att of this.jsAtts) {
       if (child.hasAttribute(att)) {
         let arr = child.getAttribute(att).split(/[\n\ ]/)
         const textArr = this.valueTypes(i, ldata, arr, val, key, ind) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
-        // child[att] = textArr.join(' ')
         child.setAttribute(att, textArr.join(' '))
       }
     }
     parent.appendChild(child)
     child.style.display = ''
   }
-
 }

@@ -90,8 +90,8 @@ button:hover {
           <td> idCard.name </td>
           <td> idCard.last </td>
           <td>
-            <p if="idCard.edit"> idCard.edit </p>
-            <p if="!idCard.edit"> idCard.age </p>
+            <p if="!idCard.edit"> NO idCard.age </p>
+            <p if="idCard.edit"> idCard.age </p>
           </td>
           <td key="i" name="feet"> idCard.feet </td>
           <td key="i" name="inches"> idCard.inches </td>
@@ -158,7 +158,7 @@ button:hover {
     if (name === "edit") {
       console.log(key, name, data.nest.idCards[key])
       data.nest.idCards[key][name] = 'true'
-
+      console.log(data.nest.idCards[key])
     }
     if (name === "show") {
       const checkBoxStatus = event.path[0].checked === true ? 'true' : 'false'
