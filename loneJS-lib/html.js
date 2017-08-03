@@ -1,7 +1,7 @@
 class HtmlJS {
 
   constructor () {
-    this.jsAtts = [ 'value', 'checked', 'name', 'key', 'placeholder' ],
+    this.jsAtts = [ 'value', 'checked', 'name', 'key', 'placeholder', 'if' ],
     this.jsBoolAtts = [ 'checked' ]
   }
 
