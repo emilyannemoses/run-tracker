@@ -24,7 +24,8 @@ var data = {
         feet: '6',
         inches: '1',
         home: 'Charleston, SC',
-        show: 'true'
+        show: 'true',
+        edit: 'true'
       },
       {
         title: 'ID Card 3',

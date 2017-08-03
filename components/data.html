@@ -56,6 +56,12 @@ button:hover {
   margin-top: 2px;
   margin-left: 0.5px;
 }
+.eBut {
+  width: 50px;
+  margin-right: -10px;
+  background-color: rgba(150,20,20, 0.3);
+  border-radius: 3px;
+}
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
@@ -73,39 +79,47 @@ button:hover {
     <input id='iHome' placeholder="city of residence ..."/> <br>
     <button id='more'> Submit </button>
     <br><br>
+
     <table if='nest[idCards]'>
-      <tr id='labels' for='v,k,i nest[idCards][0]'>
+      <tr id='labels' for='v,k,i nest[idCardsLables]'>
         <th> k </th>
       </tr>
-      <div var='x nest.idCards[1].name, y nest.idCards[1].last, z nest.idCards[1].age'>
-        <input js-value="x ...more"/>
-        <input js-value="y ...and more"/>
-        <input js-value="z ...and and more"/>
-        <input js-value="x y z "/>
-        <div>
-          test x y z
-        </div>
-
-      </div>
-      </div>
-      <input var='y nest.idCards[1].name' js-value="y ...and more"/>
-
-      <tbody id='checkBoxes' for='components nest.idCards'>
+      <tbody id='checkBoxes' for='idCard,i nest.idCards'>
         <tr>
-          <td> components.title </td>
-          <td> components.name </td>
-          <td> components.last </td>
-          <td> <input js-value="components.age and more..."/> </td>
-          <td> components.feet </td>
-          <td> components.inches </td>
-          <td> components.home </td>
-          <td> <input id='checker' type="checkbox"> </td>
+          <td> idCard.title </td>
+          <td> idCard.name </td>
+          <td> idCard.last </td>
+          <td>
+            <p if="idCard.edit"> idCard.edit </p>
+            <!-- <p if="!idCard.edit"> idCard.age </p> -->
+            <!-- <input style='width: 30px;' placeholder="idCard.age"> -->
+          </td>
+          <td key="i" name="feet"> idCard.feet </td>
+          <td key="i" name="inches"> idCard.inches </td>
+          <td> idCard.home </td>
+          <td style="max-width: 30px; padding-left: 25px;">
+            <input key="i" name="show" type="checkbox" checked="idCard.show">
+          </td>
+          <td>
+            <button key="i" class='eBut' name="edit"> Edit </button>
+          </td>
         </tr>
       </tbody>
     </table>
     <p if='nest.idCards'> <em> * You can also hit </em><strong>[enter]</strong><em> to add </em> </p>
     <p if='!nest.idCards'> <em> ! No data Avilalbe ! </em><br> Fill out form to add Data  </p>
     <br>
+
+    <!-- <div var='x nest.idCards[1].name, y nest.idCards[1].last, z nest.idCards[1].age, s nest.idCards'>
+      <div>
+        <input value="x ...more"/>
+        <input value="y ...and more"/>
+        <input value="z ...and and more"/>
+        <input value="x y z "/>
+        <br>
+      </div>
+    </div> -->
+
   </div>
 </content>
 </template>
@@ -115,8 +129,8 @@ button:hover {
 (( c = new Component('data-tag') )=>{
 
   c._ON_SET = (attr)=>{
-    c.nameSwap()
-    c.setCheck()
+    data.nest.idCardsLables = data.nest.idCards[0]
+    c.update()
   }
 
   c.add = ()=>{
@@ -128,7 +142,7 @@ button:hover {
       feet: c.I('iFeet').value,
       inches: c.I('iInches').value,
       home: c.I('iHome').value,
-      show: 'false'
+      show: 'true'
     })
     c.I('iName').value = ''
     c.I('iLast').value = ''
@@ -136,37 +150,22 @@ button:hover {
     c.I('iFeet').value = ''
     c.I('iInches').value = ''
     c.I('iHome').value = ''
-    // c.I('iName').focus()
-  }
-
-  c.nameSwap = ()=>{
-    let x = c.I('labels')
-    for (label of x.getElementsByTagName('th')) {
-      if (label.innerHTML === ' show ') {
-        label.innerHTML = '<h5> Show on <br> Landing? <h5>'
-      }
-    }
-  }
-
-  c.setCheck = ()=>{
-    // !!!
-    // messes up because you count entry inputs as well!
-    let boxes = c.I('checkBoxes').getElementsByTagName('input')
-    for (i in boxes) {
-      const card = this.data.nest.idCards[i-1] ? this.data.nest.idCards[i-1] : false
-      if (card) {
-        boxes[i].chartIndex = i-1
-        if (card.show !== 'false') {
-          boxes[i].checked = true
-        }
-      }
-    }
+    c.I('iName').focus()
   }
 
   c._ADD_EVENT('click', 'checkBoxes', ()=>{
-    const i = event.path[0].chartIndex
-    const checkboxStatus = event.path[0].checked === true ? 'true' : 'false'
-    data.nest.idCards[i].show = checkboxStatus
+    let key = parseInt(event.path[0].getAttribute('key'))
+    let name = event.path[0].getAttribute('name')
+    if (name === "edit") {
+      console.log(key, name, data.nest.idCards[key])
+      data.nest.idCards[key][name] = 'true'
+
+    }
+    if (name === "show") {
+      const checkBoxStatus = event.path[0].checked === true ? 'true' : 'false'
+      data.nest.idCards[key][name]= checkBoxStatus
+    }
+
   }, true)
 
   c._ADD_EVENT('click', 'more', ()=>{
