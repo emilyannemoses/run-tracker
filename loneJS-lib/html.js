@@ -197,7 +197,7 @@ class HtmlJS {
     child.setAttributeNode(attr)
     child.innerHTML = innerHTML
     if (child.hasAttribute('serve')){
-      const dir = this.getDir(data, parent.getAttribute('for').split(' ')[1])
+      const dir = this.getDir(_DATA, parent.getAttribute('for').split(' ')[1])
       child.setAttribute('served', JSON.stringify(dir[i]))
     }
     const allIfs = child.querySelectorAll('[if]')

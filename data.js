@@ -1,4 +1,4 @@
-var data = {
+var _DATA = {
   newC: 'multi-data',
   arr: [ 'A', 'B', 'C' ],
   landingPageTitle: 'Landing Page',
@@ -32,7 +32,7 @@ var data = {
         last: 'Dank',
         age: '24',
         ft: '5',
-        in: '4',
+        in: '1',
         home: 'Los Angles, CA',
         show: 'true'
       }

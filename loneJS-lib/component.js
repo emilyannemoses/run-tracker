@@ -15,7 +15,7 @@
   }
 })()
 
-var componentsStoredGlobally = []
+var _COMPONENTS_STORED_GLOBALLY = []
 
 class Component {
 
@@ -60,7 +60,7 @@ class Component {
       }
 
     }
-    if (!polyFillIncluded) {
+    if (!_POLYFILL_INCLUDED) {
       document.registerElement(that.tag, {prototype: proto})
     } else {
       window.addEventListener('WebComponentsReady', (e)=>{
@@ -73,12 +73,12 @@ class Component {
     this.events.push( {'type': type, 'method': method, 'id': id, 'update': update} )
   }
 
-  getDir (obj, dir, mDir = dir.split(' '), oObj = { 'data': obj }, mObj = []) {
+  getDir (obj, dir, mDir = dir.split(' '), oObj = { '_DATA': obj }, mObj = []) {
     if (mDir.length > 1) {
       for (const i in mDir) {
         for (const p of mDir[i].split(/[.\[\]]/).filter(Boolean)) oObj = oObj[p]
         mObj.push(oObj)
-        oObj = { 'data': obj }
+        oObj = { '_DATA': obj }
       }
       oObj = mObj
     } else {
@@ -88,10 +88,10 @@ class Component {
   }
 
   update () {
-    for (const component of componentsStoredGlobally) {
+    for (const component of _COMPONENTS_STORED_GLOBALLY) {
       if (component.hasAttribute('serve')) {
         const serve = component.getAttribute('serve')
-        component.setAttribute('served', JSON.stringify(this.getDir(data, serve)))
+        component.setAttribute('served', JSON.stringify(this.getDir(_DATA, serve)))
       }
     }
   }
@@ -99,13 +99,13 @@ class Component {
   serveDir (that) {
     if (that.hasAttribute('serve')) {
       let served = document.createAttribute('served')
-      served.value = JSON.stringify(this.getDir(data, that.getAttribute('serve')))
+      served.value = JSON.stringify(this.getDir(_DATA, that.getAttribute('serve')))
       that.setAttributeNode(served)
     }
     let pageStatus = document.createAttribute('directory')
     pageStatus.value = window.location.hash.split('#')[1]
     that.setAttributeNode(pageStatus)
-    componentsStoredGlobally.push(that)
+    _COMPONENTS_STORED_GLOBALLY.push(that)
 
   }
 

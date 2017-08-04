@@ -35,11 +35,11 @@
     <div id='title'> --- Static Title </Div>
     <div>
       <button id="page2" style="border-color: rgba(100,0,0,0.3);"
-        onclick="pageSet('home/page2')"> Page 2 </button>
+        onclick="_PAGE_SET('home/page2')"> Page 2 </button>
       <button id="data" style="border-color: rgba(0,100,0,0.3);"
-        onclick="pageSet('home/data')"> Data </button>
+        onclick="_PAGE_SET('home/data')"> Data </button>
       <button id="login" style="border-color: rgba(0,0,100,0.3);"
-        onclick="pageSet('home/htmlJS')">html.js</button>
+        onclick="_PAGE_SET('home/htmlJS')">html.js</button>
     </div>
     <span> User: </span>
     <input id="user" placeholder="Not Set...">
@@ -49,10 +49,10 @@
   <div if='nest.idCards' for='card nest.idCards'>
     <id-card-tag serve="card"></id-card-tag>
   </div>
-  <!-- <id-card-tag serve="data.nest.idCards[0]"></id-card-tag>
-  <id-card-tag serve="data.nest.idCards[1]"></id-card-tag>
-  <id-card-tag serve="data.nest.idCards[2]"></id-card-tag>
-  <id-card-tag serve="data.nest.idCards[1]"></id-card-tag> -->
+  <id-card-tag serve="_DATA.nest.idCards[0]"></id-card-tag>
+  <id-card-tag serve="_DATA.nest.idCards[1]"></id-card-tag>
+  <id-card-tag serve="_DATA.nest.idCards[2]"></id-card-tag>
+  <id-card-tag serve="_DATA.nest.idCards[1]"></id-card-tag>
 
 </content>
 </template>
@@ -70,8 +70,8 @@
   }
 
   c._ADD_EVENT('click', 'login', ()=>{
-    data.user = 'lippy66'
-    data.id = '3ofjaksdf'
+    _DATA.user = 'lippy66'
+    _DATA.id = '3ofjaksdf'
   }, true)
 
   c._NEW_ELM()

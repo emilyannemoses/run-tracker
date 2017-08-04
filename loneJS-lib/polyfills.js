@@ -1,4 +1,4 @@
-var polyFillIncluded = false;
+var _POLYFILL_INCLUDED = false;
 
 (()=>{
   if ('registerElement' in document
@@ -7,12 +7,12 @@ var polyFillIncluded = false;
     console.log('No Polyfill needed for this browser')
   } else {
     console.log('*** Webcomponents Polyfill needed for this browser ***')
-    polyFillIncluded = true
+    _POLYFILL_INCLUDED = true
     var e = document.createElement('script');
-    e.src = 'bower_components/webcomponentsjs/webcomponents-lite.js';
+    e.src = 'loneJS-lib/bower_components/webcomponentsjs/webcomponents-lite.js';
     document.getElementsByTagName('head')[0].appendChild(e);
     var e2 = document.createElement('script');
-    e2.src = 'bower_components/document-register-element/build/document-register-element.js';
+    e2.src = 'loneJS-lib/bower_components/document-register-element/build/document-register-element.js';
     document.getElementsByTagName('head')[0].appendChild(e2);
   }
 })()

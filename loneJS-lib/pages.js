@@ -1,27 +1,27 @@
-var oldHash = window.location.hash.split('#')[1]
+var _OLD_HASH = window.location.hash.split('#')[1]
 
 document.onreadystatechange = ()=>{
   if (document.readyState === 'complete') {
-    pageSet(window.location.hash.split('#')[1], true)
+    _PAGE_SET(window.location.hash.split('#')[1], true)
   }
 }
 
-pageSet = (dir, initial, hash = '')=>{
+_PAGE_SET = (dir, initial, hash = '')=>{
   event.preventDefault()
   let active = document.querySelectorAll('[activePage]')
-  for (page of active) pageDisplay(page.getAttribute('pageName'))
+  for (page of active) _PAGE_Display(page.getAttribute('pageName'))
   if (dir) {
     for (page of dir.split('/')) {
-      pageDisplay(page)
+      _PAGE_Display(page)
       hash += '/' + page
     }
-    oldHash = hash.slice(1)
+    _OLD_HASH = hash.slice(1)
     window.location.href = '#' + hash.slice(1)
-    if (!initial) updateComponents(hash)
+    if (!initial) _UPDATE_COMPONENTS(hash)
   }
 }
 
-pageDisplay = (page)=>{
+_PAGE_Display = (page)=>{
   pageGroup = document.querySelector("[pageName='"+page+"']")
   pages = document.getElementsByTagName(pageGroup.tagName)
   for (var i = 0; i < pages.length; i++) { // iOS does not like (i of arr) here... for some reason
@@ -33,15 +33,15 @@ pageDisplay = (page)=>{
   }
 }
 
-updateComponents = (hash)=>{
-  for (const component of componentsStoredGlobally) {
+_UPDATE_COMPONENTS = (hash)=>{
+  for (const component of _COMPONENTS_STORED_GLOBALLY) {
     component.setAttribute('directory', hash)
   }
 }
 
 window.onhashchange = function() {
   const hash = window.location.hash.split('#')[1]
-  if (oldHash !== hash) pageSet(hash)
+  if (_OLD_HASH !== hash) _PAGE_SET(hash)
 }
 
-goBack = ()=>{ window.history.back() }
+_GO_BACK = ()=>{ window.history.back() }

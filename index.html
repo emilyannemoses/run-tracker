@@ -10,27 +10,29 @@
   <link rel="import" href="components/htmlJS.html">
   <link rel="import" href="components/footer.html">
   <link rel="import" href="components/login.html">
+  <link rel="import" href="components/page2.html">
+
 
 </head>
 
 <body>
   <MAINp pageName="home" activePage='true'>
-    <navbar-tag serve="data.arr[0] data.newC"></navbar-tag>
-    <!-- <navbar-tag serve="data.arr[1]"></navbar-tag>
-    <navbar-tag serve="data.arr[2]"></navbar-tag> -->
+    <navbar-tag serve="_DATA.arr[0] _DATA.newC"></navbar-tag>
+    <navbar-tag serve="_DATA.arr[1]"></navbar-tag>
+    <navbar-tag serve="_DATA.arr[2]"></navbar-tag>
     <NAVp pageName="landing" activePage='true'>
-      <landing-tag serve="data"></landing-tag>
+      <landing-tag serve="_DATA"></landing-tag>
     </NAVp>
-    <NAVp pageName="page2" > <h1> Page2 goes here... </h1> <br>
-      <p> maybe average age and height? \n ... make seperate entries for ft/in </p>
+    <NAVp pageName="page2" >
+      <page2-tag serve='_DATA.nest.idCards'></page2-tag> <br>
       <ANOTHERp pageName="p1" activePage='true'>p2 One</ANOTHERp>
       <ANOTHERp pageName="p2"> p2 two </ANOTHERp>
     </NAVp>
     <NAVp pageName="data">
-      <data-tag serve="data"></data-tag>
+      <data-tag serve="_DATA"></data-tag>
     </NAVp>
     <NAVp pageName="htmlJS">
-      <htmlJS-tag serve="data.arr"></htmlJS-tag>
+      <htmlJS-tag serve="_DATA.arr"></htmlJS-tag>
     </NAVp>
   </MAINp>
 
@@ -58,16 +60,16 @@
 // - if-initial
 //
 // ** JS Vars
-// - data
-// - oldHash
-// - componentsStoredGlobally
-// - polyFillIncluded
+// - _DATA
+// - _OLD_HASH
+// - _COMPONENTS_STORED_GLOBALLY
+// - _POLYFILL_INCLUDED
 //
 // ** JS Funcs
-// - pageSet
-// - pageDisplay
-// - updateComponents
-// - goBack
+// - _PAGE_SET
+// - _PAGE_Display
+// - _UPDATE_COMPONENTS
+// - _GO_BACK
 //
 // ** JS Class
 // - HtmlJS

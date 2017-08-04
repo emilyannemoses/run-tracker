@@ -38,18 +38,18 @@ hr {
 <table style='width: 100%;' class='navbar'>
   <tr>
     <th id='landing' class="title gray1"
-      onclick="pageSet('home/landing')"> HTML Cronenberg Demo
+      onclick="_PAGE_SET('home/landing')"> HTML Cronenberg Demo
     </th>
     <th>
       <div class="nav">
         <span id='page2' class="nav-button gray1"
-          onclick="pageSet('home/page2')"> Page 2 </span> &nbsp; :: &nbsp;
+          onclick="_PAGE_SET('home/page2')"> Page 2 </span> &nbsp; :: &nbsp;
         <span id='data' class="nav-button gray1"
-          onclick="pageSet('home/data')"> Data </span> &nbsp; :: &nbsp;
+          onclick="_PAGE_SET('home/data')"> Data </span> &nbsp; :: &nbsp;
         <span id='htmlJS' class="nav-button gray1"
-          onclick="pageSet('home/htmlJS')"> html.js </span> &nbsp; :: &nbsp;
+          onclick="_PAGE_SET('home/htmlJS')"> html.js </span> &nbsp; :: &nbsp;
         <span id='login' class="nav-button gray1"
-          onclick="pageSet('login')"> Login </span>
+          onclick="_PAGE_SET('login')"> Login </span>
       </div>
     </th>
   </tr>
@@ -98,9 +98,9 @@ component.getElementById('endText').innerHTML =
   })
 
   c._ADD_EVENT('click', 'login', ()=>{
-    data.nest.idCards[1].name = "("+c.data+")"
-    data.user = 'LodgeSkins'
-    data.id = 'fdg856csd3'
+    _DATA.nest.idCards[1].name = "("+c.data+")"
+    _DATA.user = 'LodgeSkins'
+    _DATA.id = 'fdg856csd3'
   }, true)
 
   c.pageSwap = (button, remove)=>{

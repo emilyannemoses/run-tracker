@@ -1,0 +1,92 @@
+<template id="page2">
+<!-- { { { { { { { { { { { { { { { {  CSS  } } } } } } } } } } } } } } } } } -->
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  margin: auto;
+  width: 90%;
+  min-width: 925px;
+  font-size: 25px;
+  margin-top: 20px;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
+<content>
+  <table>
+    <tbody>
+      <tr>
+        <td> Average Age </td>
+        <td id='aAge'> val </td>
+      </tr>
+      <tr>
+        <td> Oldest </td>
+        <td id='oldest'> val 2 </td>
+      </tr>
+      <tr>
+        <td> Youngest </td>
+        <td id='youngest'> val </td>
+      </tr>
+      <tr>
+        <td> Average Height </td>
+        <td id='aHeight'> val </td>
+      </tr>
+    </tbody>
+  </table>
+</content>
+</template>
+<!-- () () () () () () () () () ()  JavaScript () () () () () () () () () () -->
+<script>
+
+(( c = new Component('page2-tag') )=>{
+  c._ON_SET = (attr, totAge = 0, totHeight = 0, oldest = [ 0, [] ])=>{
+    let youngest = [ _DATA.nest.idCards[0].age, [] ]
+    for (const id of _DATA.nest.idCards) {
+      totAge += parseInt(id.age)
+      totHeight += (parseInt(id.ft)*12)+parseInt(id.in)
+      if (id.age >= oldest[0]) {
+        if (id.age === oldest[0]) {
+          oldest[1].push(id.name+' '+id.last)
+        } else {
+          oldest[1][0] = id.name+' '+id.last
+        }
+        oldest[0] = id.age
+      }
+      if (id.age <= youngest[0] && id !== _DATA.nest.idCards[0]) {
+        if (id.age === youngest[0]) {
+          youngest[1].push(id.name+' '+id.last)
+        } else {
+          youngest[1][0] = id.name+' '+id.last
+        }
+        youngest[0] = id.age
+      }
+    }
+    totAge /= _DATA.nest.idCards.length
+    totHeight /= _DATA.nest.idCards.length
+    const inches = Math.round(totHeight)%12
+    const feet = Math.floor(totHeight/12)
+    let [ oldests, youngests ] = [ '', '' ]
+    for (const p of oldest[1]) oldests += p+' & '
+    for (const p of youngest[1]) youngests += p+' & '
+
+    c.I('aAge').innerHTML = Math.round(totAge)
+    c.I('oldest').innerHTML = oldests.slice(0, -3) + ' (' + oldest[0] +')'
+    c.I('youngest').innerHTML = youngests.slice(0, -3) + ' (' + youngest[0] +')'
+    c.I('aHeight').innerHTML = feet+"' "+inches+'"'
+
+  }
+
+  c._NEW_ELM()
+})()
+
+</script>
+<!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / / -->
