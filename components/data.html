@@ -49,12 +49,10 @@ button {
   width: 300px;
   height: 38px;
   font-size: 18px;
-  background-color: rgba(0,0,0,0.1);
   border: 2px;
 }
 button:hover {
-  background-color: rgba(0,0,0,0.05);
-
+  background-color: rgba(150,20,20, 0.2);
 }
 #iAge, #iHome {
   width: 418px;
@@ -62,10 +60,13 @@ button:hover {
   margin-left: 0.5px;
 }
 .eBut {
-  width: 70px;
+  width: 50px;
   margin-right: 0px;
-  background-color: rgba(150,20,20, 0.3);
-  border-radius: 3px;
+  background-color: rgba(150,20,20, 0.4);
+}
+.eButS {
+  width: 80px;
+  background-color: rgba(150,20,20, 0.5);
 }
 .label-text {
   min-width: 110px;
@@ -104,6 +105,7 @@ button:hover {
       <!-- ^^^ use case for if array and placing ifs in row to mimick ORs. remove ! on !willPass and it won't show do to condition... -->
 
       <tr id='labels'>
+        <th class="show-col"> Show </th>
         <th class='label-text'> Title </th>
         <th class='label-text'> First Name </th>
         <th class='label-text'> Last Name </th>
@@ -111,44 +113,38 @@ button:hover {
         <th class='label-num'> ft. </th>
         <th class='label-num'> in. </th>
         <th style='min-width: 200px;'> Residence </th>
-        <th class="show-col"> Show </th>
       </tr>
       <tbody id='checkBoxes' for='idCard,i nest.idCards'>
         <tr>
-          <td >
-            <p if="!idCard.edit"> idCard.title  </p>
-            <input if="idCard.edit" placeholder="idCard.title">
-          </td>
-          <td>
-            <p if="!idCard.edit"> idCard.name </p>
-            <input if="idCard.edit" placeholder="idCard.name">
-          </td>
-          <td>
-            <p if="!idCard.edit"> idCard.last </p>
-            <input if="idCard.edit" placeholder="idCard.last">
-          </td>
-          <td>
-            <p if="!idCard.edit"> idCard.age </p>
-            <input class="input-num" if="idCard.edit" placeholder="idCard.age">
-          </td>
-          <td>
-            <p if="!idCard.edit"> idCard.ft- " </p>
-            <input class="input-num" if="idCard.edit" placeholder='idCard.ft'>
-          </td>
-          <td>
-            <p if="!idCard.edit"> idCard.in- " </p>
-            <input class="input-num" if="idCard.edit" placeholder='idCard.in'>
-          </td>
-          <td>
-            <p if="!idCard.edit"> idCard.home </p>
-            <input if="idCard.edit" placeholder="idCard.home">
-          </td>
-          <td>
-            <input style='margin-left: 15px;' key="i" val="show"
+          <td><input style='margin-left: 15px;' val="show" key="i"
               type="checkbox" checked="idCard.show">
           </td>
+          <td><p if="!idCard.edit"> idCard.title </p>
+            <input if="idCard.edit" placeholder="idCard.title" val="title">
+          </td>
+          <td><p if="!idCard.edit"> idCard.name </p>
+            <input if="idCard.edit" placeholder="idCard.name" val="name">
+          </td>
+          <td><p if="!idCard.edit"> idCard.last </p>
+            <input if="idCard.edit" placeholder="idCard.last" val="last">
+          </td>
+          <td><p if="!idCard.edit"> idCard.age </p>
+            <input class="input-num" if="idCard.edit" placeholder="idCard.age" val="age">
+          </td>
+          <td><p if="!idCard.edit"> idCard.ft- " </p>
+            <input class="input-num" if="idCard.edit" placeholder='idCard.ft' val="ft">
+          </td>
+          <td><p if="!idCard.edit"> idCard.in- " </p>
+            <input class="input-num" if="idCard.edit" placeholder='idCard.in' val="in">
+          </td>
+          <td><p if="!idCard.edit"> idCard.home </p>
+            <input if="idCard.edit" placeholder="idCard.home" val="home">
+          </td>
           <td class='edit-col'>
-            <button key="i" class='eBut' val="edit"> Edit </button>
+            <button if="!idCard.edit" val="edit" key="i" class='eBut'> Edit </button>
+            <button if="idCard.edit" val="edit" key="i" class='eBut eButS'>
+              Submit
+            </button>
           </td>
         </tr>
       </tbody>
@@ -157,13 +153,13 @@ button:hover {
     <p if='!nest.idCards'> <em> ! No data Avilalbe ! </em><br> Fill out form to add Data  </p>
     <br>
 
-    <div if='nest.editCard' var='n nest.editCard, x nest.idCards[1], y nest.idCards[1].last, z nest.idCards[1].age'>
+    <!-- <div if='nest.editCard' var='n nest.editCard, x nest.idCards[1], y nest.idCards[1].last, z nest.idCards[1].age'>
       <div for='v,k,i nest.editCard'>
         <none indices='s1 e6'>  k- : <strong> v </strong> </none>
         <br indices='2 5'>
       </div>
       <strong>x.name y z n.show</strong>
-    </div>
+    </div> -->
 
   </div>
 </content>
@@ -179,8 +175,8 @@ button:hover {
       name: c.I('iName').value,
       last: c.I('iLast').value,
       age: c.I('iAge').value,
-      feet: c.I('iFeet').value,
-      inches: c.I('iInches').value,
+      ft: c.I('iFeet').value,
+      in: c.I('iInches').value,
       home: c.I('iHome').value,
       show: 'true'
     })
@@ -196,15 +192,25 @@ button:hover {
   c._ADD_EVENT('click', 'checkBoxes', ([ key, val ] = c.KV(event))=>{
     if (val === "edit") {
       const state = data.nest.idCards[key][val]
-      for (const c of data.nest.idCards) delete(c[val])
+      if (state === 'true') {
+        const tags = event.path[2].getElementsByTagName('input')
+        for (var i = 0; i < tags.length-1; i++) {
+          const val = tags[i].getAttribute('val')
+          if (tags[i].value) {
+            data.nest.idCards[key][val] = tags[i].value
+          }
+        }
+      }
+      for (const card of data.nest.idCards) delete(card[val])
       !state ? data.nest.idCards[key][val] = 'true' : delete(state)
       data.nest.editCard = data.nest.idCards[key]
+
+
     }
     if (val === "show") {
       const checkBoxStatus = event.path[0].checked === true ? 'true' : 'false'
       data.nest.idCards[key][val]= checkBoxStatus
     }
-
   }, true)
 
   c._ADD_EVENT('click', 'more', ()=>{

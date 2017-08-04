@@ -73,7 +73,7 @@ class HtmlJS {
     for (const vLen of arrVar) {
       let [ val, data ] = vLen.split(' ').filter(Boolean)
       data = this.getDir(Obj, data)
-      this.varJSNest(Obj, elm, tags, data, val)
+      if (data) this.varJSNest(Obj, elm, tags, data, val)
     }
   }
 
@@ -147,7 +147,9 @@ class HtmlJS {
   }
 
   getDir (Obj, jVar) { // Grab 'var' elm string. html var name = JS var
-    for (const p of jVar.split(/[.\[\]]/).filter(Boolean)) if (Obj[p]) Obj = Obj[p]
+
+  if (jVar.split(/[\.\[\]]/))
+    for (const p of jVar.split(/[.\[\]]/).filter(Boolean)) Obj = Obj[p]
     return Obj
   }
 
