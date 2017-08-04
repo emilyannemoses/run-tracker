@@ -111,4 +111,6 @@ class Component {
 
   I (id) { return this.root.getElementById(id) }
 
+  KV (e) { return [ e.path[0].getAttribute('key'), e.path[0].getAttribute('val') ] }
+
 }

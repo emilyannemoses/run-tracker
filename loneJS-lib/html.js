@@ -1,7 +1,7 @@
 class HtmlJS {
 
   constructor () {
-    this.jsAtts = [ 'value', 'checked', 'name', 'key', 'placeholder' ],
+    this.jsAtts = [ 'value', 'checked', 'val', 'key', 'placeholder' ],
     this.jsBoolAtts = [ 'checked' ]
   }
 
@@ -44,7 +44,7 @@ class HtmlJS {
         let atts = elm[i].querySelectorAll('['+att+']')
         for (let at of atts) {
           let str = at.getAttribute(att)
-          at.setAttribute(att, str.split(/[\n\ ]/).filter(Boolean)[0])
+          at.setAttribute(att, str.split(/[\n\ ]/).filter(Boolean).join(' '))
         }
       }
     }
@@ -52,20 +52,21 @@ class HtmlJS {
 
   ifJS (Obj, elm, ifVar, topLevel) {
     if (!elm.hasAttribute('if-passed')) {
-      let hide = false
-      if (ifVar[0] === '!') { hide = this.hasDir(Obj, ifVar.split('!')[1])
-      } else { hide = !this.hasDir(Obj, ifVar) }
-      if (!hide || (hide && ifVar.split('!')[1])) {
+      let hide = ((h)=>{
+        for (const val of ifVar.split(' ')) {
+          if (val[0] === '!') { h = this.hasDir(Obj, val.split('!')[1])
+          } else { h = !this.hasDir(Obj, val) }
+          if (h) return h
+        }
+        return false
+      })()
+      if (!hide || (hide && ifVar.split('!')[1] && ifVar.split(' ').length === 1)) {
         const attr = document.createAttribute('if-passed')
         attr.value = 'true'
         elm.setAttributeNode(attr)
       }
       hide ? elm.style.display = 'none' : elm.style.display = ''
     }
-    // let hide = false
-    // if (ifVar[0] === '!') { hide = this.hasDir(Obj, ifVar.split('!')[1])
-    // } else { hide = !this.hasDir(Obj, ifVar) }
-    // hide ? elm.style.display = 'none' : elm.style.display = ''
   }
 
   varJS (Obj, elm, tags, arrVar) {
@@ -90,13 +91,8 @@ class HtmlJS {
       }
       for (const att of this.jsAtts) {
         if (tag.contentEditable && tag.hasAttribute(att)) {
-          // console.log(tag)
           let arr = tag.getAttribute(att).split(/[\n\ ]/)
           const textArr = this.valueTypes(0, [ data ], arr, val) // there's extra DOM stuff we dont' need, This will only duplicate tags we created.
-          // tag[att.split('js-')[1]] = textArr.join(' ')
-          // !!!!!
-          // or... are we ignoring the fact that inner-html is just another value???
-          // !!!!
           tag.setAttribute(att, textArr.join(' '))
         }
       }
@@ -146,11 +142,12 @@ class HtmlJS {
         return false
       }
     }
-    return Obj.length > 0 && Obj !== 'false' ? true : false
+    return Obj !== 'false' ? true : false
+    // return Obj.length > 0 && Obj !== 'false' ? true : false
   }
 
   getDir (Obj, jVar) { // Grab 'var' elm string. html var name = JS var
-    for (const p of jVar.split(/[.\[\]]/).filter(Boolean)) Obj = Obj[p]
+    for (const p of jVar.split(/[.\[\]]/).filter(Boolean)) if (Obj[p]) Obj = Obj[p]
     return Obj
   }
 
@@ -161,7 +158,7 @@ class HtmlJS {
       if (typeof arr[w] !== "string" || arr[w] === "") continue
       let r = arr[w][arr[w].length-1] === '-' ? '-' : '' // save if there's a hyphen at the bookends to shift later.
       let l = arr[w][0] === '-' ? '-' : ''
-      const em = arr[w].split(/[\.\[\]]/).filter(Boolean)
+      const em = arr[w].split(/[\.\-\[\]]/).filter(Boolean)
       if ( em[0] && ((em[0] === key || em[0].slice(1) === key ) && em.length > 1)) {
         if (r) arr[w] = arr[w].slice(0, arr[w].length-1)
         if (l) arr[w] = arr[w].slice(1)

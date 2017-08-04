@@ -16,8 +16,8 @@
 <body>
   <MAINp pageName="home" activePage='true'>
     <navbar-tag serve="data.arr[0] data.newC"></navbar-tag>
-    <navbar-tag serve="data.arr[1]"></navbar-tag>
-    <navbar-tag serve="data.arr[2]"></navbar-tag>
+    <!-- <navbar-tag serve="data.arr[1]"></navbar-tag>
+    <navbar-tag serve="data.arr[2]"></navbar-tag> -->
     <NAVp pageName="landing" activePage='true'>
       <landing-tag serve="data"></landing-tag>
     </NAVp>
@@ -55,10 +55,11 @@
 // - served
 // - directory
 // - initial-innerhtml
+// - if-initial
 //
 // ** JS Vars
 // - data
-// -  oldHash
+// - oldHash
 // - componentsStoredGlobally
 // - polyFillIncluded
 //
@@ -77,6 +78,13 @@
 //  - - ALL lowercase. ALWAYS end with -tag
 // - pages: <SPECIALp>
 //  - - ALL capitals. ALWAYS end with p
+//
+// COMPONENT.js methods
+// c._NEW_ELM() creates instance of components.js
+// c._ON_SET = (attr)=>{ *javascript } auto fires page/html.js/componetns.js after starts or changes
+// c._ADD_EVENT(' *event type* ', ' *html id* ', ()=>{ *javascript* }, *bool for updating html.js*)
+// c.I( *html element id* )
+// c.KV( *click event * ) return key and val of
 
 -->
 

@@ -11,8 +11,8 @@ var data = {
         name: 'Chainsaw',
         last: "O'plow",
         age: '49',
-        feet: '6',
-        inches: '8',
+        ft: '6',
+        in: '8',
         home: 'Omaha, NE',
         show: 'true'
       },
@@ -21,19 +21,18 @@ var data = {
         name: 'Cork',
         last: 'Rockingham',
         age: '33',
-        feet: '6',
-        inches: '1',
+        ft: '6',
+        in: '1',
         home: 'Charleston, SC',
         show: 'true',
-        edit: 'true'
       },
       {
         title: 'ID Card 3',
         name: 'Swank',
         last: 'Dank',
         age: '24',
-        feet: '5',
-        inches: '4',
+        ft: '5',
+        in: '4',
         home: 'Los Angles, CA',
         show: 'true'
       }
