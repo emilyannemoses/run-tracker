@@ -1,0 +1,40 @@
+<template id="navbar">
+<!-- { { { { { { { { { { { { { { { {  CSS  } } } } } } } } } } } } } } } } } -->
+	<style>
+		.nav-content {
+			padding: 15px;
+		}
+		.nav-buttons {
+			float: right;
+		}
+		.button {
+			border: 1px solid purple;
+			border-radius: 0px;
+			box-shadow: 3px 3px 2px #888888;
+			cursor: pointer;
+			font-size: 14px;
+			padding: 5px;
+		}
+	</style>
+<!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
+	<content>
+		<div class="nav-content">
+			<span class="button" onclick="_PAGE_SET('home')">Emily's Run Tracker</span>
+			<span class="nav-buttons"><span class="button" id="button" onclick="_PAGE_SET('route-maps')">Route Maps</span></span>
+		</div>
+		<hr>
+	</content>
+</template>
+<!-- () () () () () () () () () ()  JavaScript () () () () () () () () () () -->
+<script>
+
+(( c = new Component('navbar-tag') )=>{
+	c._ADD_EVENT('click', 'button', ()=>{
+		console.log('add clicked')
+	}, true)
+
+  c._NEW_ELM()
+})()
+
+</script>
+<!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / / -->

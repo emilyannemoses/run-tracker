@@ -1,3 +1,5 @@
 html, body {
-  background-image: url("gfx/tx2.png");
+  background-image: url("gfx/texture.png");
+  font-size: 20px;
+  font-family: Avenir;
 }
