@@ -70,6 +70,7 @@ class HtmlJS {
   }
 
   varJS (Obj, elm, tags, arrVar) {
+    if (arrVar[0].split(' ')[1] === '_data') Obj = { '_data': Obj}
     for (const vLen of arrVar) {
       let [ val, data ] = vLen.split(' ').filter(Boolean)
       data = this.getDir(Obj, data)

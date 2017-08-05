@@ -1,107 +1,20 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title> Components </title>
+<!DOCTYPE html><html><head><meta charset="utf-8"><title> ! TITLE ! </title>
   <script type="text/javascript" src="loneJS-lib/component.js"></script>
   <link rel="stylesheet" href="main.css">
 
   <!-- COMPONENTS -->
-  <link rel="import" href="components/navbar.html">
-  <link rel="import" href="components/landing.html">
-  <link rel="import" href="components/id-card.html">
-  <link rel="import" href="components/data.html">
-  <link rel="import" href="components/htmlJS.html">
-  <link rel="import" href="components/footer.html">
-  <link rel="import" href="components/login.html">
-  <link rel="import" href="components/page2.html">
-
+  <link rel="import" href="components/example-component.html">
 
 </head>
 
 <body>
-  <MAINp pageName="home" activePage='true'>
-    <navbar-tag serve="_DATA.arr[0] _DATA.newC"></navbar-tag>
-    <navbar-tag serve="_DATA.arr[1]"></navbar-tag>
-    <navbar-tag serve="_DATA.arr[2]"></navbar-tag>
-    <NAVp pageName="landing" activePage='true'>
-      <landing-tag serve="_DATA"></landing-tag>
-    </NAVp>
-    <NAVp pageName="page2" >
-      <page2-tag serve='_DATA.nest.idCards'></page2-tag> <br>
-      <ANOTHERp pageName="p1" activePage='true'>p2 One</ANOTHERp>
-      <ANOTHERp pageName="p2"> p2 two </ANOTHERp>
-    </NAVp>
-    <NAVp pageName="data">
-      <data-tag serve="_DATA"></data-tag>
-    </NAVp>
-    <NAVp pageName="htmlJS">
-      <htmlJS-tag serve="_DATA.arr"></htmlJS-tag>
-    </NAVp>
-  </MAINp>
 
-  <MAINp pageName="login" class="linen-background">
-    <login-tag></login-tag>
-  </MAINp>
-
-  <footer-tag></footer-tag>
+  <example-component-tag serve="_DATA"></example-component-tag>
+  
 </body>
+
 </html>
 
 <!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / /
-//
-// html.js - RESERVED VAR NAMES && Naming conventions
-//
-// *** DOM attributes
-// - for
-// - var
-// - if
-// - is-clone
-// - serve
-// - served
-// - directory
-// - initial-innerhtml
-// - if-initial
-//
-// ** JS Vars
-// - _DATA
-// - _OLD_HASH
-// - _COMPONENTS_STORED_GLOBALLY
-// - _POLYFILL_INCLUDED
-//
-// ** JS Funcs
-// - _PAGE_SET
-// - _PAGE_Display
-// - _UPDATE_COMPONENTS
-// - _GO_BACK
-//
-// ** JS Class
-// - HtmlJS
-// - Component
-//
-// ** Naming Conventions
-// - html tags for components: <mycomponent-tag>
-//  - - ALL lowercase. ALWAYS end with -tag
-// - pages: <SPECIALp>
-//  - - ALL capitals. ALWAYS end with p
-//
-// COMPONENT.js methods
-// c._NEW_ELM() creates instance of components.js
-// c._ON_SET = (attr)=>{ *javascript } auto fires page/html.js/componetns.js after starts or changes
-// c._ADD_EVENT(' *event type* ', ' *html id* ', ()=>{ *javascript* }, *bool for updating html.js*)
-// c.I( *html element id* )
-// c.KV( *click event * ) return key and val of
 
--->
-
-<!--  * * * * * *   TERMINAL STEPS TO PREVIEW IN BROWSER   * * * * * * * * * * *
-- >>> cd (to directory this file is located in)
-- >>> http-server -c-1    (got to Local 8080 to work.
-- Open browser and go to http://localhost:8080/ if this file is index.html
-- IF other the main .html file isn't index.html, just add the endpoint of the file
-- Like: http://localhost:8080/template.html
-- ALSO, you can >>> http-server -c-1 -p 8010    (will change port to 8010. Somtimes there's  confict for some reason)
-- ALSO, you can >>> http-server -c-1 -o         (will auto open a new browser)
-- ALSO, you may need to >>> sudo kill -9 PID    (If port has conflict (>>> top    (to find out PID))
-- HELPFUL LINK: *** https://www.html5rocks.com/en/tutorials/webcomponents/imports/
-- HELPFUL LINK2: https://www.html5rocks.com/en/tutorials/webcomponents/customelements/
-- HELPFUL LINK3: https://www.webcomponents.org/polyfills
-- HELPFUL LINK4: https://github.com/WebReflection/document-register-element
-- HELPFUL LINK5: https://developers.google.com/web/fundamentals/getting-started/primers/customelements
 -->

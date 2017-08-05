@@ -1,25 +1,21 @@
-<template id="login">
+<template id="example-component">
 <!-- { { { { { { { { { { { { { { { {  CSS  } } } } } } } } } } } } } } } } } -->
 <style>
-content {
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background-image: url("gfx/linen.png");
-  color: rgba(255,255,255,0.8);
-  padding-top: 5%;
-  font-size: 25px;
-}
+
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
-  login page goes here
-  <br><button onclick="_GO_BACK()" > back </button>
+  <div var='x _data'>
+   x.test
+  </div>
 </content>
 </template>
 <!-- () () () () () () () () () ()  JavaScript () () () () () () () () () () -->
 <script>
 
-(( c = new Component('login-tag') )=>{ c._NEW_ELM() })()
+(( c = new Component('example-component-tag') )=>{
+  c._NEW_ELM()
+})()
 
 </script>
 <!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / / -->
