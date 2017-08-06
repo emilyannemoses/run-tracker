@@ -1,10 +1,8 @@
 var _OLD_HASH = window.location.hash.split('#')[1]
 
-window.onload = ()=>{
   if (document.readyState === 'complete') {
     _PAGE_SET(window.location.hash.split('#')[1], true)
   }
-}
 
 _PAGE_SET = (dir, initial, hash = '')=>{
   event.preventDefault()
