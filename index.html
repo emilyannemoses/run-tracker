@@ -10,15 +10,18 @@
 	  		<script type="text/javascript" src="../data.js"></script>
 			<!-- COMPONENTS -->
 			<link rel="import" href="components/navbar.html">
+			<link rel="import" href="components/run-data.html">
 			<link rel="import" href="components/route-maps.html">
-			<link rel="import" href="components/example-component.html">
+			<link rel="import" href="components/navigation-cards.html">
 			<link rel="stylesheet" href="main.css">
 		</head>
 		<body>
 			<navbar-tag></navbar-tag>
 			<MAINp pageName="home" activePage='true'>
-				<example-component-tag serve="_DATA.home"></example-component-tag>
-				<example-component-tag serve="_DATA.page2"></example-component-tag>
+				<navigation-cards-tag serve="_DATA"></navigation-cards-tag>
+			</MAINp>
+			<MAINp pageName="run-data">
+				<run-data-tag serve="_DATA"></run-data-tag>
 			</MAINp>
 			<MAINp pageName="route-maps">
 				<route-maps-tag serve="_DATA"></route-maps-tag>

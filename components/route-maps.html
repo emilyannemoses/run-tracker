@@ -1,21 +1,45 @@
 <template id="route-maps">
 <!-- { { { { { { { { { { { { { { { {  CSS  } } } } } } } } } } } } } } } } } -->
 <style>
+	.container {
+		margin: 5% auto 5% 10%;
+		float: left;
+		overflow: scroll;
+		padding: 30px;
+		width: 200px;
+		height: 200px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+		border: 1px solid #C7C7C7;
+	}
 </style>
 <!-- < < < < < < < < < < < < < < < <  html > > > > > > > > > > > > > > > > > -->
 <content>
-	<hr style="margin-top:0px;">
-	<div class="maps" for="{i} routeMaps.locations">
-		<p>These are all the maps: {i}</p>
+	<div class="main" var="x _data">
+		<div class="container">
+			<p>Map one</p>
+		</div>
+		<div class="container">
+			<p>Map two</p>
+		</div>
+		<div class="container">
+			<p>Map three</p>
+		</div>
+		<div class="container">
+			<p>Map four</p>
+		</div>
+		<div class="container">
+			<p>Map Five</p>
+		</div>
+		<div class="container">
+			<p>Map six</p>
+		</div>
 	</div>
 </content>
 </template>
 <!-- () () () () () () () () () ()  JavaScript () () () () () () () () () () -->
 <script>
-
-(( c = new Component('route-maps-tag') )=>{
-  c._NEW_ELM()
-})()
-
+	(( c = new Component('route-maps-tag') )=>{
+	  c._NEW_ELM()
+	})()
 </script>
 <!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / / -->
