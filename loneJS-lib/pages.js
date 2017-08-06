@@ -1,6 +1,6 @@
 var _OLD_HASH = window.location.hash.split('#')[1]
 
-document.onreadystatechange = ()=>{
+window.onload = ()=>{
   if (document.readyState === 'complete') {
     _PAGE_SET(window.location.hash.split('#')[1], true)
   }

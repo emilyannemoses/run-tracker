@@ -1,5 +1,7 @@
 html, body {
-  background-image: url("gfx/stressed-linen.png");
-  font-size: 20px;
+  background-image: url("gfx/stressed_linen.png");
+  color: #E2C28F;
   font-family: Avenir;
+  font-size: 20px;
+  font-weight: lighter;
 }
