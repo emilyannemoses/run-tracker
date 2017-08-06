@@ -13,6 +13,13 @@
       document.getElementsByTagName("head")[0].appendChild(fileRef)
     }
   }
+
+  window.onload = ()=>{
+	if (document.readyState === 'complete') {
+	  _PAGE_SET(window.location.hash.split('#')[1], true)
+	}
+  }
+
 })()
 
 var _COMPONENTS_STORED_GLOBALLY = []
