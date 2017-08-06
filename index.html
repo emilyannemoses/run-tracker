@@ -3,9 +3,10 @@
 		<head>
 			<meta charset="utf-8">
 			<title>Run Tracker</title>
+			<script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
 	  		<script type="text/javascript" src="loneJS-lib/component.js"></script>
 	  		<script type="text/javascript" src="loneJS-lib/html.js"></script>
-	 		 <script type="text/javascript" src="loneJS-lib/pages.js"></script>
+	 		<script type="text/javascript" src="loneJS-lib/pages.js"></script>
 	  		<script type="text/javascript" src="loneJS-lib/polyfills.js"></script>
 	  		<script type="text/javascript" src="../data.js"></script>
 			<!-- COMPONENTS -->
@@ -14,9 +15,15 @@
 			<link rel="import" href="components/route-maps.html">
 			<link rel="import" href="components/navigation-cards.html">
 			<link rel="stylesheet" href="main.css">
+			<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+			<style media="screen">
+				#map { position:absolute; top:0; bottom:0; width:100%; }
+			</style>
 		</head>
 		<body>
 			<navbar-tag></navbar-tag>
+			<!-- <div id='map'>
+			</div> -->
 			<MAINp pageName="home" activePage='true'>
 				<navigation-cards-tag serve="_DATA"></navigation-cards-tag>
 			</MAINp>
@@ -27,8 +34,13 @@
 				<route-maps-tag serve="_DATA"></route-maps-tag>
 			</MAINp>
 		</body>
+		<!-- <script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbHlhbm5lbW9zZXMiLCJhIjoiY2o2MDNzcGFpMGhnZzMyb2Y4cHRzeTN4dSJ9.fczhGQMwUNueFQTTsfuw2A';
+		var map = new mapboxgl.Map({
+		    container: 'map',
+			style: 'mapbox://styles/mapbox/outdoors-v10',
+		    center: [-122.250287, 37.806907],
+		    zoom: 14
+		});
+		</script> -->
 	</html>
-
-<!--  / / / / / / / / / / / / / / /   Notes    / / / / / / / / / / / / / / /
-
--->
