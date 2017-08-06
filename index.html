@@ -9,16 +9,16 @@
 	 		<script type="text/javascript" src="loneJS-lib/pages.js"></script>
 	  		<script type="text/javascript" src="loneJS-lib/polyfills.js"></script>
 	  		<script type="text/javascript" src="../data.js"></script>
+			<script type="text/javascript" src="canvas.js"></script>
 			<!-- COMPONENTS -->
+			<link rel="import" href="components/graph.html">
 			<link rel="import" href="components/navbar.html">
 			<link rel="import" href="components/run-data.html">
+			<link rel="import" href="components/graph-loop.html">
 			<link rel="import" href="components/route-maps.html">
 			<link rel="import" href="components/navigation-cards.html">
 			<link rel="stylesheet" href="main.css">
 			<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-			<style media="screen">
-				#map { position:absolute; top:0; bottom:0; width:100%; }
-			</style>
 		</head>
 		<body>
 			<navbar-tag></navbar-tag>
@@ -26,6 +26,9 @@
 			</div> -->
 			<MAINp pageName="home" activePage='true'>
 				<navigation-cards-tag serve="_DATA"></navigation-cards-tag>
+			</MAINp>
+			<MAINp pageName="graph">
+				<graph-loop-tag serve="_DATA"></graph-loop-tag>
 			</MAINp>
 			<MAINp pageName="run-data">
 				<run-data-tag serve="_DATA"></run-data-tag>

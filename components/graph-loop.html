@@ -1,0 +1,19 @@
+<template id="graph-loop">
+<style>
+</style>
+<content>
+	<div for="{i} gpx">
+		<graph-tag serve="{i}"></graph-tag>
+	</div>
+</content>
+</template>
+<script>
+
+(( c = new Component('graph-loop-tag') )=>{
+	c._ON_SET = (attr)=>{
+	//   console.log('c.data: ',c.data)
+	}
+  c._NEW_ELM()
+})()
+
+</script>

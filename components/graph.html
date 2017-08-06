@@ -1,0 +1,40 @@
+<template id="graph">
+<style>
+	content {
+  		text-align: center;
+	}
+	.bg {
+  		background-color: transparent;
+  		margin: auto;
+	}
+</style>
+<content>
+	<div var="x _data">
+		<p>x.name</p>
+	  	<canvas id="myCanvas5" class="bg">
+		</canvas>
+	</div>
+</content>
+</template>
+<script>
+
+(( c = new Component('graph-tag') )=>{
+
+  c._ON_SET = (attr)=>{
+    let graphPath = c.data.trkseg.trkpt
+    var newCanvas = new canvas
+    newCanvas.new(c.I('myCanvas5'), 1000,300)
+
+    let path = []
+    let x = 10
+    for (var i = 0; i < graphPath.length; i++) {
+		let convertedToFeet = graphPath[i].ele * 3.28084
+      	path.push(['l', x, 700-(Math.round(convertedToFeet))])
+      	x+=10
+    }
+
+    newCanvas.path(10, graphPath[0][2], path, 4, 'green')
+  }
+  c._NEW_ELM()
+})()
+</script>
