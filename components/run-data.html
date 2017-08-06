@@ -2,25 +2,22 @@
 <style>
 </style>
 <content>
-	<div class="run-data" var="x gpx">
-		<p>x.name</p>
+	<div class="run-data" var="x _data">
+		<p>x.gpx[0].name</p>
+	<div for="{i} gpx[0].trkseg.trkpt">
+		<p>{i}.time</p>
 	</div>
-	<div for="{i} point">
-		<p> {i}.elevation </p>
+		<p>x.gpx[1].name</p>
+	<div for="{i} gpx[1].trkseg.trkpt">
+		<p>{i}.time</p>
+	</div>
 	</div>
 </content>
 </template>
 <script>
 
-	(( c = new Component('run-data-tag') )=>{
+	(( c = new Component('run-data-tag'))=>{
 		c._ON_SET = (attr)=>{
-			// console.log('c.data.gpx[0].trkseg.trkpt[0].ele: ',c.data.gpx[0].trkseg.trkpt[0])
-			c.data.point = []
-			// for(let i of c.data.gpx.trkseg.trkpt){
-			// 	c.data.point.push({
-			// 		elevation: Math.round(i.ele * 3.28084)
-			// 	})
-			// }
 		}
 
 		c._NEW_ELM()
