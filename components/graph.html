@@ -21,7 +21,7 @@
 (( c = new Component('graph-tag') )=>{
 
   c._ON_SET = (attr)=>{
-    let graphPath = c.data.trkseg.trkpt
+    let graphPath = c.data.trackArray
     var newCanvas = new canvas
     newCanvas.new(c.I('myCanvas5'), 1000,300)
 
