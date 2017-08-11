@@ -40,7 +40,7 @@ def saveFilenameToText():
             print('Not in folder ', file)
         else:
             fileRegex = re.compile(r'(\d\d\d)-(\d\d\d)-(\d\d\d\d)')
-            regexSearch = fileRegex.search('510-910-2924')
+            regexSearch = fileRegex.search('555-555-5555')
             numberOne, numberTwo, numberThree = regexSearch.groups()
             print('Phone number found: ' + regexSearch.group())
             print('group1 ' + numberOne)
