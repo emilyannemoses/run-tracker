@@ -25,16 +25,13 @@ def readNewFile(file):
 #    print(gpxFileAsString)
 
 def saveFilenameToText():
-#   os.chdir('/Users/emilymoses/Google Drive/running_tracks')
-#   nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'r')
-    os.chdir('/Users/emilymoses/test_folder')
-    nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'r')
+   os.chdir('/Users/emilymoses/Google Drive/running_tracks')
+   nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'r')
     readIt = nameOfFile.readlines()
     nameOfFile.close()
     for file in glob.glob('*.gpx'):
         if file + '\n' not in readIt:
-#           nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'a')
-            nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'a')
+           nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'a')
             nameOfFile.write(file + '\n')
             readNewFile(file)
             print('Not in folder ', file)
