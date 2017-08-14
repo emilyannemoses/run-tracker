@@ -7,7 +7,7 @@ As an avid runner and data nerd, I felt a need to track my progress. I downloade
 
 **Technologies**
 * python3
-* JavaScript (SPA framework LoneJS)
+* ES6 (SPA framework LoneJS)
 * myJSON
 
 I hadn't worked with Python before this project, but I found it to be a really pleasant experience and I hope to work with it more in the future.  The iPhone app allows for exports in `.gpx` format to a folder on my machine, from there I wrote a Python method which extracted each `.gpx` file individually, parsed through the data I wanted, and I created an API around this data.
