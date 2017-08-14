@@ -6,9 +6,9 @@ My Run Tracker is made with [LoneJS](https://github.com/robbobfrh84/loneJS); a f
 As an avid runner and data nerd, I felt a need to track my progress. I downloaded an app called Tracker on my iPhone which tracks me as I run my route. The data given are elevation, latitude and longitude, time, date, miles ran per hour and fastest pace ran.  I decided to build Run Tracker to give a kinder interface to display just the information I thought was important.
 
 **Technologies**
-python3
-JavaScript (SPA framework LoneJS)
-myJSON
+* python3
+* JavaScript (SPA framework LoneJS)
+* myJSON
 
 I hadn't worked with Python before this project, but I found it to be a really pleasant experience and I hope to work with it more in the future.  The iPhone app allows for exports in `.gpx` format to a folder on my machine, from there I wrote a Python method which extracted each `.gpx` file individually, parsed through the data I wanted, and I created an API around this data.
 
