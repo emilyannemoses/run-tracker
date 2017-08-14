@@ -3,7 +3,7 @@ My Run Tracker is made with [LoneJS](https://github.com/robbobfrh84/loneJS); a f
 
 **How was Run Tracker conceived?**
 
-As an avid runner and data nerd, I felt a need to track my progress. I downloaded an app called Tracker on my iPhone which tracks me as I run my route. The data given are elevation, latitude and longitude, time, date, miles ran per hour and fastest pace ran.  I decided to build Run Tracker to give a kinder interface to display just the information I thought was important.
+As an avid runner and data nerd, I felt a need to track my progress. I downloaded a GPS Tracker on my iPhone, and I track each run individually. The data given are elevation, latitude and longitude, time, date, miles ran per hour and fastest pace ran.  I decided to build Run Tracker app to give a kinder interface to display just the information I thought was important.
 
 **Technologies**
 * python3
