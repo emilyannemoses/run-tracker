@@ -10,67 +10,86 @@
 # Create an API structure to organize how I want the text in the file to be structured
 # Send the structured text to myJSON in a POST request.
 
-import glob, os
+import glob, os, requests, json
+
+uri = "https://api.myjson.com/bins/6lj7d"
+
+def post(data):
+#    myRuns = { 'title': 'All Runs', 'paths': []}
+    r = requests.post('https://api.myjson.com/bins', json = data)
+
+def get(uri):
+    r = requests.get(uri)
+    return r.text
+
+def put(uri, data):
+    r = requests.put(uri, json = data)
+    print(r.text)
 
 def readNewFile(file):
-    readGpxFile = open(file, 'r')
-    lines = readGpxFile.readlines()
+    readGpxFile = open(file, 'r')
+    lines = readGpxFile.readlines()
 
-    data = { 'path': [] }
-    singlePath = {}
+    data = { 'path': [] }
+    singlePath = {}
 
-    for line in lines:
+    for line in lines:
 
-        if line.find('<name>') != -1:
-            startName = line.find('<name>')
-            endName = line.find('T',startName)
-            name = line[startName+6:endName+1]
-            data["name"] = name
+            if line.find('<name>') != -1:
+                startName = line.find('<name>')
+                endName = line.find('T',startName)
+                name = line[startName+6:endName+1]
+                data["name"] = name
 
-        if line.find('lat=') != -1:
-            startLatitude = line.find('lat=')
-            endLatitude = line.find('"', startLatitude)
-            latitude = line[startLatitude+5:endLatitude+10]
-            singlePath['latitude'] = latitude
-            data['path'].append(singlePath)
+            if line.find('lat=') != -1:
+                startLatitude = line.find('lat=')
+                endLatitude = line.find('"', startLatitude)
+                latitude = line[startLatitude+5:endLatitude+10]
+                singlePath['latitude'] = latitude
+                data['path'].append(singlePath)
+            
+            if line.find('lon=') != -1:
+                startLongitude = line.find('lon=')
+                endLongitude = line.find('"', startLongitude)
+                longitude = line[startLongitude+5:endLongitude+12]
+                singlePath['longitude'] = longitude
+                data['path'].append(singlePath)
+            
+            if line.find('<ele>') != -1:
+                startElevation = line.find('<ele>')
+                endElevation = line.find('<', startElevation)
+                elevation = line[startElevation+5:endElevation+14]
+                singlePath['elevation'] = elevation
+                data['path'].append(singlePath)
 
-        if line.find('lon=') != -1:
-            startLongitude = line.find('lon=')
-            endLongitude = line.find('"', startLongitude)
-            longitude = line[startLongitude+5:endLongitude+12]
-            singlePath['longitude'] = longitude
-            data['path'].append(singlePath)
+            if line.find('<time>') != -1:
+                startTime = line.find('<time>')
+                endTime = line.find('Z', startTime)
+                time = line[startTime+6:endTime]
+                singlePath['time'] = time
+                data['path'].append(singlePath)
 
-        if line.find('<ele>') != -1:
-            startElevation = line.find('<ele>')
-            endElevation = line.find('<', startElevation)
-            elevation = line[startElevation+5:endElevation+14]
-            singlePath['elevation'] = elevation
-            data['path'].append(singlePath)
-
-        if line.find('<time>') != -1:
-            startTime = line.find('<time>')
-            endTime = line.find('Z', startTime)
-            time = line[startTime+6:endTime]
-            singlePath['time'] = time
-            data['path'].append(singlePath)
+    myJson = get(uri)
+    jsonDictionary = json.loads(myJson)
+    jsonDictionary["paths"].append(data)
+    put(uri, jsonDictionary)
 
 def saveFilenameToText():
-#   os.chdir('/Users/emilymoses/Google Drive/running_tracks')
-#   nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'r')
-    os.chdir('/Users/emilymoses/test_folder')
-    nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'r')
-    readIt = nameOfFile.readlines()
-    nameOfFile.close()
-    for file in glob.glob('*.gpx'):
-        if file + '\n' not in readIt:
-#           nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'a')
-            nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'a')
-            nameOfFile.write(file + '\n')
-            readNewFile(file)
-            print('Not in folder ', file)
-        else:
-            print('Already in folder')
-        nameOfFile.close()
-
+#   os.chdir('/Users/emilymoses/Google Drive/running_tracks')
+#   nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'r')
+    os.chdir('/Users/emilymoses/test_folder')
+    nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'r')
+    readIt = nameOfFile.readlines()
+    nameOfFile.close()
+    for file in glob.glob('*.gpx'):
+        if file + '\n' not in readIt:
+#           nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'a')
+            nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'a')
+            nameOfFile.write(file + '\n')
+            readNewFile(file)
+            print('Not in folder ', file)
+        else:
+            print('Already in folder')
+        nameOfFile.close()
+        
 saveFilenameToText()
