@@ -1,20 +1,20 @@
 <template id="navigation-cards">
 <style>
-	.container {
-		margin: 5% auto 5% 10%;
-		float: left;
-		overflow: scroll;
-		padding: 30px;
-		width: 200px;
-		height: 200px;
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-		border: 1px solid #C7C7C7;
-	}
+.container {
+	margin: 5% auto 5% 10%;
+	float: left;
+	overflow: scroll;
+	padding: 30px;
+	width: 200px;
+	height: 200px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	border: 1px solid #C7C7C7;
+}
 </style>
 <content>
-	<div class="main" var="x _data">
+	<div class="main" var="x runs">
 		<div class="container">
-			<p>Some data will show here to link to one page</p>
+			<p>x</p>
 		</div>
 		<div class="container">
 			<p>Other data will link here</p>
@@ -37,7 +37,11 @@
 <script>
 
 (( c = new Component('navigation-cards-tag') )=>{
-  c._NEW_ELM()
+	c._ON_SET = (attr)=>{
+	  console.log('c.data: ',c.data)
+	}
+
+	c._NEW_ELM()
 })()
 
 </script>
