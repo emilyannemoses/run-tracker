@@ -4,19 +4,23 @@
 # Create a .txt file which will contain a list of all new .gpx files
 # Search '/Users/emilymoses/Google Drive/' for .gpx files and put the name of that file into the .txt list
 # Checks to see if the file name is already in the file list .txt file
-# Open .txt file and read line by line to check if it's already in the file
 
 # Opens the new file and read it
 # Create an API structure to organize how I want the text in the file to be structured
 # Send the structured text to myJSON in a POST request.
 
+# master myjson file that stores all of the uris (as links) of each individual run
+
 import glob, os, requests, json
 
-uri = "https://api.myjson.com/bins/6lj7d"
+masterUri = "https://api.myjson.com/bins/6lj7d"
 
 def post(data):
-#    myRuns = { 'title': 'All Runs', 'paths': []}
+#   { "title": "All Runs", "paths": [] }
     r = requests.post('https://api.myjson.com/bins', json = data)
+    print(r.text)
+    jsonDictionary = json.loads(r.text)
+    return jsonDictionary["uri"]
 
 def get(uri):
     r = requests.get(uri)
@@ -24,7 +28,6 @@ def get(uri):
 
 def put(uri, data):
     r = requests.put(uri, json = data)
-    print(r.text)
 
 def readNewFile(file):
     readGpxFile = open(file, 'r')
@@ -69,22 +72,24 @@ def readNewFile(file):
                 singlePath['time'] = time
                 data['path'].append(singlePath)
 
-    myJson = get(uri)
+    uri = post(data)
+
+    myJson = get(masterUri)
     jsonDictionary = json.loads(myJson)
-    jsonDictionary["paths"].append(data)
-    put(uri, jsonDictionary)
+    jsonDictionary["paths"].append(uri)
+    put(masterUri, jsonDictionary)
 
 def saveFilenameToText():
-#   os.chdir('/Users/emilymoses/Google Drive/running_tracks')
-#   nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'r')
-    os.chdir('/Users/emilymoses/test_folder')
-    nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'r')
+    os.chdir('/Users/emilymoses/Google Drive/running_tracks')
+    nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'r')
+#    os.chdir('/Users/emilymoses/test_folder')
+#    nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'r')
     readIt = nameOfFile.readlines()
     nameOfFile.close()
     for file in glob.glob('*.gpx'):
         if file + '\n' not in readIt:
-#           nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'a')
-            nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'a')
+            nameOfFile = open('/Users/emilymoses/Google Drive/running_tracks/listOfFiles.txt', 'a')
+#            nameOfFile = open('/Users/emilymoses/test_folder/listOfFiles.txt', 'a')
             nameOfFile.write(file + '\n')
             readNewFile(file)
             print('Not in folder ', file)
