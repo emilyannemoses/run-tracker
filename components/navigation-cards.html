@@ -12,24 +12,16 @@
 }
 </style>
 <content>
-	<div class="main" var="x runs">
+	<div class="main"  for="x,i runs">
 		<div class="container">
-			<p>x</p>
-		</div>
-		<div class="container">
-			<p>Other data will link here</p>
-		</div>
-		<div class="container">
-			<p>A third card will link to data here</p>
-		</div>
-		<div class="container">
-			<p>A fourth section will have more data here</p>
-		</div>
-		<div class="container">
-			<p>A third card will link to data here</p>
-		</div>
-		<div class="container">
-			<p>A fourth section will have more data here</p>
+			<div>
+				<p> x.name </p>
+				<div>
+					<div>
+						<p> x.path </p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </content>
@@ -38,7 +30,12 @@
 
 (( c = new Component('navigation-cards-tag') )=>{
 	c._ON_SET = (attr)=>{
-	  console.log('c.data: ',c.data)
+		console.log(c.data)
+		if (c.data.length > 0) {
+			c.data = { runs: c.data }
+			console.log(c.data)
+			c.update()
+		}
 	}
 
 	c._NEW_ELM()
