@@ -1,5 +1,8 @@
 <template id="navigation-cards">
 <style>
+#mapbox {
+	height: 100%;
+}
 .container {
 	margin: 5% auto 5% 10%;
 	float: left;
@@ -12,14 +15,12 @@
 }
 </style>
 <content>
-	<div class="main"  for="x,i runs">
+	<div class="main"  for="x,i sortedRuns">
 		<div class="container">
 			<div>
-				<p> x.name </p>
+				<p> x </p>
 				<div>
-					<div>
-						<p> x.path </p>
-					</div>
+					<div id="mapbox"></div>
 				</div>
 			</div>
 		</div>
@@ -30,13 +31,34 @@
 
 (( c = new Component('navigation-cards-tag') )=>{
 	c._ON_SET = (attr)=>{
-		console.log(c.data)
 		if (c.data.length > 0) {
 			c.data = { runs: c.data }
-			console.log(c.data)
-			c.update()
+			c.timeOrder()
+			//c.runLocation()
 		}
+
+	mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbHlhbm5lbW9zZXMiLCJhIjoiY2o2MDNzcGFpMGhnZzMyb2Y4cHRzeTN4dSJ9.fczhGQMwUNueFQTTsfuw2A';
+      c.map = new mapboxgl.Map({
+        container: c.I('mapbox'),
+        style: 'mapbox://styles/mapbox/streets-v9',
+        center: [-97.726176, 30.278436],
+        zoom: 14
+      });
 	}
+
+	c.timeOrder = ()=>{
+		let sortedRuns = []
+		for (const path of c.data.runs) {
+			var pathName = path.name
+			sortedRuns.push(pathName)
+			sortedRuns.sort()
+		}
+		c.data.sortedRuns = sortedRuns
+	}
+
+	// c.runLocation = ()=>{
+	//   
+	// }
 
 	c._NEW_ELM()
 })()

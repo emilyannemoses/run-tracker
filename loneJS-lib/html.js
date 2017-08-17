@@ -148,11 +148,14 @@ class HtmlJS {
   }
 
   getDir (Obj, jVar) { // Grab 'var' elm string. html var name = JS var
-
-  if (jVar.split(/[\.\[\]]/))
-    for (const p of jVar.split(/[.\[\]]/).filter(Boolean)) Obj = Obj[p]
-    return Obj
-  }
+    // change MAY be relevant to data.js (which was copy/pasted 4 use)
+    if (jVar.split(/[\.\[\]\"]/)) {
+      for (const p of jVar.split(/[\.\[\]\"]/).filter(Boolean)) {
+        Obj = Obj[p]
+      }
+    }
+    return Obj
+  }
 
   place (arr, key, jVal) {
     for (const w in arr) {
