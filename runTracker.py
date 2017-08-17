@@ -18,7 +18,6 @@ masterUri = "https://api.myjson.com/bins/6lj7d"
 def post(data):
 #   { "title": "All Runs", "paths": [] }
     r = requests.post('https://api.myjson.com/bins', json = data)
-    print(r.text)
     jsonDictionary = json.loads(r.text)
     return jsonDictionary["uri"]
 
@@ -49,21 +48,18 @@ def readNewFile(file):
                 endLatitude = line.find('"', startLatitude)
                 latitude = line[startLatitude+5:endLatitude+10]
                 singlePath['latitude'] = latitude
-                data['path'].append(singlePath)
             
             if line.find('lon=') != -1:
                 startLongitude = line.find('lon=')
                 endLongitude = line.find('"', startLongitude)
-                longitude = line[startLongitude+5:endLongitude+12]
+                longitude = line[startLongitude+5:endLongitude+11]
                 singlePath['longitude'] = longitude
-                data['path'].append(singlePath)
             
             if line.find('<ele>') != -1:
                 startElevation = line.find('<ele>')
                 endElevation = line.find('<', startElevation)
-                elevation = line[startElevation+5:endElevation+14]
+                elevation = line[startElevation+5:endElevation+13]
                 singlePath['elevation'] = elevation
-                data['path'].append(singlePath)
 
             if line.find('<time>') != -1:
                 startTime = line.find('<time>')
@@ -71,6 +67,9 @@ def readNewFile(file):
                 time = line[startTime+6:endTime]
                 singlePath['time'] = time
                 data['path'].append(singlePath)
+                data['path']
+                
+                singlePath = {}
 
     uri = post(data)
 
