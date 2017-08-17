@@ -1,28 +1,50 @@
 <template id="navigation-cards">
 <style>
-#mapbox {
-	height:  100%;
-	width: 100%;
+.container-right {
+	/*margin: 5% auto 5% 10%;*/
+	float: right;
+	overflow: scroll;
+	padding: 10px;
+	width: 40%;
+	height: 600px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	border: 1px solid #C7C7C7;
 }
-.container {
-	margin: 5% auto 5% 10%;
+.container-left {
 	float: left;
 	overflow: scroll;
 	padding: 10px;
-	width: 200px;
-	height: 200px;
+	width: 40%;
+	height: 600px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 	border: 1px solid #C7C7C7;
 }
 </style>
 <content>
-	<div class="main"  for="x,i sortedRuns">
+	<div class="container-left">
+		<div class="accumulatedRuns">
+			<p> Accumulated Run Data: </p>
+		</div>
+		<div var="x sortedRuns">
+			<p>Number of runs so far: x.length </p>
+			<p>Average distance: </p>
+		</div>
+	</div>
+	<div class="container-right" var="x sortedRuns">
+		<div class="latestRun">
+			<p> Latest Run Data: </p>
+		</div>
+		<div>
+			<p>x[0]</p>
+		</div>
+	</div>
+	<!-- <div class="main"  for="x,i sortedRuns">
 		<div class="container">
 			<div id="mapbox">
 				<p> x </p>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </content>
 </template>
 <script>
@@ -30,20 +52,10 @@
 (( c = new Component('navigation-cards-tag') )=>{
 	c._ON_SET = (attr)=>{
 
-		if (!c.map) {
-			mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbHlhbm5lbW9zZXMiLCJhIjoiY2o2MDNzcGFpMGhnZzMyb2Y4cHRzeTN4dSJ9.fczhGQMwUNueFQTTsfuw2A';
-	  	    c.map = new mapboxgl.Map({
-	        container: c.I('mapbox'),
-	        style: 'mapbox://styles/mapbox/streets-v9',
-	        center: [-97.726176, 30.278436],
-	        zoom: 14
-	      });
-		}
-
 		if (c.data.length > 0) {
 			c.data = { runs: c.data }
 			c.timeOrder()
-			//c.runLocation()
+			c.runDistance()
 		}
 	}
 
@@ -57,9 +69,12 @@
 		c.data.sortedRuns = sortedRuns
 	}
 
-	// c.runLocation = ()=>{
-	//   
-	// }
+	c.runDistance = ()=>{
+		for (var i = 0; i < c.data.runs.length; i++) {
+			c.data.runs[i]
+		}
+		console.log('run distance: ', c.data.runs[0].path)
+	}
 
 	c._NEW_ELM()
 })()
