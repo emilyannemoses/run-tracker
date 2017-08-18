@@ -23,16 +23,20 @@
 <script>
 
 (( c = new Component('route-maps-tag') )=>{
+	// My idea for the maps is to have some sort of dropdown menu with all of the
+	// available run dates, and when you click on one of them, it'll bring up the map of that route
+	// including the path drawn onto the map of that specific route.
+
   c._ON_SET = (attr)=>{
-	if (!c.map) {
-	mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbHlhbm5lbW9zZXMiLCJhIjoiY2o2MDNzcGFpMGhnZzMyb2Y4cHRzeTN4dSJ9.fczhGQMwUNueFQTTsfuw2A';
-      c.map = new mapboxgl.Map({
-        container: c.I('mapbox'),
-        style: 'mapbox://styles/mapbox/streets-v9',
-        center: [-122.2583, 37.8012],
-        zoom: 13
-      });
-	}
+		if (!c.map) {
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbHlhbm5lbW9zZXMiLCJhIjoiY2o2MDNzcGFpMGhnZzMyb2Y4cHRzeTN4dSJ9.fczhGQMwUNueFQTTsfuw2A';
+	      c.map = new mapboxgl.Map({
+	        container: c.I('mapbox'),
+	        style: 'mapbox://styles/mapbox/streets-v9',
+	        center: [-122.2583, 37.8012],
+	        zoom: 13
+	      });
+		}
 	}
 
   c._NEW_ELM()

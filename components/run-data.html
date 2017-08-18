@@ -1,26 +1,113 @@
 <template id="run-data">
 <style>
+.container {
+	margin-top: 1%;
+	margin-right: 8%;
+	margin-left: 8%;
+	float: left;
+	overflow: scroll;
+	padding: 20px;
+	width: 30%;
+	height: 450px;
+	border: 1px solid #C7C7C7;
+}
 </style>
 <content>
-	<div class="run-data" var="x _data">
-		<p>x.gpx[0].name</p>
-	<div for="{i} gpx[0].trackArray">
-		<p>{i}.lat</p>
+	<div class="container">
+		<div class="accumulatedRuns">
+			<p> Accumulated Run Data </p>
+		</div>
+		<div var="x sortedRuns">
+			<p>Number of runs since June 25th, 2017: <span> { x.length } </span> </p>
+			<p>Average distance: <span> </span> </p>
+			<p>Total number of miles: <span> </span></p>
+			<p>Average speed (mph): <span> </span></p>
+		</div>
 	</div>
-		<p>x.gpx[1].name</p>
-	<div for="{i} gpx[1].trackArray">
-		<p>{i}.lon</p>
-	</div>
+	<div class="container">
+		<div class="latestRun">
+			<p> Latest Run Data </p>
+		</div>
+		<div var="x mostRecentRun">
+			<p>{ x }</p>
+		</div>
 	</div>
 </content>
 </template>
 <script>
 
-	(( c = new Component('run-data-tag'))=>{
-		c._ON_SET = (attr)=>{
+(( c = new Component('run-data-tag') )=>{
+	c._ON_SET = (attr)=>{
+
+		if (c.data.length > 0) {
+			c.data = { runs: c.data }
+			c.timeOrder()
+			c.mostRecentRun()
+		}
+		// for (const run of c.data.runs) {
+		// 	// console.log(run)
+		// 	let dist = 0
+		// 	let firstPoint = [ run.path[0].latitude, run.path[0].longitude ]
+		// 	for (const point of run.path) {
+		// 		let pointDistance = 0
+		// 		// console.log(lastPoint[0], lastPoint[1])
+		// 		// console.log(point.latitude, point.longitude)
+		// 		// c.totalDistance()
+		// 		// add that distance to dist
+		// 		dist += pointDistance
+		// 		// after done change last point to this point.
+		// 	}
+		// }
+	}
+
+	c.totalDistance = ()=>{
+		Number.prototype.toRad = function() {
+		   return this * Math.PI / 180;
 		}
 
-		c._NEW_ELM()
-	})()
+		var path1 = [{'latitude': 30.278436, 'longitude': -97.718176}, {'latitude': 30.278480, 'longitude':-97.718228}]
+
+		var lat2 = path1[1]['latitude']
+		var lon2 = path1[1]['longitude']
+		var lat1 = path1[0]['latitude']
+		var lon1 = path1[0]['longitude']
+
+		var R = 6371; // km
+		var x1 = lat2-lat1;
+		var dLat = x1.toRad();
+		var x2 = lon2-lon1;
+		var dLon = x2.toRad();
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+		                Math.sin(dLon/2) * Math.sin(dLon/2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		var d = R * c;
+
+		var totalDistanceInFeet = d * 3280.00
+		// console.log('totalDistance: ',totalDistanceInFeet)
+	}
+
+	c.timeOrder = ()=>{
+		c.sortedRuns = []
+		for (const path of c.data.runs) {
+			var pathName = path.name
+			c.sortedRuns.push(pathName)
+			c.sortedRuns.sort()
+		}
+		c.data.sortedRuns = c.sortedRuns
+	}
+
+	c.mostRecentRun = ()=>{
+		c.runs = []
+		for (const path of c.data.runs) {
+			var pathName = path.name
+			c.runs.push(pathName)
+			c.runs.sort()
+		}
+		c.data.mostRecentRun = c.runs.pop()
+	}
+
+	c._NEW_ELM()
+})()
 
 </script>
