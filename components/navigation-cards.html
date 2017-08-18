@@ -44,20 +44,20 @@
 			c.timeOrder()
 			c.mostRecentRun()
 		}
-		for (const run of c.data.runs) {
-			// console.log(run)
-			let dist = 0
-			let firstPoint = [ run.path[0].latitude, run.path[0].longitude ]
-			for (const point of run.path) {
-				let pointDistance = 0
-				// console.log(lastPoint[0], lastPoint[1])
-				// console.log(point.latitude, point.longitude)
-				c.totalDistance()
-				// add that distance to dist
-				dist += pointDistance
-				// after done change last point to this point.
-			}
-		}
+		// for (const run of c.data.runs) {
+		// 	// console.log(run)
+		// 	let dist = 0
+		// 	let firstPoint = [ run.path[0].latitude, run.path[0].longitude ]
+		// 	for (const point of run.path) {
+		// 		let pointDistance = 0
+		// 		// console.log(lastPoint[0], lastPoint[1])
+		// 		// console.log(point.latitude, point.longitude)
+		// 		// c.totalDistance()
+		// 		// add that distance to dist
+		// 		dist += pointDistance
+		// 		// after done change last point to this point.
+		// 	}
+		// }
 	}
 
 	c.totalDistance = ()=>{
