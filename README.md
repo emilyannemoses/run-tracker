@@ -15,3 +15,5 @@ I hadn't worked with Python before this project, but I found it to be a really p
 This data was then spit through [myJSON](http://myjson.com/) to host the data that Python was creating for me, and then plopped onto the front-end of my loneJS web app for easy viewing.
 
 If you're interested in the Tracker app I use, here it is: [Minimalist GPS Tracker](https://itunes.apple.com/us/app/minimalist-gps-tracker/id704921899?mt=8)
+
+*Bob's Notes*
